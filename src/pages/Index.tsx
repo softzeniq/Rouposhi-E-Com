@@ -179,44 +179,26 @@ const Index = () => {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex items-end justify-between mb-12">
             <div>
               <span className="text-neon font-body text-sm font-bold tracking-[0.3em] uppercase">{t('categories.browse')}</span>
-              <h2 className="heading-display text-4xl md:text-4xl font-bold mt-2 text-foreground">{t('categories.title')}</h2>
+              <h2 className="heading-display text-3xl md:text-4xl font-bold mt-2 text-foreground">{t('categories.title')}</h2>
             </div>
             <Link to="/shop" className="hidden md:flex items-center gap-2 font-body text-sm font-semibold tracking-wider uppercase text-foreground hover-neon transition-colors">
               {t('categories.all')} <ChevronRight className="w-4 h-4" />
             </Link>
           </motion.div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {dbCategories.slice(0, 4).map((cat, i) => (
-              <motion.div key={cat.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-                <Link to={`/shop?category=${cat.slug}`} className="block group relative aspect-[4/5] overflow-hidden rounded-lg">
-                  <img src={getCategoryImage(cat.slug, cat.image_url)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent" />
-                  <div className="absolute inset-0 border-2 border-transparent group-hover:border-neon/50 transition-colors duration-300 rounded-lg" />
-                  <div className="absolute bottom-0 left-0 right-0 p-5">
-                    <h3 className="font-heading text-xl md:text-2xl font-bold uppercase tracking-wide text-primary-foreground">{cat.name}</h3>
-                    <p className="font-body text-xs text-primary-foreground/60 mt-1">{getCategoryCount(cat.slug)} {t('categories.products')}</p>
+          <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-6">
+            {dbCategories.map((cat, i) => (
+              <motion.div key={cat.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
+                <Link to={`/shop?category=${cat.slug}`} className="flex flex-col items-center group text-center">
+                  <div className="w-full aspect-square overflow-hidden rounded-lg border border-border bg-secondary/20 shadow-sm group-hover:border-primary/50 group-hover:shadow-md transition-all mb-4 relative">
+                    <img src={getCategoryImage(cat.slug, cat.image_url)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+                    <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-300" />
                   </div>
+                  <h3 className="font-heading text-[10px] md:text-base font-bold uppercase tracking-wider text-foreground group-hover:text-primary transition-colors line-clamp-2 text-center leading-[1.4] md:leading-[1.5] px-1 mb-1">{cat.name}</h3>
+                  <p className="font-body text-xs text-muted-foreground">{getCategoryCount(cat.slug)} {t('categories.products')}</p>
                 </Link>
-              </motion.div>
-            ))}
-          </div>
-          {dbCategories.length > 4 && (
-            <div className="grid grid-cols-3 gap-4 mt-4">
-              {dbCategories.slice(4).map((cat, i) => (
-                <motion.div key={cat.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-                  <Link to={`/shop?category=${cat.slug}`} className="block group relative aspect-[16/9] overflow-hidden rounded-lg">
-                    <img src={getCategoryImage(cat.slug, cat.image_url)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/30 to-transparent" />
-                    <div className="absolute inset-0 border-2 border-transparent group-hover:border-neon/50 transition-colors duration-300 rounded-lg" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h3 className="font-heading text-lg font-bold uppercase tracking-wide text-primary-foreground">{cat.name}</h3>
-                      <p className="font-body text-xs text-primary-foreground/60">{getCategoryCount(cat.slug)} {t('categories.products')}</p>
-                    </div>
-                  </Link>
                 </motion.div>
               ))}
             </div>
-          )}
         </div>
       </section>
 

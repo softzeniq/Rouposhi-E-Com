@@ -34,6 +34,7 @@ const Navbar = () => {
               </Link>
             ))}
             <Link to="/about" className="hover-neon transition-colors duration-300">{t('footer.about')}</Link>
+            <Link to="/contact" className="hover-neon transition-colors duration-300">{t('footer.contact')}</Link>
           </div>
 
           <div className="flex items-center gap-4 text-foreground">
@@ -66,6 +67,7 @@ const Navbar = () => {
               </Link>
             ))}
             <Link to="/about" onClick={() => setMobileOpen(false)} className="hover-neon transition-colors py-2">{t('footer.about')}</Link>
+            <Link to="/contact" onClick={() => setMobileOpen(false)} className="hover-neon transition-colors py-2">{t('footer.contact')}</Link>
           </div>
         </div>
       )}

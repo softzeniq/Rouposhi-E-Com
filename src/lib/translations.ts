@@ -14,7 +14,7 @@ export const translations: Record<Language, Record<string, string>> = {
 
     // Categories
     'categories.browse': 'Browse',
-    'categories.title': 'Shop by Sport',
+    'categories.title': 'Shop by Category',
     'categories.all': 'All Categories',
     'categories.products': 'Products',
 

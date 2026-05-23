@@ -49,8 +49,32 @@ const AboutPage = () => {
         </div>
       </div>
 
+      {/* Meet the Founder & CEO */}
+      <div className="container mx-auto px-4 mb-20 mt-20">
+        <div className="bg-card border border-border p-8 md:p-12 rounded-2xl shadow-lg flex flex-col md:flex-row gap-10 items-center hover:border-primary/50 transition-colors">
+          <div className="w-48 h-48 md:w-64 md:h-64 shrink-0 rounded-full overflow-hidden border-4 border-primary/20 shadow-xl mx-auto md:mx-0">
+            <img src="/ceo.png" alt="Founder & CEO" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+          </div>
+          <div className="flex-1 text-center md:text-left space-y-4">
+            <h3 className="font-heading text-2xl md:text-3xl font-bold uppercase tracking-wider text-foreground">Meet the Founder</h3>
+            <div className="w-16 h-1 bg-primary mx-auto md:mx-0"></div>
+            <p className="font-body text-muted-foreground leading-relaxed text-sm md:text-base">
+              "Our goal with Legacy-29 is to redefine premium lifestyle e-commerce in Dubai. We carefully curate every product to ensure that it meets the highest standards of quality and sophistication. Thank you for being a part of our journey."
+            </p>
+            <div className="pt-2">
+              <p className="font-heading font-bold text-foreground uppercase tracking-widest">
+                SHORIFUL ISLAM NISHAT
+              </p>
+              <p className="font-body text-xs text-primary uppercase tracking-widest mt-1">
+                 FOUNDER & CEO Legacy-29
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Step 3: What We Offer */}
-      <div className="py-20 container mx-auto px-4 lg:px-8">
+      <div className="py-10 container mx-auto px-4 lg:px-8">
         <div className="text-center mb-16">
           <h3 className="font-heading text-3xl font-bold uppercase tracking-wider text-foreground">What We Offer</h3>
           <div className="w-16 h-1 bg-primary mx-auto mt-4"></div>

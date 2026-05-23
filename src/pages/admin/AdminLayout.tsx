@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Package, ShoppingCart, Tag, Image, Settings, Users, BarChart3, ChevronLeft, Menu, Megaphone, LogOut, FolderTree, UserSearch, Activity, Truck, MessageSquare, FileText, X } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingCart, Tag, Image, Settings, Users, BarChart3, ChevronLeft, Menu, Megaphone, LogOut, FolderTree, UserSearch, Activity, Truck, MessageSquare, FileText, X, Star } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useSettings } from '@/hooks/useDatabase';
@@ -13,8 +13,9 @@ const navItems = [
   { path: '/admin/orders', label: 'Orders', icon: ShoppingCart },
   { path: '/admin/coupons', label: 'Coupons', icon: Tag },
   { path: '/admin/checkout-leads', label: 'Checkout Leads', icon: UserSearch },
+  { path: '/admin/messages', label: 'Messages', icon: MessageSquare },
   { path: '/admin/banners', label: 'Banners', icon: Image },
-  { path: '/admin/reviews', label: 'Reviews', icon: MessageSquare },
+  { path: '/admin/reviews', label: 'Reviews', icon: Star },
   { path: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
   { path: '/admin/visitor-analytics', label: 'Visitor Tracker', icon: Activity },
   { path: '/admin/customers', label: 'Customers', icon: Users },

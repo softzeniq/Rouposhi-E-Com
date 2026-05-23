@@ -23,7 +23,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       className="group"
     >
       <Link to={`/product/${product.id}`} className="block">
-        <div className="relative aspect-square overflow-hidden bg-card rounded-lg mb-4 border border-border">
+        <div className="relative aspect-[5/6] overflow-hidden bg-card rounded-lg mb-4 border border-border">
           <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
           <div className="absolute inset-0 bg-neon/0 group-hover:bg-neon/5 transition-colors duration-300" />
           {product.isNew && (
@@ -48,7 +48,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             {product.brand}
           </span>
         </div>
-        <h3 className="font-heading text-base font-medium uppercase tracking-wide mb-1 text-foreground">{product.name}</h3>
+        <h3 className="font-heading text-sm md:text-base font-medium uppercase tracking-wide text-foreground line-clamp-2 leading-snug mb-1">{product.name}</h3>
         <p className="font-body text-xs text-muted-foreground mb-1">{product.brand}</p>
         <div className="flex items-center gap-2 font-body text-sm">
           <span className="font-bold text-neon">{product.price} AED</span>

@@ -34,6 +34,7 @@ import ReviewsManager from "./pages/admin/ReviewsManager.tsx";
 import CustomersPage from "./pages/admin/CustomersPage.tsx";
 import SettingsPage from "./pages/admin/SettingsPage.tsx";
 import MarketingTrackingPage from "./pages/admin/MarketingTrackingPage.tsx";
+import MessagesManager from "./pages/admin/MessagesManager.tsx";
 import PagesManager from "./pages/admin/PagesManager.tsx";
 import AboutPage from "./pages/AboutPage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
@@ -74,6 +75,7 @@ const App = () => (
                 <Route path="coupons" element={<CouponsManager />} />
                 <Route path="checkout-leads" element={<CheckoutLeadsManager />} />
                 <Route path="banners" element={<BannersManager />} />
+                <Route path="messages" element={<MessagesManager />} />
                 <Route path="analytics" element={<AnalyticsPage />} />
                 <Route path="visitor-analytics" element={<VisitorAnalyticsPage />} />
                 <Route path="customers" element={<CustomersPage />} />
