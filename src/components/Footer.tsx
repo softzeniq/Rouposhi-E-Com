@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Instagram, Facebook, Twitter, Youtube } from 'lucide-react';
 import { useSettings } from '@/hooks/useDatabase';
@@ -8,7 +9,22 @@ const Footer = () => {
   const { data: settings } = useSettings();
   const { data: categories = [] } = useActiveCategories();
   const { t } = useLanguage();
-  const s = settings as any;
+  const s = Array.isArray(settings) ? settings[0] || {} : settings || {};
+
+  useEffect(() => {
+    if (s?.favicon_url) {
+      let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'icon';
+        document.head.appendChild(link);
+      }
+      link.href = s.favicon_url;
+    }
+    if (s?.site_name) {
+      document.title = s.meta_title || s.site_name;
+    }
+  }, [s?.favicon_url, s?.site_name, s?.meta_title]);
 
   return (
     <footer className="bg-primary text-primary-foreground">

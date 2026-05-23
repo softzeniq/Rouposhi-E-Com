@@ -87,7 +87,7 @@ const Index = () => {
 
           <div className="container mx-auto px-4 lg:px-8 relative z-10 h-full flex items-end pb-16 sm:pb-20 md:items-center md:pb-0">
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-2xl">
-              <h1 className="heading-display text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] mb-3 md:mb-6 text-primary-foreground">
+              <h1 className="heading-display text-3xl sm:text-5xl md:text-7xl lg:text-7xl font-bold leading-[0.95] mb-3 md:mb-6 text-primary-foreground">
                 {heroBanners[currentBanner].title}
               </h1>
               {heroBanners[currentBanner].subtitle && (

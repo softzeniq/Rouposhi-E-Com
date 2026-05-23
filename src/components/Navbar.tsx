@@ -5,12 +5,15 @@ import { useActiveCategories } from '@/hooks/useCategories';
 import { useLanguage } from '@/context/LanguageContext';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useState } from 'react';
+import { useSettings } from '@/hooks/useDatabase';
 
 const Navbar = () => {
   const { cartCount } = useCart();
   const { data: categories = [] } = useActiveCategories();
   const { t } = useLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { data: settings } = useSettings();
+  const s = Array.isArray(settings) ? settings[0] || {} : settings || {};
 
   const topCategories = categories.filter(c => !c.parent_id).slice(0, 3);
 
@@ -19,7 +22,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link to="/" className="flex items-center gap-2">
-            <img src="/logo.png" alt="SRK Collection" className="h-10 lg:h-12 w-auto" />
+            <img src={s?.logo_url || '/logo.png'} alt={s?.site_name || 'Store'} className="h-10 lg:h-12 w-auto object-contain" />
           </Link>
 
           <div className="hidden md:flex items-center gap-8 font-body text-sm tracking-widest uppercase font-medium text-foreground">

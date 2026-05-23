@@ -3,12 +3,12 @@ import { useProductReviews } from '@/hooks/useReviews';
 import { motion } from 'framer-motion';
 
 const staticReviews = [
-  { id: 'static-1', reviewer_name: 'أحمد ك.', rating: 5, review_text: 'جودة ممتازة! تماماً كما في الوصف. توصيل سريع أيضاً. بالتأكيد سأطلب مرة أخرى.', reviewer_image: '' },
-  { id: 'static-2', reviewer_name: 'سارة م.', rating: 5, review_text: 'أفضل أحذية اشتريتها في الكويت. منتج أصلي وتغليف رائع. أنصح بشدة!', reviewer_image: '' },
-  { id: 'static-3', reviewer_name: 'محمد أ.', rating: 4, review_text: 'مريح جداً وأنيق. أصدقائي يسألونني دائماً من أين اشتريتها. متجر ممتاز!', reviewer_image: '' },
-  { id: 'static-4', reviewer_name: 'فاطمة ر.', rating: 5, review_text: 'مقاس مثالي! اللون تماماً مثل الصور. خدمة العملاء كانت مفيدة جداً.', reviewer_image: '' },
-  { id: 'static-5', reviewer_name: 'عمر ح.', rating: 5, review_text: 'ثالث مرة أطلب من هنا. لم أخيب ظني أبداً. منتجات أصلية 100%.', reviewer_image: '' },
-  { id: 'static-6', reviewer_name: 'نور س.', rating: 4, review_text: 'أحب الجودة! وصل أسرع من المتوقع. سأكون زبون دائم بالتأكيد.', reviewer_image: '' },
+  // { id: 'static-1', reviewer_name: 'أحمد ك.', rating: 5, review_text: 'جودة ممتازة! تماماً كما في الوصف. توصيل سريع أيضاً. بالتأكيد سأطلب مرة أخرى.', reviewer_image: '' },
+  // { id: 'static-2', reviewer_name: 'سارة م.', rating: 5, review_text: 'أفضل أحذية اشتريتها في الكويت. منتج أصلي وتغليف رائع. أنصح بشدة!', reviewer_image: '' },
+  // { id: 'static-3', reviewer_name: 'محمد أ.', rating: 4, review_text: 'مريح جداً وأنيق. أصدقائي يسألونني دائماً من أين اشتريتها. متجر ممتاز!', reviewer_image: '' },
+  // { id: 'static-4', reviewer_name: 'فاطمة ر.', rating: 5, review_text: 'مقاس مثالي! اللون تماماً مثل الصور. خدمة العملاء كانت مفيدة جداً.', reviewer_image: '' },
+  // { id: 'static-5', reviewer_name: 'عمر ح.', rating: 5, review_text: 'ثالث مرة أطلب من هنا. لم أخيب ظني أبداً. منتجات أصلية 100%.', reviewer_image: '' },
+  // { id: 'static-6', reviewer_name: 'نور س.', rating: 4, review_text: 'أحب الجودة! وصل أسرع من المتوقع. سأكون زبون دائم بالتأكيد.', reviewer_image: '' },
 ];
 
 const ProductReviews = ({ productId }: { productId: string }) => {

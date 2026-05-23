@@ -1,7 +1,8 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Package, ShoppingCart, Tag, Image, Settings, Users, BarChart3, ChevronLeft, Menu, Megaphone, LogOut, FolderTree, UserSearch, Activity, Truck, MessageSquare, FileText, X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
+import { useSettings } from '@/hooks/useDatabase';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 
@@ -29,6 +30,25 @@ const AdminLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, signOut } = useAdminAuth();
   const isMobile = useIsMobile();
+  const { data: settings } = useSettings();
+  const s = Array.isArray(settings) ? settings[0] || {} : settings || {};
+  const logoUrl = s?.logo_url || '/logo.png';
+  const siteName = s?.site_name || 'Admin';
+
+  useEffect(() => {
+    if (s?.favicon_url) {
+      let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'icon';
+        document.head.appendChild(link);
+      }
+      link.href = s.favicon_url;
+    }
+    if (s?.site_name) {
+      document.title = `${s.site_name} - Admin Dashboard`;
+    }
+  }, [s?.favicon_url, s?.site_name]);
 
   const isActive = (path: string, exact?: boolean) => {
     if (exact) return location.pathname === path;
@@ -98,8 +118,8 @@ const AdminLayout = () => {
             <Menu className="w-6 h-6" />
           </button>
           <Link to="/admin" className="flex items-center gap-2">
-            <img src="/logo.png" alt="SRK Collection" className="h-8 w-auto brightness-0 invert" />
-            <span className="text-xs text-sidebar-foreground/60 font-body">Admin</span>
+            <img src={logoUrl} alt={siteName} className="h-8 w-auto brightness-0 invert object-contain" />
+            <span className="text-xs text-sidebar-foreground/60 font-body">{siteName} Admin</span>
           </Link>
           <div className="w-6" />
         </div>
@@ -110,8 +130,8 @@ const AdminLayout = () => {
             <SheetTitle className="sr-only">Admin Navigation</SheetTitle>
             <div className="h-14 flex items-center justify-between px-4 border-b border-sidebar-border">
               <Link to="/admin" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
-                <img src="/logo.png" alt="SRK Collection" className="h-8 w-auto brightness-0 invert" />
-                <span className="text-xs text-sidebar-foreground/60 font-body">Admin</span>
+                <img src={logoUrl} alt={siteName} className="h-8 w-auto brightness-0 invert object-contain" />
+                <span className="text-xs text-sidebar-foreground/60 font-body">{siteName} Admin</span>
               </Link>
             </div>
             {sidebarContent}
@@ -131,8 +151,8 @@ const AdminLayout = () => {
         <div className="h-16 flex items-center justify-between px-4 border-b border-sidebar-border">
           {!collapsed && (
             <Link to="/admin" className="flex items-center gap-2">
-              <img src="/logo.png" alt="SRK Collection" className="h-10 w-auto brightness-0 invert" />
-              <span className="text-xs text-sidebar-foreground/60 font-body font-normal">Admin</span>
+              <img src={logoUrl} alt={siteName} className="h-10 w-auto brightness-0 invert object-contain" />
+              <span className="text-xs text-sidebar-foreground/60 font-body font-normal">{siteName} Admin</span>
             </Link>
           )}
           <button onClick={() => setCollapsed(!collapsed)} className="text-sidebar-foreground/60 hover:text-sidebar-foreground transition-colors">

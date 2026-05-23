@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
+import { useSettings } from '@/hooks/useDatabase';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import { Lock, Mail, Eye, EyeOff, Loader2 } from 'lucide-react';
@@ -13,12 +14,30 @@ const AdminLoginPage = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { data: settings } = useSettings();
+  const s = Array.isArray(settings) ? settings[0] || {} : settings || {};
+  const logoUrl = s?.logo_url || '/logo.png';
 
   useEffect(() => {
     if (!authLoading && user && isAdmin) {
       navigate('/admin', { replace: true });
     }
   }, [user, isAdmin, authLoading, navigate]);
+
+  useEffect(() => {
+    if (s?.favicon_url) {
+      let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'icon';
+        document.head.appendChild(link);
+      }
+      link.href = s.favicon_url;
+    }
+    if (s?.site_name) {
+      document.title = `${s.site_name} - Admin Login`;
+    }
+  }, [s?.favicon_url, s?.site_name]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,8 +74,8 @@ const AdminLoginPage = () => {
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <img src="/logo.png" alt="SRK Collection" className="h-16 mx-auto mb-4" />
-          <h1 className="font-heading text-2xl font-bold uppercase tracking-wider text-foreground">Admin Panel</h1>
+          <img src={logoUrl} alt="Store Logo" className="h-16 mx-auto mb-4 object-contain" />
+          <h1 className="font-heading text-2xl font-bold uppercase tracking-wider text-foreground">{s?.site_name || 'Store'} Admin</h1>
           <p className="font-body text-sm text-muted-foreground mt-1">
             {isSignUp ? 'Create your admin account' : 'Sign in to manage your store'}
           </p>

@@ -1,11 +1,14 @@
 import { useSettings, useUpdateSettings } from '@/hooks/useDatabase';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { toast } from 'sonner';
+import { uploadProductImage } from '@/lib/image-upload';
+import { Upload, Loader2 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const SettingsPage = () => {
   const { data: settings, isLoading } = useSettings();
   const updateSettings = useUpdateSettings();
-  const s = settings as any;
+  const s = Array.isArray(settings) ? settings[0] || {} : settings || {};
   const [form, setForm] = useState({
     site_name: '', site_description: '', meta_title: '', meta_description: '',
     whatsapp_number: '', instagram_handle: '', free_shipping_threshold: 30, currency: 'AED',
@@ -14,6 +17,11 @@ const SettingsPage = () => {
     contact_email: '', contact_phone: '', contact_address: '',
     facebook_url: '', twitter_url: '', youtube_url: '', instagram_url: '',
   });
+
+  const [logoUploading, setLogoUploading] = useState(false);
+  const [faviconUploading, setFaviconUploading] = useState(false);
+  const logoRef = useRef<HTMLInputElement>(null);
+  const faviconRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (settings) {
@@ -34,9 +42,53 @@ const SettingsPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await updateSettings.mutateAsync(form);
+      let targetId = s?.id;
+      if (!targetId) {
+        const { data: existing } = await supabase.from('site_settings').select('id').limit(1).maybeSingle();
+        targetId = existing?.id;
+      }
+      
+      if (!targetId) {
+        const { error } = await supabase.from('site_settings').insert([{ ...form }]);
+        if (error) throw error;
+      } else {
+        await updateSettings.mutateAsync({ id: targetId, ...form });
+      }
       toast.success('Settings saved');
-    } catch { toast.error('Failed to save'); }
+    } catch (err: any) { 
+      console.error(err);
+      toast.error(err?.message || 'Failed to save'); 
+    }
+  };
+
+  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setLogoUploading(true);
+    try {
+      const url = await uploadProductImage(file, 'logo');
+      setForm(f => ({ ...f, logo_url: url }));
+      toast.success('Logo uploaded');
+    } catch {
+      toast.error('Logo upload failed');
+    } finally {
+      setLogoUploading(false);
+    }
+  };
+
+  const handleFaviconUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setFaviconUploading(true);
+    try {
+      const url = await uploadProductImage(file, 'favicon');
+      setForm(f => ({ ...f, favicon_url: url }));
+      toast.success('Favicon uploaded');
+    } catch {
+      toast.error('Favicon upload failed');
+    } finally {
+      setFaviconUploading(false);
+    }
   };
 
   if (isLoading) return <p className="text-center py-10 text-muted-foreground">Loading...</p>;
@@ -75,8 +127,32 @@ const SettingsPage = () => {
           <Field label="Site Name" field="site_name" />
           <TextArea label="Site Description" field="site_description" />
           <div className="grid grid-cols-2 gap-4">
-            <Field label="Logo URL" field="logo_url" placeholder="/logo.png" />
-            <Field label="Favicon URL" field="favicon_url" placeholder="/favicon.ico" />
+            <div>
+              <label className="block font-body text-xs uppercase tracking-wider text-muted-foreground mb-1">Logo URL</label>
+              <div className="flex items-center gap-3">
+                <input ref={logoRef} type="file" accept="image/*" onChange={handleLogoUpload} className="hidden" />
+                <button type="button" onClick={() => logoRef.current?.click()} disabled={logoUploading}
+                  className="flex items-center gap-2 px-4 py-2.5 border border-border bg-background rounded-md font-body text-sm text-foreground hover:bg-secondary transition-colors disabled:opacity-50 shrink-0">
+                  {logoUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                  {logoUploading ? 'Uploading...' : 'Upload'}
+                </button>
+                <input type="text" value={form.logo_url} onChange={e => setForm({ ...form, logo_url: e.target.value })} placeholder="/logo.png"
+                  className="w-full px-4 py-2.5 border border-border bg-background rounded-md font-body text-sm text-foreground focus:outline-none focus:border-primary" />
+              </div>
+            </div>
+            <div>
+              <label className="block font-body text-xs uppercase tracking-wider text-muted-foreground mb-1">Favicon URL</label>
+              <div className="flex items-center gap-3">
+                <input ref={faviconRef} type="file" accept="image/*" onChange={handleFaviconUpload} className="hidden" />
+                <button type="button" onClick={() => faviconRef.current?.click()} disabled={faviconUploading}
+                  className="flex items-center gap-2 px-4 py-2.5 border border-border bg-background rounded-md font-body text-sm text-foreground hover:bg-secondary transition-colors disabled:opacity-50 shrink-0">
+                  {faviconUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                  {faviconUploading ? 'Uploading...' : 'Upload'}
+                </button>
+                <input type="text" value={form.favicon_url} onChange={e => setForm({ ...form, favicon_url: e.target.value })} placeholder="/favicon.ico"
+                  className="w-full px-4 py-2.5 border border-border bg-background rounded-md font-body text-sm text-foreground focus:outline-none focus:border-primary" />
+              </div>
+            </div>
           </div>
           {form.logo_url && (
             <div className="flex items-center gap-4">
