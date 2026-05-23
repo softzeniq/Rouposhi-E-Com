@@ -9,7 +9,7 @@ export const translations: Record<Language, Record<string, string>> = {
     // Hero
     'hero.fuel': 'FUEL YOUR',
     'hero.game': 'GAME',
-    'hero.subtitle': 'Authentic Nike, Adidas, Puma & more. Delivered to your door in Kuwait.',
+    'hero.subtitle': 'Authentic T-Sshirt, Pant & more. Delivered to your door in arob.',
     'hero.shop_now': 'Shop Now',
 
     // Categories
@@ -28,14 +28,14 @@ export const translations: Record<Language, Record<string, string>> = {
     'new.title': 'New Arrivals',
 
     // Why Choose Us
-    'why.label': 'The SRK Collection Difference',
+    'why.label': 'The Lagecy-19 Collection Difference',
     'why.title': 'Why Athletes Choose Us',
     'why.authentic': '100% Authentic',
     'why.authentic_desc': 'Every pair verified genuine. We source directly from brands.',
     'why.performance': 'Performance Gear',
-    'why.performance_desc': 'Latest tech from Nike, Adidas, Puma & top sport brands.',
+    // 'why.performance_desc': 'Latest tech from Nike, Adidas, Puma & top sport brands.',
     'why.delivery': 'Fast Delivery',
-    'why.delivery_desc': 'Express delivery across Kuwait. Same-day in Kuwait City.',
+    'why.delivery_desc': 'Express delivery across Dubai. Same-day in Arob Amirat City.',
     'why.returns': 'Easy Returns',
     'why.returns_desc': '30-day hassle-free returns. No questions asked.',
 
@@ -72,8 +72,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'product.color': 'Color',
     'product.add_to_cart': 'Add to Cart',
     'product.buy_now': 'Buy Now',
-    'product.authentic': '100% Authentic - Verified by SRK Collection',
-    'product.free_delivery': 'Free delivery across Kuwait on orders over 30 BDT',
+    'product.authentic': '100% Authentic - Verified by Lagecy-19 Collection',
+    'product.free_delivery': 'Free delivery across Dubai on orders over 30 AED',
     'product.return_policy': '30-day easy return policy',
     'product.cod': 'Cash on Delivery available',
     'product.related': 'You May Also Like',
@@ -113,7 +113,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'checkout.no_shipping': 'No shipping methods available',
     'checkout.payment_method': 'Payment Method',
     'checkout.cod': 'Cash on Delivery (COD)',
-    'checkout.cod_desc': 'Pay when you receive your order 🇰🇼',
+    'checkout.cod_desc': 'Pay when you receive your order AED',
     'checkout.place_order': 'Place Order',
     'checkout.placing': 'Placing Order...',
     'checkout.order_confirmed': 'Order Confirmed! 🎉',

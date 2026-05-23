@@ -25,7 +25,7 @@ const fallbackImages: Record<string, string> = {
 };
 
 const reviews = [
-  { name: 'Khalid A.', text: 'Authentic products, fast shipping. Best sneaker store in Kuwait!', rating: 5 },
+  { name: 'Khalid A.', text: 'Authentic products, fast shipping. Best R-Shirt store in Arob Amirat!', rating: 5 },
   { name: 'Fatima R.', text: 'Got my Air Jordans in 2 days. Perfect condition, 100% legit.', rating: 5 },
   { name: 'Mohammed S.', text: 'Great selection of brands. The Ultraboost are incredibly comfortable.', rating: 5 },
 ];
