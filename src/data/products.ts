@@ -20,7 +20,7 @@ export const products: Product[] = [
   {
     id: '1',
     name: 'Ultraboost 24',
-    brand: 'Adidas',
+    brand: 'suhan',
     price: 32,
     originalPrice: 40,
     category: 'running',
