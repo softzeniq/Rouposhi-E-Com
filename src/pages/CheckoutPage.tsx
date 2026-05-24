@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, CheckCircle, ShieldCheck, ArrowRight } from 'lucide-react';
+import { ArrowLeft, CheckCircle, ShieldCheck, ArrowRight, Loader2 } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { useAddOrder } from '@/hooks/useDatabase';
 import { useCheckoutLeadAutoSave } from '@/hooks/useCheckoutLeads';
@@ -127,7 +127,11 @@ const CheckoutPage = () => {
   };
 
   if (authLoading) {
-    return <div className="min-h-screen bg-background pt-32 text-center text-muted-foreground">Loading...</div>;
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-12 h-12 animate-spin text-neon" />
+      </div>
+    );
   }
 
   if (!user) {

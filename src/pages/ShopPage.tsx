@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Search, SlidersHorizontal } from 'lucide-react';
+import { Search, SlidersHorizontal, Loader2 } from 'lucide-react';
 import { useActiveProducts } from '@/hooks/useDatabase';
 import { useActiveCategories } from '@/hooks/useCategories';
 import { useLanguage } from '@/context/LanguageContext';
@@ -112,8 +112,8 @@ const ShopPage = () => {
             <div className="flex-1">
               <p className="font-body text-sm text-muted-foreground mb-6">{filtered.length} {t('shop.products_found')}</p>
               {isLoading ? (
-                <div className="text-center py-20">
-                  <p className="font-body text-muted-foreground">{t('shop.loading')}</p>
+                <div className="flex justify-center items-center py-20">
+                  <Loader2 className="w-10 h-10 animate-spin text-neon" />
                 </div>
               ) : filtered.length > 0 ? (
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-4">

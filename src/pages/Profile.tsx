@@ -3,7 +3,7 @@ import { Navigate, Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { LogOut, User as UserIcon, Mail, CheckCircle, LayoutDashboard } from 'lucide-react';
+import { LogOut, User as UserIcon, Mail, CheckCircle, LayoutDashboard, Loader2 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 
@@ -30,7 +30,9 @@ const Profile = () => {
     return (
       <div className="min-h-screen bg-background flex flex-col">
         <Navbar />
-        <div className="flex-1 py-32 text-center text-muted-foreground flex items-center justify-center">Loading...</div>
+        <div className="flex-1 py-32 text-center flex items-center justify-center">
+          <Loader2 className="w-12 h-12 animate-spin text-neon" />
+        </div>
         <Footer />
       </div>
     );

@@ -4,7 +4,7 @@ import Footer from '@/components/Footer';
 import { usePageContent } from '@/hooks/usePageContents';
 import { useSettings } from '@/hooks/useDatabase';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, MessageCircle, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, MessageCircle, Send, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAddContactMessage } from '@/hooks/useContactMessages';
 
@@ -46,7 +46,7 @@ const ContactPage = () => {
           {/* Header */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
             <h1 className="font-heading text-4xl md:text-5xl font-bold uppercase tracking-widest text-foreground mb-6">
-              {isLoading ? 'Loading...' : page?.page_title || 'Contact Us'}
+              {isLoading ? <Loader2 className="w-10 h-10 animate-spin text-neon mx-auto" /> : page?.page_title || 'Contact Us'}
             </h1>
             <div className="w-16 h-1 bg-primary mx-auto mb-6"></div>
             {page?.content && (

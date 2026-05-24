@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useState, useMemo, useEffect } from 'react';
-import { Star, Heart, Minus, Plus, Truck, RefreshCw, Shield, Zap, MessageCircle } from 'lucide-react';
+import { Star, Heart, Minus, Plus, Truck, RefreshCw, Shield, Zap, MessageCircle, Loader2 } from 'lucide-react';
 import { useActiveProducts } from '@/hooks/useDatabase';
 import { useProductVariations } from '@/hooks/useProductVariations';
 import { useCart } from '@/context/CartContext';
@@ -68,7 +68,9 @@ const ProductPage = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <div className="pt-32 text-center"><p className="font-body text-muted-foreground">{t('loading')}</p></div>
+        <div className="flex h-[80vh] items-center justify-center pt-20">
+          <Loader2 className="w-12 h-12 animate-spin text-neon" />
+        </div>
       </div>
     );
   }
