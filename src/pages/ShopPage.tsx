@@ -17,7 +17,7 @@ const ShopPage = () => {
   const categoryFilter = searchParams.get('category') || '';
   const [search, setSearch] = useState('');
   
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 100]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
   const [showFilters, setShowFilters] = useState(false);
 
   const products = useMemo(() => {
