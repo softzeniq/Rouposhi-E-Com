@@ -6,6 +6,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { useState } from 'react';
 import { useSettings } from '@/hooks/useDatabase';
 import { useAuth } from '@/context/AuthContext';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
   const { cartCount } = useCart();
@@ -77,35 +78,43 @@ const Navbar = () => {
         </div>
       </div>
 
-      {mobileOpen && (
-        <div className="md:hidden bg-background border-t border-border">
-          <div className="flex flex-col px-4 py-6 gap-4 font-body text-sm tracking-widest uppercase font-medium text-foreground">
-            <Link to="/" onClick={() => setMobileOpen(false)} className="hover-neon transition-colors py-2">{t('nav.home')}</Link>
-            <Link to="/shop" onClick={() => setMobileOpen(false)} className="hover-neon transition-colors py-2">{t('nav.shop')}</Link>
-            {topCategories.map(cat => (
-              <Link key={cat.id} to={`/shop?category=${cat.slug}`} onClick={() => setMobileOpen(false)} className="hover-neon transition-colors py-2">
-                {cat.name}
-              </Link>
-            ))}
-            <Link to="/about" onClick={() => setMobileOpen(false)} className="hover-neon transition-colors py-2">{t('footer.about')}</Link>
-            <Link to="/contact" onClick={() => setMobileOpen(false)} className="hover-neon transition-colors py-2">{t('footer.contact')}</Link>
-            {user ? (
-              <>
-                <Link to="/profile" onClick={() => setMobileOpen(false)} className="hover-neon transition-colors py-2 flex items-center gap-2">
-                  <UserIcon className="w-4 h-4" /> Profile
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="md:hidden bg-background/95 backdrop-blur-xl border-t border-border overflow-hidden absolute top-full left-0 w-full shadow-2xl"
+          >
+            <div className="flex flex-col px-6 py-6 gap-2 font-body text-sm tracking-widest uppercase font-medium text-foreground">
+              <Link to="/" onClick={() => setMobileOpen(false)} className="hover:text-neon transition-colors py-3 border-b border-border/40">{t('nav.home')}</Link>
+              <Link to="/shop" onClick={() => setMobileOpen(false)} className="hover:text-neon transition-colors py-3 border-b border-border/40">{t('nav.shop')}</Link>
+              {topCategories.map(cat => (
+                <Link key={cat.id} to={`/shop?category=${cat.slug}`} onClick={() => setMobileOpen(false)} className="hover:text-neon transition-colors py-3 border-b border-border/40">
+                  {cat.name}
                 </Link>
-                <button onClick={() => { signOut(); setMobileOpen(false); }} className="hover:text-destructive transition-colors py-2 text-start flex items-center gap-2">
-                  <LogOut className="w-4 h-4" /> {t('nav.logout', 'Logout')}
-                </button>
-              </>
-            ) : (
-              <Link to="/login" onClick={() => setMobileOpen(false)} className="bg-neon text-accent-foreground glow-neon hover:bg-neon-glow px-4 py-3 rounded-md transition-all flex items-center justify-center gap-2 mt-2 font-bold uppercase tracking-wider">
-                <UserIcon className="w-4 h-4" /> {t('nav.login', 'Login')}
-              </Link>
-            )}
-          </div>
-        </div>
-      )}
+              ))}
+              <Link to="/about" onClick={() => setMobileOpen(false)} className="hover:text-neon transition-colors py-3 border-b border-border/40">{t('footer.about')}</Link>
+              <Link to="/contact" onClick={() => setMobileOpen(false)} className="hover:text-neon transition-colors py-3 border-b border-border/40">{t('footer.contact')}</Link>
+              {user ? (
+                <div className="flex flex-col gap-3 mt-4">
+                  <Link to="/profile" onClick={() => setMobileOpen(false)} className="hover:bg-primary/10 bg-secondary/50 rounded-lg transition-colors py-3.5 px-4 flex items-center gap-3">
+                    <UserIcon className="w-5 h-5 text-primary" /> Profile
+                  </Link>
+                  <button onClick={() => { signOut(); setMobileOpen(false); }} className="hover:bg-destructive hover:text-destructive-foreground bg-destructive/10 text-destructive rounded-lg transition-colors py-3.5 px-4 text-start flex items-center gap-3">
+                    <LogOut className="w-5 h-5" /> {t('logout', 'Logout')}
+                  </button>
+                </div>
+              ) : (
+                <Link to="/login" onClick={() => setMobileOpen(false)} className="bg-neon text-accent-foreground glow-neon hover:bg-neon-glow px-4 py-4 rounded-lg transition-all flex items-center justify-center gap-2 mt-4 font-bold uppercase tracking-wider shadow-lg">
+                  <UserIcon className="w-5 h-5" /> {t('login', 'Login')}
+                </Link>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };
