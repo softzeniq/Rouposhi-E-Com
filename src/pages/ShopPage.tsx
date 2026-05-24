@@ -17,7 +17,7 @@ const ShopPage = () => {
   const categoryFilter = searchParams.get('category') || '';
   const [search, setSearch] = useState('');
   
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 0]);
   const [showFilters, setShowFilters] = useState(false);
 
   const products = useMemo(() => {
@@ -36,7 +36,8 @@ const ShopPage = () => {
       if (categoryFilter && p.category !== categoryFilter) return false;
       
       if (search && !p.name.toLowerCase().includes(search.toLowerCase()) && !p.brand.toLowerCase().includes(search.toLowerCase())) return false;
-      if (p.price < priceRange[0] || p.price > priceRange[1]) return false;
+      const maxPrice = priceRange[1] > 0 ? priceRange[1] : Infinity;
+      if (p.price < priceRange[0] || p.price > maxPrice) return false;
       return true;
     });
   }, [products, categoryFilter, search, priceRange]);
