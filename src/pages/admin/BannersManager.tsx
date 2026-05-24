@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useBanners, useAddBanner, useUpdateBanner, useDeleteBanner, type DbBanner } from '@/hooks/useDatabase';
-import { Plus, Pencil, Trash2, X, Eye, EyeOff } from 'lucide-react';
+import { uploadProductImage, deleteProductImage } from '@/lib/image-upload';
+import { Plus, Pencil, Trash2, X, Eye, EyeOff, Upload, Loader2, ImageIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 const images = [
@@ -16,17 +17,42 @@ const BannersManager = () => {
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<DbBanner | null>(null);
   const [form, setForm] = useState({ title: '', subtitle: '', image_url: '', link_url: '/shop', is_active: true, position: 'hero' as string });
+  const [uploading, setUploading] = useState(false);
+  const imageRef = useRef<HTMLInputElement>(null);
 
   const openAdd = () => { setEditing(null); setForm({ title: '', subtitle: '', image_url: '', link_url: '/shop', is_active: true, position: 'hero' }); setShowForm(true); };
   const openEdit = (b: DbBanner) => { setEditing(b); setForm({ title: b.title, subtitle: b.subtitle || '', image_url: b.image_url, link_url: b.link_url || '/shop', is_active: b.is_active ?? true, position: b.position }); setShowForm(true); };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!form.image_url) {
+      toast.error('Banner image is required');
+      return;
+    }
     try {
       if (editing) { await updateBanner.mutateAsync({ id: editing.id, ...form }); toast.success('Banner updated'); }
       else { await addBanner.mutateAsync(form); toast.success('Banner created'); }
       setShowForm(false);
     } catch { toast.error('Failed to save'); }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const url = await uploadProductImage(file, 'banner');
+      setForm(f => ({ ...f, image_url: url }));
+      toast.success('Image uploaded');
+    } catch { toast.error('Upload failed'); }
+    finally { setUploading(false); }
+  };
+
+  const removeImage = async () => {
+    if (form.image_url) {
+      try { await deleteProductImage(form.image_url); } catch { /* ignore */ }
+    }
+    setForm(f => ({ ...f, image_url: '' }));
   };
 
   if (isLoading) return <p className="text-center py-10 text-muted-foreground">Loading...</p>;
@@ -86,14 +112,33 @@ const BannersManager = () => {
                 <input value={form.subtitle} onChange={e => setForm({ ...form, subtitle: e.target.value })} className="w-full px-4 py-2.5 border border-border bg-background rounded-md font-body text-sm text-foreground focus:outline-none focus:border-primary" />
               </div>
               <div>
-                <label className="block font-body text-xs uppercase tracking-wider text-muted-foreground mb-1">Image URL</label>
-                <input value={form.image_url} onChange={e => setForm({ ...form, image_url: e.target.value })} placeholder="Paste image URL" required className="w-full px-4 py-2.5 border border-border bg-background rounded-md font-body text-sm text-foreground focus:outline-none focus:border-primary mb-2" />
-                {form.image_url && (
-                  <div className="aspect-video border border-border rounded-md overflow-hidden">
-                    <img src={form.image_url} alt="Preview" className="w-full h-full object-cover" />
+                <label className="block font-body text-xs uppercase tracking-wider text-muted-foreground mb-2">Banner Image *</label>
+                <div className="flex items-start gap-4">
+                  {form.image_url ? (
+                    <div className="relative w-48 aspect-video rounded-lg overflow-hidden border border-border bg-secondary shrink-0">
+                      <img src={form.image_url} alt="Preview" className="w-full h-full object-cover" />
+                      <button type="button" onClick={removeImage}
+                        className="absolute top-1 right-1 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center text-xs hover:bg-destructive/80">
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="w-48 aspect-video rounded-lg border-2 border-dashed border-border flex items-center justify-center bg-secondary/50 shrink-0">
+                      <ImageIcon className="w-8 h-8 text-muted-foreground" />
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <input ref={imageRef} type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                    <button type="button" onClick={() => imageRef.current?.click()} disabled={uploading}
+                      className="flex items-center gap-2 px-4 py-2 border border-border rounded-md font-body text-sm hover:bg-secondary transition-colors disabled:opacity-50">
+                      {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                      {uploading ? 'Uploading...' : 'Upload Image'}
+                    </button>
+                    <p className="font-body text-xs text-muted-foreground mt-3 mb-1">Or paste image URL:</p>
+                    <input value={form.image_url} onChange={e => setForm({ ...form, image_url: e.target.value })} placeholder="https://..." className="w-full px-3 py-2 border border-border bg-background rounded-md font-body text-sm text-foreground focus:outline-none focus:border-primary" />
                   </div>
-                )}
-                <p className="font-body text-xs text-muted-foreground mt-1">Use a high-quality wide image for best results on all screen sizes</p>
+                </div>
+                <p className="font-body text-xs text-muted-foreground mt-3">Use a high-quality wide image for best results on all screen sizes</p>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>

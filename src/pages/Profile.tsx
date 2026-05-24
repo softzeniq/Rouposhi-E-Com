@@ -59,7 +59,7 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="container mx-auto px-4 py-32 max-w-5xl min-h-[70vh]">
+      <div className="container mx-auto px-4 py-32 max-w-6xl min-h-[70vh]">
         <div className="mb-10">
           <h1 className="text-3xl font-heading font-bold uppercase tracking-wider text-foreground">My Dashboard</h1>
           <p className="font-body text-muted-foreground mt-2">Manage your account details and settings.</p>

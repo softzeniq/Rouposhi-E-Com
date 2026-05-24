@@ -12,9 +12,9 @@ const CartPage = () => {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Navbar />
-        <div className="pt-32 text-center px-4">
+        <div className="pt-32 pb-32 text-center px-4 flex-1 flex flex-col items-center justify-center">
           <ShoppingBag className="w-16 h-16 mx-auto mb-6 text-muted-foreground" />
           <h1 className="heading-display text-4xl font-bold mb-4 text-foreground">{t('cart.empty')}</h1>
           <p className="font-body text-muted-foreground mb-8">{t('cart.empty_subtitle')}</p>

@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Star, Zap, Truck, RefreshCw, Shield, ChevronRight, ChevronLeft } from 'lucide-react';
-import { brands } from '@/data/products';
 import { useActiveProducts, useActiveBanners } from '@/hooks/useDatabase';
 import { useActiveCategories } from '@/hooks/useCategories';
 import { useLanguage } from '@/context/LanguageContext';
@@ -23,6 +22,9 @@ const fallbackImages: Record<string, string> = {
   running: runnerImg, basketball: basketballImg, football: footballImg,
   training: trainingImg, lifestyle: lifestyleImg, trail: trailImg, women: womensImg,
 };
+
+// Mixed Brands for Clothing, Furniture, and Electronics
+const displayBrands = ['ZARA', 'IKEA', 'SAMSUNG', 'H&M', 'APPLE', 'GUCCI', 'SONY', 'ASHLEY', 'LG', 'WEST ELM', "LEVI'S", 'PANASONIC', 'CALVIN KLEIN', 'PHILIPS'];
 
 const reviews = [
   { name: 'Khalid A.', text: 'Authentic products, fast shipping. Best R-Shirt store in Arob Amirat!', rating: 5 },
@@ -167,7 +169,7 @@ const Index = () => {
       {/* Brand Ticker */}
       <section className="py-5 border-b border-border bg-card overflow-hidden">
         <div className="flex items-center gap-12 animate-marquee whitespace-nowrap">
-          {[...brands, ...brands, ...brands].map((brand, i) => (
+          {[...displayBrands, ...displayBrands, ...displayBrands].map((brand, i) => (
             <span key={i} className="font-heading text-2xl font-bold text-muted-foreground/30 uppercase tracking-wider">{brand}</span>
           ))}
         </div>
