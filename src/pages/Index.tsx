@@ -166,7 +166,7 @@ const Index = () => {
         </section>
       )}
 
-      {/* Brand Ticker */}
+      {/* Brand Ticker
       <section className="py-5 border-b border-border bg-card overflow-hidden">
         <div className="flex items-center gap-12 animate-marquee whitespace-nowrap">
           {[...displayBrands, ...displayBrands, ...displayBrands].map((brand, i) => (
@@ -174,6 +174,7 @@ const Index = () => {
           ))}
         </div>
       </section>
+      */}
 
       {/* Categories Grid */}
       <section className="py-20 lg:py-28">
@@ -296,8 +297,8 @@ const Index = () => {
       <section className="py-20 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-xl mx-auto text-center">
-            <span className="text-neon font-body text-sm font-bold tracking-[0.3em] uppercase">{t('newsletter.label')}</span>
-            <h2 className="heading-display text-3xl md:text-4xl font-bold mt-2 mb-4">{t('newsletter.title')}</h2>
+            <span className="text-neon font-body text-sm font-bold tracking-[0.3em] uppercase">Stay In The Clothing</span>
+            <h2 className="heading-display text-3xl md:text-4xl font-bold mt-2 mb-4">Get Exclusive Drops</h2>
             <p className="font-body text-primary-foreground/60 mb-8">{t('newsletter.subtitle')}</p>
             <form onSubmit={(e) => { e.preventDefault(); setEmail(''); }} className="flex flex-col sm:flex-row gap-0">
               <input type="email" placeholder={t('newsletter.placeholder')} value={email} onChange={(e) => setEmail(e.target.value)}

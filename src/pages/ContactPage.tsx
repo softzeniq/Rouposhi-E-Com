@@ -84,7 +84,7 @@ const ContactPage = () => {
                   </a>
                 )}
 
-                {s?.whatsapp_number && (
+                {/* {s?.whatsapp_number && (
                   <a href={`https://wa.me/${s.whatsapp_number.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer"
                     className="flex flex-col items-center text-center p-6 bg-card border border-border rounded-xl hover:border-primary/50 hover:-translate-y-1 transition-all group shadow-sm">
                     <div className="w-14 h-14 bg-[#25D366]/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-[#25D366] transition-colors">
@@ -93,7 +93,7 @@ const ContactPage = () => {
                     <h4 className="font-heading font-bold uppercase tracking-wider text-sm text-foreground mb-2">WhatsApp</h4>
                     <p className="font-body text-sm text-muted-foreground">{s.whatsapp_number}</p>
                   </a>
-                )}
+                )} */}
 
                 {s?.contact_address && (
                   <div className="flex flex-col items-center text-center p-6 bg-card border border-border rounded-xl hover:border-primary/50 hover:-translate-y-1 transition-all group shadow-sm">

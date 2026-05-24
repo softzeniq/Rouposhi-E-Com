@@ -7,7 +7,7 @@ import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { AdminAuthProvider } from "@/hooks/useAdminAuth";
 import { LanguageProvider } from "@/context/LanguageContext";
-import WhatsAppButton from "@/components/WhatsAppButton";
+// import WhatsAppButton from "@/components/WhatsAppButton";
 import FacebookPixelProvider from "@/components/FacebookPixelProvider";
 import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 import VisitorTracker from "@/components/VisitorTracker";
@@ -98,7 +98,7 @@ const App = () => (
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <VisitorTracker />
-              <WhatsAppButton />
+              {/* <WhatsAppButton /> */}
               <FacebookPixelProvider />
               </LanguageProvider>
             </BrowserRouter>
