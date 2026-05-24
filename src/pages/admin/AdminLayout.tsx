@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Package, ShoppingCart, Tag, Image, Settings, Users, BarChart3, ChevronLeft, Menu, Megaphone, LogOut, FolderTree, UserSearch, Activity, Truck, MessageSquare, FileText, X, Star } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingCart, Tag, Image, Settings, Users, BarChart3, ChevronLeft, Menu, Megaphone, LogOut, FolderTree, UserSearch, Activity, Truck, MessageSquare, FileText, X, Star, UserCog } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useSettings } from '@/hooks/useDatabase';
@@ -19,6 +19,7 @@ const navItems = [
   { path: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
   { path: '/admin/visitor-analytics', label: 'Visitor Tracker', icon: Activity },
   { path: '/admin/customers', label: 'Customers', icon: Users },
+  { path: '/admin/users', label: 'User Roles', icon: UserCog },
   { path: '/admin/marketing', label: 'Marketing', icon: Megaphone },
   { path: '/admin/shipping', label: 'Shipping Methods', icon: Truck },
   { path: '/admin/pages', label: 'Pages', icon: FileText },

@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import { ShoppingBag, Heart, Search, Menu, X } from 'lucide-react';
+import { ShoppingBag, Heart, Search, Menu, X, User as UserIcon, LogOut } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { useActiveCategories } from '@/hooks/useCategories';
 import { useLanguage } from '@/context/LanguageContext';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useState } from 'react';
 import { useSettings } from '@/hooks/useDatabase';
+import { useAuth } from '@/context/AuthContext';
 
 const Navbar = () => {
   const { cartCount } = useCart();
@@ -13,6 +13,7 @@ const Navbar = () => {
   const { t } = useLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { data: settings } = useSettings();
+  const { user, signOut } = useAuth();
   const s = Array.isArray(settings) ? settings[0] || {} : settings || {};
 
   const topCategories = categories.filter(c => !c.parent_id).slice(0, 3);
@@ -38,8 +39,7 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-4 text-foreground">
-            <LanguageSwitcher />
-            <Link to="/shop" className="hover-neon transition-colors duration-300"><Search className="w-5 h-5" /></Link>
+            <Link to="/shop" className="hover-neon transition-colors duration-300" aria-label="Search"><Search className="w-5 h-5" /></Link>
             {/* <Link to="/wishlist" className="hover-neon transition-colors duration-300"><Heart className="w-5 h-5" /></Link> */}
             <Link to="/cart" className="hover-neon transition-colors duration-300 relative">
               <ShoppingBag className="w-5 h-5" />
@@ -49,7 +49,28 @@ const Navbar = () => {
                 </span>
               )}
             </Link>
-            <button className="md:hidden hover-neon transition-colors duration-300" onClick={() => setMobileOpen(!mobileOpen)}>
+
+            {user ? (
+              <div className="flex items-center gap-2 md:gap-3 bg-card shadow-sm px-2 md:px-3 lg:py-2 py-1 rounded-full border border-border ml-1 md:ml-2">
+                <Link to="/profile" className="flex items-center gap-1.5 hover:text-primary transition-colors duration-300 group" aria-label="Profile">
+                  <div className="bg-primary/10 p-1 rounded-full group-hover:bg-primary/20 transition-colors">
+                    <UserIcon className="w-3.5 h-3.5 text-primary" />
+                  </div>
+                  <span className="hidden md:block font-body text-xs font-bold uppercase tracking-wider">{user.user_metadata?.full_name?.split(' ')[0] || 'Profile'}</span>
+                </Link>
+                <div className="w-px h-3 bg-border"></div>
+                <button onClick={() => signOut()} className="hover:text-destructive transition-colors duration-300 flex items-center gap-1.5" aria-label="Logout">
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span className="hidden md:block font-body text-xs font-bold uppercase tracking-wider">{t('logout', 'Logout')}</span>
+                </button>
+              </div>
+            ) : (
+              <Link to="/login" className="flex items-center gap-2 bg-neon text-accent-foreground hover:bg-neon-glow px-4 md:px-6 py-2 lg:py-3 rounded-full font-body text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md glow-neon ml-1 md:ml-2">
+                <UserIcon className="w-4 h-4" />
+                <span className="hidden md:block">{t('login', 'Login')}</span>
+              </Link>
+            )}
+            <button className="md:hidden hover-neon transition-colors duration-300 ml-1" onClick={() => setMobileOpen(!mobileOpen)}>
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
@@ -68,6 +89,20 @@ const Navbar = () => {
             ))}
             <Link to="/about" onClick={() => setMobileOpen(false)} className="hover-neon transition-colors py-2">{t('footer.about')}</Link>
             <Link to="/contact" onClick={() => setMobileOpen(false)} className="hover-neon transition-colors py-2">{t('footer.contact')}</Link>
+            {user ? (
+              <>
+                <Link to="/profile" onClick={() => setMobileOpen(false)} className="hover-neon transition-colors py-2 flex items-center gap-2">
+                  <UserIcon className="w-4 h-4" /> Profile
+                </Link>
+                <button onClick={() => { signOut(); setMobileOpen(false); }} className="hover:text-destructive transition-colors py-2 text-start flex items-center gap-2">
+                  <LogOut className="w-4 h-4" /> {t('nav.logout', 'Logout')}
+                </button>
+              </>
+            ) : (
+              <Link to="/login" onClick={() => setMobileOpen(false)} className="bg-neon text-accent-foreground glow-neon hover:bg-neon-glow px-4 py-3 rounded-md transition-all flex items-center justify-center gap-2 mt-2 font-bold uppercase tracking-wider">
+                <UserIcon className="w-4 h-4" /> {t('nav.login', 'Login')}
+              </Link>
+            )}
           </div>
         </div>
       )}

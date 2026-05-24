@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CartProvider } from "@/context/CartContext";
+import { AuthProvider } from "@/context/AuthContext";
 import { AdminAuthProvider } from "@/hooks/useAdminAuth";
 import { LanguageProvider } from "@/context/LanguageContext";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -32,6 +33,7 @@ import VisitorAnalyticsPage from "./pages/admin/VisitorAnalyticsPage.tsx";
 import ShippingMethodsManager from "./pages/admin/ShippingMethodsManager.tsx";
 import ReviewsManager from "./pages/admin/ReviewsManager.tsx";
 import CustomersPage from "./pages/admin/CustomersPage.tsx";
+import UsersManager from "./pages/admin/UsersManager.tsx";
 import SettingsPage from "./pages/admin/SettingsPage.tsx";
 import MarketingTrackingPage from "./pages/admin/MarketingTrackingPage.tsx";
 import MessagesManager from "./pages/admin/MessagesManager.tsx";
@@ -39,6 +41,9 @@ import PagesManager from "./pages/admin/PagesManager.tsx";
 import AboutPage from "./pages/AboutPage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import Login from "./pages/Login.tsx";
+import Register from "./pages/Register.tsx";
+import Profile from "./pages/Profile.tsx";
 
 const queryClient = new QueryClient();
 
@@ -46,53 +51,59 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <CartProvider>
-        <AdminAuthProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <LanguageProvider>
-            <ScrollToTop />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/shop" element={<ShopPage />} />
-              <Route path="/product/:id" element={<ProductPage />} />
-              <Route path="/cart" element={<CartPage />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/wishlist" element={<WishlistPage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="/admin/login" element={<AdminLoginPage />} />
-              <Route path="/admin" element={
-                <ProtectedAdminRoute>
-                  <AdminLayout />
-                </ProtectedAdminRoute>
-              }>
-                <Route index element={<Dashboard />} />
-                <Route path="products" element={<ProductsManager />} />
-                <Route path="orders" element={<OrdersManager />} />
-                <Route path="orders/:id" element={<OrderDetailsPage />} />
-                <Route path="categories" element={<CategoriesManager />} />
-                <Route path="coupons" element={<CouponsManager />} />
-                <Route path="checkout-leads" element={<CheckoutLeadsManager />} />
-                <Route path="banners" element={<BannersManager />} />
-                <Route path="messages" element={<MessagesManager />} />
-                <Route path="analytics" element={<AnalyticsPage />} />
-                <Route path="visitor-analytics" element={<VisitorAnalyticsPage />} />
-                <Route path="customers" element={<CustomersPage />} />
-                <Route path="settings" element={<SettingsPage />} />
-                <Route path="marketing" element={<MarketingTrackingPage />} />
-                <Route path="shipping" element={<ShippingMethodsManager />} />
-                <Route path="reviews" element={<ReviewsManager />} />
-                <Route path="pages" element={<PagesManager />} />
-              </Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <VisitorTracker />
-            <WhatsAppButton />
-            <FacebookPixelProvider />
-            </LanguageProvider>
-          </BrowserRouter>
-        </AdminAuthProvider>
+        <AuthProvider>
+          <AdminAuthProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <LanguageProvider>
+              <ScrollToTop />
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/shop" element={<ShopPage />} />
+                <Route path="/product/:id" element={<ProductPage />} />
+                <Route path="/cart" element={<CartPage />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/wishlist" element={<WishlistPage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/admin/login" element={<AdminLoginPage />} />
+                <Route path="/admin" element={
+                  <ProtectedAdminRoute>
+                    <AdminLayout />
+                  </ProtectedAdminRoute>
+                }>
+                  <Route index element={<Dashboard />} />
+                  <Route path="products" element={<ProductsManager />} />
+                  <Route path="orders" element={<OrdersManager />} />
+                  <Route path="orders/:id" element={<OrderDetailsPage />} />
+                  <Route path="categories" element={<CategoriesManager />} />
+                  <Route path="coupons" element={<CouponsManager />} />
+                  <Route path="checkout-leads" element={<CheckoutLeadsManager />} />
+                  <Route path="banners" element={<BannersManager />} />
+                  <Route path="messages" element={<MessagesManager />} />
+                  <Route path="analytics" element={<AnalyticsPage />} />
+                  <Route path="visitor-analytics" element={<VisitorAnalyticsPage />} />
+                  <Route path="customers" element={<CustomersPage />} />
+                  <Route path="users" element={<UsersManager />} />
+                  <Route path="settings" element={<SettingsPage />} />
+                  <Route path="marketing" element={<MarketingTrackingPage />} />
+                  <Route path="shipping" element={<ShippingMethodsManager />} />
+                  <Route path="reviews" element={<ReviewsManager />} />
+                  <Route path="pages" element={<PagesManager />} />
+                </Route>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <VisitorTracker />
+              <WhatsAppButton />
+              <FacebookPixelProvider />
+              </LanguageProvider>
+            </BrowserRouter>
+          </AdminAuthProvider>
+        </AuthProvider>
       </CartProvider>
     </TooltipProvider>
   </QueryClientProvider>

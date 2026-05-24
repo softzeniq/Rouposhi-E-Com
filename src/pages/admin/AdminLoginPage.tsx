@@ -5,9 +5,10 @@ import { useSettings } from '@/hooks/useDatabase';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import { Lock, Mail, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 const AdminLoginPage = () => {
-  const { signIn, signUp, user, isAdmin, loading: authLoading } = useAdminAuth();
+  const { signIn, signUp, user, loading: authLoading } = useAdminAuth();
   const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
@@ -19,10 +20,17 @@ const AdminLoginPage = () => {
   const logoUrl = s?.logo_url || '/logo.png';
 
   useEffect(() => {
-    if (!authLoading && user && isAdmin) {
-      navigate('/admin', { replace: true });
+    if (!authLoading && user) {
+      supabase.from('users').select('role').eq('id', user.id).single().then(({ data }) => {
+        if (data?.role === 'admin') {
+          navigate('/admin', { replace: true });
+        } else {
+          if (!isSignUp) toast.error("You do not have admin privileges.");
+          supabase.auth.signOut();
+        }
+      });
     }
-  }, [user, isAdmin, authLoading, navigate]);
+  }, [user, authLoading, navigate, isSignUp]);
 
   useEffect(() => {
     if (s?.favicon_url) {
@@ -57,7 +65,7 @@ const AdminLoginPage = () => {
         if (error) {
           toast.error(error);
         } else {
-          toast.success('Account created! You are now logged in as admin.');
+          toast.success('Account created! Please wait for admin approval.');
         }
       } else {
         const { error } = await signIn(email, password);

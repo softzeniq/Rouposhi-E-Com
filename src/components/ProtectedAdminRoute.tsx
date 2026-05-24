@@ -1,11 +1,28 @@
 import { Navigate } from 'react-router-dom';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { Loader2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
 
 const ProtectedAdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { user, isAdmin, loading } = useAdminAuth();
+  const { user, loading } = useAdminAuth();
+  const [role, setRole] = useState<string | null>(null);
+  const [roleLoading, setRoleLoading] = useState(true);
 
-  if (loading) {
+  useEffect(() => {
+    if (user) {
+      supabase.from('users').select('role').eq('id', user.id).single()
+        .then(({ data }) => {
+          setRole(data?.role || 'user');
+          setRoleLoading(false);
+        })
+        .catch(() => setRoleLoading(false));
+    } else {
+      setRoleLoading(false);
+    }
+  }, [user]);
+
+  if (loading || roleLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
@@ -20,7 +37,7 @@ const ProtectedAdminRoute: React.FC<{ children: React.ReactNode }> = ({ children
     return <Navigate to="/admin/login" replace />;
   }
 
-  if (!isAdmin) {
+  if (role !== 'admin') {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="text-center max-w-md">

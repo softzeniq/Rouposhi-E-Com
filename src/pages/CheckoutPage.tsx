@@ -7,6 +7,7 @@ import { useCheckoutLeadAutoSave } from '@/hooks/useCheckoutLeads';
 import { useFacebookTracking } from '@/hooks/useFacebookTracking';
 import { useShippingMethods } from '@/hooks/useShippingMethods';
 import { useLanguage } from '@/context/LanguageContext';
+import { useAuth } from '@/context/AuthContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CheckoutProgress from '@/components/checkout/CheckoutProgress';
@@ -24,6 +25,7 @@ const CheckoutPage = () => {
   const { save: saveCheckoutLead, markCompleted: markLeadCompleted } = useCheckoutLeadAutoSave();
   const { data: shippingMethods = [] } = useShippingMethods(true);
   const { t } = useLanguage();
+  const { user, loading: authLoading } = useAuth();
 
   const [step, setStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -123,6 +125,26 @@ const CheckoutPage = () => {
       setIsSubmitting(false);
     }
   };
+
+  if (authLoading) {
+    return <div className="min-h-screen bg-background pt-32 text-center text-muted-foreground">Loading...</div>;
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="pt-32 pb-20 text-center px-4 min-h-[60vh] flex flex-col items-center justify-center">
+          <h1 className="font-heading text-3xl md:text-4xl font-bold mb-4 text-foreground uppercase tracking-widest">{t('nav.login')} Required</h1>
+          <p className="font-body text-muted-foreground mb-8 max-w-md mx-auto">You must be logged in to your account to confirm an order. Please log in or create a new account to continue.</p>
+          <Link to="/login" state={{ from: '/checkout' }} className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-10 py-4 font-body text-sm font-bold tracking-wider uppercase hover:bg-primary/90 transition-all rounded-md shadow-md hover:shadow-lg">
+            Login / Register
+          </Link>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (items.length === 0 && !orderPlaced) { navigate('/cart'); return null; }
 
