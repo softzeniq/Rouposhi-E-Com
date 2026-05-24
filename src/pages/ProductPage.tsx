@@ -91,8 +91,8 @@ const ProductPage = () => {
   const productNames = allProducts.map(p => p.name);
 
   const validateSelection = () => {
-    if (!selectedSize) { toast.error(t('product.select_size_error')); return false; }
-    if (!selectedColor) { toast.error(t('product.select_color_error')); return false; }
+    if (product.sizes.length > 0 && !selectedSize) { toast.error(t('product.select_size_error')); return false; }
+    if (product.colors.length > 0 && !selectedColor) { toast.error(t('product.select_color_error')); return false; }
     if (variationStock !== null && variationStock <= 0) { toast.error(t('product.out_of_stock_error')); return false; }
     return true;
   };
@@ -179,29 +179,33 @@ const ProductPage = () => {
 
               <p className="font-body text-muted-foreground leading-relaxed mb-8">{product.description}</p>
 
-              <div className="mb-6">
-                <h3 className="font-heading font-bold uppercase tracking-wider text-sm mb-3 text-foreground">{t('product.select_size')}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {product.sizes.map(size => (
-                    <button key={String(size)} onClick={() => setSelectedSize(String(size))}
-                      className={`w-12 h-12 border font-body text-sm font-semibold rounded-sm transition-all ${selectedSize === String(size) ? 'border-neon bg-neon text-accent-foreground glow-neon' : 'border-border text-foreground hover:border-neon/50'}`}>
-                      {size}
-                    </button>
-                  ))}
+              {product.sizes.length > 0 && (
+                <div className="mb-6">
+                  <h3 className="font-heading font-bold uppercase tracking-wider text-sm mb-3 text-foreground">{t('product.select_size')}</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {product.sizes.map(size => (
+                      <button key={String(size)} onClick={() => setSelectedSize(String(size))}
+                        className={`w-12 h-12 border font-body text-sm font-semibold rounded-sm transition-all ${selectedSize === String(size) ? 'border-neon bg-neon text-accent-foreground glow-neon' : 'border-border text-foreground hover:border-neon/50'}`}>
+                        {size}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
-              <div className="mb-8">
-                <h3 className="font-heading font-bold uppercase tracking-wider text-sm mb-3 text-foreground">{t('product.color')}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {product.colors.map(color => (
-                    <button key={color} onClick={() => setSelectedColor(color)}
-                      className={`px-4 py-2 border font-body text-sm font-medium rounded-sm transition-all ${selectedColor === color ? 'border-neon bg-neon text-accent-foreground' : 'border-border text-foreground hover:border-neon/50'}`}>
-                      {color}
-                    </button>
-                  ))}
+              {product.colors.length > 0 && (
+                <div className="mb-8">
+                  <h3 className="font-heading font-bold uppercase tracking-wider text-sm mb-3 text-foreground">{t('product.color')}</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {product.colors.map(color => (
+                      <button key={color} onClick={() => setSelectedColor(color)}
+                        className={`px-4 py-2 border font-body text-sm font-medium rounded-sm transition-all ${selectedColor === color ? 'border-neon bg-neon text-accent-foreground' : 'border-border text-foreground hover:border-neon/50'}`}>
+                        {color}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className="flex items-center gap-4 mb-8">
                 <div className="flex items-center border border-border rounded-sm">
@@ -227,7 +231,7 @@ const ProductPage = () => {
               </button>
 
               <a
-                href={`https://wa.me/971545586545?text=${encodeURIComponent(`Hi! I'd like to order:\n\nProduct: ${product.name}\nBrand: ${product.brand}\nSize: ${selectedSize || 'Not selected'}\nColor: ${selectedColor || 'Not selected'}\nQuantity: ${quantity}\nPrice: ${displayPrice} AED\n\nPlease confirm my order. Thank you!`)}`}
+                href={`https://wa.me/971545586545?text=${encodeURIComponent(`Hi! I'd like to order:\n\nProduct: ${product.name}\nBrand: ${product.brand}${product.sizes.length > 0 ? `\nSize: ${selectedSize || 'Not selected'}` : ''}${product.colors.length > 0 ? `\nColor: ${selectedColor || 'Not selected'}` : ''}\nQuantity: ${quantity}\nPrice: ${displayPrice} AED\n\nPlease confirm my order. Thank you!`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full h-12 bg-[#25D366] text-white font-body text-sm font-bold tracking-wider uppercase hover:bg-[#20bd5a] transition-all duration-300 rounded-sm flex items-center justify-center gap-2 mb-8"
