@@ -58,7 +58,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'shop.categories': 'Categories',
     'shop.brands': 'Brands',
     'shop.all_brands': 'All Brands',
-    'shop.price': 'Price (BDT)',
+    'shop.price': 'Price (AED)',
     'shop.products_found': 'products found',
     'shop.loading': 'Loading products...',
     'shop.no_results': 'No Results',

@@ -108,7 +108,7 @@ const CheckoutPage = () => {
         customer_email: '', customer_phone: form.phone,
         items: orderItems, total, status: 'pending', payment_method: 'cod',
         shipping_address: shippingAddress,
-        notes: `${form.notes}${selectedShipping ? `\nShipping: ${selectedShipping.name} (${shippingCharge === 0 ? 'Free' : shippingCharge + ' BDT'})` : ''}`,
+        notes: `${form.notes}${selectedShipping ? `\nShipping: ${selectedShipping.name} (${shippingCharge === 0 ? 'Free' : shippingCharge + ' AED'})` : ''}`,
       });
       await markLeadCompleted();
       setOrderId(orderNumber);
