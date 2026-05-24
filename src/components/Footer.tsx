@@ -81,7 +81,7 @@ const Footer = () => {
 
         <div className="border-t border-primary-foreground/10 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="font-body text-xs text-primary-foreground/40">{s?.footer_copyright || '© 2026 SRK Collection. All rights reserved.'}</p>
-          <p className="font-body text-xs text-primary-foreground/40">{s?.footer_tagline || '🇰🇼 Free delivery across Kuwait · Cash on Delivery available'}</p>
+          <p className="font-body text-xs text-primary-foreground/40">{s?.footer_tagline || '🇦🇪 Free delivery across Dubai · Cash on Delivery available'}</p>
         </div>
       </div>
     </footer>

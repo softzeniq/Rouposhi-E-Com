@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Star, Zap, Truck, RefreshCw, Shield, ChevronRight, ChevronLeft } from 'lucide-react';
+import { ArrowRight, Star, Zap, Truck, RefreshCw, Shield, ChevronRight, ChevronLeft, Loader2 } from 'lucide-react';
 import { useActiveProducts, useActiveBanners } from '@/hooks/useDatabase';
 import { useActiveCategories } from '@/hooks/useCategories';
 import { useLanguage } from '@/context/LanguageContext';
@@ -33,9 +33,9 @@ const reviews = [
 ];
 
 const Index = () => {
-  const { data: dbProducts = [] } = useActiveProducts();
-  const { data: dbCategories = [] } = useActiveCategories();
-  const { data: banners = [] } = useActiveBanners();
+  const { data: dbProducts = [], isLoading: productsLoading } = useActiveProducts();
+  const { data: dbCategories = [], isLoading: categoriesLoading } = useActiveCategories();
+  const { data: banners = [], isLoading: bannersLoading } = useActiveBanners();
   const { t } = useLanguage();
   const [currentBanner, setCurrentBanner] = useState(0);
   const products = dbProducts.map(p => ({
@@ -49,6 +49,7 @@ const Index = () => {
   const trendingProducts = products.filter(p => p.isTrending);
   const newProducts = products.filter(p => p.isNew);
   const [email, setEmail] = useState('');
+  const isLoading = productsLoading || categoriesLoading || bannersLoading;
 
   const heroBanners = banners.filter(b => b.position === 'hero');
   const promoBanners = banners.filter(b => b.position === 'promo');
@@ -72,6 +73,17 @@ const Index = () => {
 
   const getCategoryCount = (slug: string) =>
     products.filter(p => p.category === slug).length;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="flex h-[80vh] items-center justify-center pt-20">
+          <Loader2 className="w-12 h-12 animate-spin text-neon" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">

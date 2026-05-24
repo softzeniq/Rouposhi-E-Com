@@ -94,7 +94,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'cart.free': 'Free',
     'cart.total': 'Total',
     'cart.checkout': 'Proceed to Checkout',
-    'cart.cod_available': 'Cash on Delivery available 🇰🇼',
+    'cart.cod_available': 'Cash on Delivery available 🇪',
 
     // Checkout Page
     'checkout.title': 'Checkout',
@@ -118,7 +118,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'checkout.placing': 'Placing Order...',
     'checkout.order_confirmed': 'Order Confirmed! 🎉',
     'checkout.order_placed': 'has been placed',
-    'checkout.payment_cod': 'Payment: Cash on Delivery 🇰🇼',
+    'checkout.payment_cod': 'Payment: Cash on Delivery 🇦🇪',
     'checkout.continue_shopping': 'Continue Shopping',
     'checkout.go_home': 'Go Home',
     'checkout.fill_required': 'Please fill in all required fields',
