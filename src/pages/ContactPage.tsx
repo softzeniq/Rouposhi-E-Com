@@ -125,6 +125,20 @@ const ContactPage = () => {
               </div>
             </motion.div>
           </div>
+
+          {/* Live Location Map */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="mt-16 w-full h-[350px] md:h-[450px] bg-secondary/30 rounded-2xl overflow-hidden border border-border shadow-sm">
+            <iframe
+              src="https://maps.google.com/maps?q=Nesto%20Hypermarket%20-%20Dragon%20Mart%202,%20Dubai&t=&z=14&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen={false}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Live Location"
+            ></iframe>
+          </motion.div>
         </div>
       </div>
       <Footer />

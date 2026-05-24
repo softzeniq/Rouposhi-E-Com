@@ -40,9 +40,9 @@ const AboutPage = () => {
               </p>
             </div>
             <div className="flex-1 w-full">
-              <div className="aspect-[4/3] bg-background border border-border rounded-xl flex items-center justify-center relative overflow-hidden shadow-lg">
+              <div className="lg:aspect-[4/3] aspect-[4/3] bg-background border border-border rounded-xl flex items-center justify-center relative overflow-hidden shadow-lg">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent"></div>
-                <h2 className="font-heading text-4xl font-bold text-primary/30 uppercase tracking-widest transform -rotate-6 select-none">Legacy-29</h2>
+                <img src="/assets/logo.png" alt="Company Logo" className="w-full h-full object-contai" />
               </div>
             </div>
           </div>
@@ -50,10 +50,10 @@ const AboutPage = () => {
       </div>
 
       {/* Meet the Founder & CEO */}
-      <div className="container mx-auto px-4 mb-20 mt-20">
+      <div className="container mx-auto lg;px-8 px-4 mb-20 mt-20">
         <div className="bg-card border border-border p-8 md:p-12 rounded-2xl shadow-lg flex flex-col md:flex-row gap-10 items-center hover:border-primary/50 transition-colors">
           <div className="w-48 h-48 md:w-64 md:h-64 shrink-0 rounded-full overflow-hidden border-4 border-primary/20 shadow-xl mx-auto md:mx-0">
-            <img src="/ceo.png" alt="Founder & CEO" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+            <img src="/assets/ceo.png" alt="Founder & CEO" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>
           <div className="flex-1 text-center md:text-left space-y-4">
             <h3 className="font-heading text-2xl md:text-3xl font-bold uppercase tracking-wider text-foreground">Meet the Founder</h3>
