@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ShoppingBag, Heart, Search, Menu, X, User as UserIcon, LogOut } from 'lucide-react';
+import { ShoppingCart, Heart, Search, Menu, X, User as UserIcon, LogOut } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { useActiveCategories } from '@/hooks/useCategories';
 import { useLanguage } from '@/context/LanguageContext';
@@ -42,10 +42,10 @@ const Navbar = () => {
           <div className="flex items-center gap-4 text-foreground">
             <Link to="/shop" className="hover-neon transition-colors duration-300" aria-label="Search"><Search className="w-5 h-5" /></Link>
             {/* <Link to="/wishlist" className="hover-neon transition-colors duration-300"><Heart className="w-5 h-5" /></Link> */}
-            <Link to="/cart" className="hover-neon transition-colors duration-300 relative">
-              <ShoppingBag className="w-5 h-5" />
+            <Link to="/cart" className="relative flex items-center justify-center w-10 h-10 bg-secondary/30 hover:bg-primary/10 rounded-full transition-all duration-300 group ml-2">
+              <ShoppingCart className="w-[18px] h-[18px] text-foreground group-hover:text-primary transition-colors" />
               {cartCount > 0 && (
-                <span className="absolute -top-2 -end-2 w-5 h-5 bg-neon text-accent-foreground rounded-full text-xs flex items-center justify-center font-body font-bold">
+                <span className="absolute -top-1 -right-1 w-[18px] h-[18px] bg-neon text-accent-foreground rounded-full text-[10px] flex items-center justify-center font-bold shadow-md border-2 border-background">
                   {cartCount}
                 </span>
               )}

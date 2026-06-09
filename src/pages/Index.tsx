@@ -8,7 +8,7 @@ import ProductCard from '@/components/ProductCard';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import heroImage from '@/assets/hero-sports.jpg';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 import basketballImg from '@/assets/shoe-basketball.jpg';
 import runnerImg from '@/assets/shoe-runner-1.jpg';
@@ -51,8 +51,60 @@ const Index = () => {
   const [email, setEmail] = useState('');
   const isLoading = productsLoading || categoriesLoading || bannersLoading;
 
+  const [visibleNewCount, setVisibleNewCount] = useState(10);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+  const categoryScrollRef1 = useRef<HTMLDivElement>(null);
+  const categoryScrollRef2 = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll logic for Categories
+  useEffect(() => {
+    if (dbCategories.length <= 8) return; 
+    
+    const scrollRow = (ref: React.RefObject<HTMLDivElement>) => {
+      if (ref.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = ref.current;
+        if (scrollLeft + clientWidth >= scrollWidth - 10) {
+          ref.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          const itemWidth = window.innerWidth < 640 ? 95 : window.innerWidth < 768 ? 112 : window.innerWidth < 1024 ? 136 : 156;
+          ref.current.scrollBy({ left: itemWidth, behavior: 'smooth' });
+        }
+      }
+    };
+
+    const interval1 = setInterval(() => scrollRow(categoryScrollRef1), 2500);
+    const interval2 = setInterval(() => scrollRow(categoryScrollRef2), 3800);
+
+    return () => {
+      clearInterval(interval1);
+      clearInterval(interval2);
+    };
+  }, [dbCategories.length]);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && visibleNewCount < newProducts.length) {
+          setTimeout(() => {
+            setVisibleNewCount((prev) => prev + 10);
+          }, 800); // Show loading spinner for 800ms
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [visibleNewCount, newProducts.length]);
+
   const heroBanners = banners.filter(b => b.position === 'hero');
   const promoBanners = banners.filter(b => b.position === 'promo');
+
+  const midCategory = Math.ceil(dbCategories.length / 2);
+  const categoryRow1 = dbCategories.slice(0, midCategory);
+  const categoryRow2 = dbCategories.slice(midCategory);
 
   const nextBanner = useCallback(() => {
     if (heroBanners.length > 1) setCurrentBanner(prev => (prev + 1) % heroBanners.length);
@@ -193,23 +245,44 @@ const Index = () => {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-end justify-between mb-8">
             <div>
-              <h2 className="heading-display text-2xl md:text-3xl font-bold text-foreground">{t('categories.title')}</h2>
+              <h2 className="heading-display text-2xl md:text-2xl font-bold text-foreground">{t('categories.title')}</h2>
             </div>
-            <Link to="/shop" className="hidden md:flex items-center gap-1 font-body text-sm font-medium text-foreground hover:text-primary transition-colors">
+            <Link to="/shop" className="hidden md:flex items-center gap-1 font-body text-sm font-medium text-foreground hover-neon transition-colors">
               {t('categories.all')} <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 md:gap-4">
-            {dbCategories.map((cat, i) => (
-              <motion.div key={cat.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.02 }}>
-                <Link to={`/shop?category=${cat.slug}`} className="flex flex-col items-center group text-center w-full">
-                  <div className="w-full aspect-square overflow-hidden rounded-lg bg-gradient-to-b from-[#eaf6ff] to-[#dbf0ff] transition-all mb-2 relative group-hover:shadow-md">
-                    <img src={getCategoryImage(cat.slug, cat.image_url)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
-                  </div>
-                  <h3 className="font-body text-[10px] sm:text-[11px] md:text-[14px] font-medium text-foreground group-hover:text-primary transition-colors truncate w-full text-center leading-tight px-1">{cat.name}</h3>
-                </Link>
-              </motion.div>
-            ))}
+          <div className="flex flex-col gap-3 md:gap-4 lg:gap-2">
+            <div ref={categoryScrollRef1} className="overflow-x-auto hide-scrollbar pb-2 lg:pb-3 w-full scroll-smooth" style={{ scrollSnapType: 'x mandatory' }}>
+              <div className="flex gap-3 md:gap-4 w-max px-1 lg:px-0">
+                {categoryRow1.map((cat, i) => (
+                  <motion.div key={cat.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.02 }} className="w-[85px] sm:w-[100px] md:w-[120px] lg:w-[140px] shrink-0" style={{ scrollSnapAlign: 'start' }}>
+                    <Link to={`/shop?category=${cat.slug}`} className="flex flex-col items-center group text-center w-full">
+                      <div className="w-full aspect-square overflow-hidden rounded-lg bg-gradient-to-b from-[#eaf6ff] to-[#dbf0ff] transition-all mb-2 relative group-hover:shadow-md border border-border/50">
+                        <img src={getCategoryImage(cat.slug, cat.image_url)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+                      </div>
+                      <h3 className="font-body text-[11px] sm:text-[12px] md:text-[14px] font-medium text-foreground group-hover:text-primary transition-colors truncate w-full text-center leading-tight px-1">{cat.name}</h3>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {categoryRow2.length > 0 && (
+              <div ref={categoryScrollRef2} className="overflow-x-auto hide-scrollbar pb-2 lg:pb-0 w-full scroll-smooth" style={{ scrollSnapType: 'x mandatory' }}>
+                <div className="flex gap-3 md:gap-4 w-max px-1 lg:px-0">
+                  {categoryRow2.map((cat, i) => (
+                    <motion.div key={cat.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.02 }} className="w-[85px] sm:w-[100px] md:w-[120px] lg:w-[140px] shrink-0" style={{ scrollSnapAlign: 'start' }}>
+                      <Link to={`/shop?category=${cat.slug}`} className="flex flex-col items-center group text-center w-full">
+                        <div className="w-full aspect-square overflow-hidden rounded-lg bg-gradient-to-b from-[#eaf6ff] to-[#dbf0ff] transition-all mb-2 relative group-hover:shadow-md border border-border/50">
+                          <img src={getCategoryImage(cat.slug, cat.image_url)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+                        </div>
+                        <h3 className="font-body text-[11px] sm:text-[12px] md:text-[14px] font-medium text-foreground group-hover:text-primary transition-colors truncate w-full text-center leading-tight px-1">{cat.name}</h3>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -217,12 +290,12 @@ const Index = () => {
       {/* Trending Products */}
       <section className="py-14 bg-card">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="flex items-end justify-between mb-12">
+          <div className="flex items-end justify-between mb-8">
             <div>
-              <span className="text-neon font-body text-sm font-bold tracking-[0.3em] uppercase">{t('trending.label')}</span>
-              <h2 className="heading-display text-4xl md:text-4xl font-bold mt-2 text-foreground">{t('trending.title')}</h2>
+              <span className="text-neon font-body text-sm font-bold tracking-[0.1em] uppercase">{t('trending.label')}</span>
+              <h2 className="heading-display text-4xl md:text-2xl font-bold mt-1 text-foreground">{t('trending.title')}</h2>
             </div>
-            <Link to="/shop" className="hidden md:flex items-center gap-2 font-body text-sm font-semibold tracking-wider uppercase text-foreground hover-neon transition-colors">
+            <Link to="/shop" className="hidden md:flex items-center gap-2 font-body text-sm font-semibold tracking-widers text-foreground hover-neon transition-colors">
               {t('trending.view_all')} <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
@@ -237,17 +310,24 @@ const Index = () => {
       {/* New Arrivals */}
       <section className="py-14 lg:py-14">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="flex items-end justify-between mb-12">
+          <div className="flex items-end justify-between mb-8">
             <div>
-              <span className="text-neon font-body text-sm font-bold tracking-[0.3em] uppercase">{t('new.label')}</span>
-              <h2 className="heading-display text-4xl md:text-4xl font-bold mt-2 text-foreground">{t('new.title')}</h2>
+              <span className="text-neon font-body text-sm font-bold tracking-[0.1em] uppercase">{t('new.label')}</span>
+              <h2 className="heading-display text-4xl md:text-2xl font-bold mt-1 text-foreground">{t('new.title')}</h2>
             </div>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-2.5 lg:gap-4">
-            {newProducts.map(product => (
+            {newProducts.slice(0, visibleNewCount).map(product => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
+          
+          {visibleNewCount < newProducts.length && (
+            <div ref={loadMoreRef} className="mt-12 flex justify-center items-center gap-2 text-primary py-4">
+              <Loader2 className="w-5 h-5 animate-spin" />
+              <span className="font-body text-sm font-medium tracking-wide">Loading more products...</span>
+            </div>
+          )}
         </div>
       </section>
 
@@ -255,8 +335,8 @@ const Index = () => {
       <section className="py-20 bg-card">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-            <span className="text-neon font-body text-sm font-bold tracking-[0.3em] uppercase">{t('why.label')}</span>
-            <h2 className="heading-display text-4xl md:text-4xl font-bold mt-2 text-foreground">{t('why.title')}</h2>
+            <span className="text-neon font-body text-sm font-bold tracking-[0.2em] uppercase">{t('why.label')}</span>
+            <h2 className="heading-display text-4xl md:text-2xl font-bold mt-2 text-foreground">{t('why.title')}</h2>
           </motion.div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
             {[
@@ -270,7 +350,7 @@ const Index = () => {
                 <div className="w-14 h-14 mx-auto mb-5 bg-neon/10 rounded-full flex items-center justify-center">
                   <item.icon className="w-6 h-6 text-neon" />
                 </div>
-                <h3 className="font-heading text-lg font-bold uppercase tracking-wide mb-2 text-foreground">{item.title}</h3>
+                <h3 className="font-heading text-md font-bold uppercase tracking-wide mb-2 text-foreground">{item.title}</h3>
                 <p className="font-body text-sm text-muted-foreground">{item.desc}</p>
               </motion.div>
             ))}
@@ -282,8 +362,8 @@ const Index = () => {
       <section className="py-20">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-            <span className="text-neon font-body text-sm font-bold tracking-[0.3em] uppercase">{t('reviews.label')}</span>
-            <h2 className="heading-display text-4xl md:text-4xl font-bold mt-2 text-foreground">{t('reviews.title')}</h2>
+            <span className="text-neon font-body text-sm font-bold tracking-[0.2rem] uppercase">{t('reviews.label')}</span>
+            <h2 className="heading-display text-4xl md:text-2xl font-bold mt-2 text-foreground">{t('reviews.title')}</h2>
           </motion.div>
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {reviews.map((review, i) => (

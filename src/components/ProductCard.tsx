@@ -76,14 +76,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
         
         <div className="p-3">
-          <h3 className="text-[13px] font-medium text-foreground truncate mb-1.5">{product.name}</h3>
+          <h3 className="text-[15px] font-medium text-foreground truncate mb-1.5">{product.name}</h3>
           
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="font-bold text-neon text-sm leading-none">{product.price} AED</span>
+            <span className="font-bold text-neon text-[16px] leading-none">{product.price} AED</span>
             {product.originalPrice && (
               <>
-                <span className="text-muted-foreground line-through text-[11px] leading-none">{product.originalPrice} AED</span>
-                <span className="text-hot text-[10px] font-bold leading-none">
+                <span className="text-muted-foreground line-through text-[12px] leading-none">{product.originalPrice} AED</span>
+                <span className="text-hot text-[12px] font-bold leading-none">
                   ({discountPercentage}% OFF)
                 </span>
               </>

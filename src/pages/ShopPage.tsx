@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Search, SlidersHorizontal, Loader2 } from 'lucide-react';
 import { useActiveProducts } from '@/hooks/useDatabase';
@@ -46,6 +46,33 @@ const ShopPage = () => {
     if (cat) setSearchParams({ category: cat });
     else setSearchParams({});
   };
+
+  const [visibleCount, setVisibleCount] = useState(12);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+
+  // Reset visible count when filters change
+  useEffect(() => {
+    setVisibleCount(12);
+  }, [categoryFilter, search, priceRange]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && visibleCount < filtered.length) {
+          setTimeout(() => {
+            setVisibleCount((prev) => prev + 12);
+          }, 800);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [visibleCount, filtered.length]);
 
   const activeCategoryName = dbCategories.find(c => c.slug === categoryFilter)?.name;
 
@@ -121,9 +148,18 @@ const ShopPage = () => {
                   <Loader2 className="w-10 h-10 animate-spin text-neon" />
                 </div>
               ) : filtered.length > 0 ? (
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 lg:gap-4">
-                  {filtered.map(product => <ProductCard key={product.id} product={product} />)}
-                </div>
+                <>
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 lg:gap-4">
+                    {filtered.slice(0, visibleCount).map(product => <ProductCard key={product.id} product={product} />)}
+                  </div>
+                  
+                  {visibleCount < filtered.length && (
+                    <div ref={loadMoreRef} className="mt-12 flex justify-center items-center gap-2 text-primary py-4">
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <span className="font-body text-sm font-medium tracking-wide">Loading more products...</span>
+                    </div>
+                  )}
+                </>
               ) : (
                 <div className="text-center py-20">
                   <p className="font-heading text-2xl uppercase font-bold mb-2 text-foreground">{t('shop.no_results')}</p>
