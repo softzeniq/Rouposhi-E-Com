@@ -69,6 +69,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
           <button
             onClick={(e) => { e.preventDefault(); toggleWishlist(product.id); }}
+            aria-label="Toggle wishlist"
             className="absolute bottom-2 right-2 w-7 h-7 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-full transition-all hover:bg-background z-20 shadow-sm border border-border/50"
           >
             <Heart className={`w-4 h-4 ${wishlisted ? 'fill-neon text-neon' : 'text-muted-foreground hover:text-foreground'}`} />

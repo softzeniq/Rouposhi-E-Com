@@ -146,7 +146,7 @@ const Index = () => {
         <section className="relative w-full h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-screen overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div key={currentBanner} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6 }} className="absolute inset-0">
-              <img src={heroBanners[currentBanner].image_url} alt={heroBanners[currentBanner].title} className="w-full h-full object-cover" />
+              <img src={heroBanners[currentBanner].image_url} alt={heroBanners[currentBanner].title} fetchPriority="high" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/30 to-transparent md:bg-gradient-to-r md:from-primary/90 md:via-primary/50 md:to-transparent" />
             </motion.div>
           </AnimatePresence>
@@ -172,15 +172,15 @@ const Index = () => {
 
           {heroBanners.length > 1 && (
             <>
-              <button onClick={prevBanner} className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-background/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-background/50 transition-colors border border-border/30">
+              <button onClick={prevBanner} aria-label="Previous banner" className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-background/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-background/50 transition-colors border border-border/30">
                 <ChevronLeft className="w-5 h-5 text-primary-foreground" />
               </button>
-              <button onClick={nextBanner} className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-background/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-background/50 transition-colors border border-border/30">
+              <button onClick={nextBanner} aria-label="Next banner" className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-background/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-background/50 transition-colors border border-border/30">
                 <ChevronRight className="w-5 h-5 text-primary-foreground" />
               </button>
               <div className="absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
                 {heroBanners.map((_, i) => (
-                  <button key={i} onClick={() => setCurrentBanner(i)}
+                  <button key={i} onClick={() => setCurrentBanner(i)} aria-label={`Go to banner ${i + 1}`}
                     className={`h-2 rounded-full transition-all duration-300 ${i === currentBanner ? 'w-8 bg-neon' : 'w-2 bg-primary-foreground/40 hover:bg-primary-foreground/60'}`}
                   />
                 ))}
@@ -191,7 +191,7 @@ const Index = () => {
       ) : (
         <section className="relative h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-screen flex items-center overflow-hidden">
           <div className="absolute inset-0">
-            <img src={heroImage} alt="Athletic running shoes in action" className="w-full h-full object-cover" />
+            <img src={heroImage} alt="Athletic running shoes in action" fetchPriority="high" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/30 to-transparent md:bg-gradient-to-r md:from-primary/90 md:via-primary/60 md:to-transparent" />
           </div>
           <div className="container mx-auto px-4 lg:px-8 relative z-10">
@@ -217,7 +217,7 @@ const Index = () => {
             <div className={`grid gap-4 ${promoBanners.length === 1 ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'}`}>
               {promoBanners.map(b => (
                 <Link key={b.id} to={b.link_url || '/shop'} className="block group relative aspect-[16/7] sm:aspect-[16/6] overflow-hidden rounded-lg">
-                  <img src={b.image_url} alt={b.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src={b.image_url} alt={b.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6">
                     <h3 className="font-heading text-lg md:text-2xl font-bold uppercase text-primary-foreground">{b.title}</h3>
@@ -393,7 +393,7 @@ const Index = () => {
             <h2 className="heading-display text-3xl md:text-4xl font-bold mt-2 mb-4">Get Exclusive Drops</h2>
             <p className="font-body text-primary-foreground/60 mb-8">{t('newsletter.subtitle')}</p>
             <form onSubmit={(e) => { e.preventDefault(); setEmail(''); }} className="flex flex-col sm:flex-row gap-0">
-              <input type="email" placeholder={t('newsletter.placeholder')} value={email} onChange={(e) => setEmail(e.target.value)}
+              <input type="email" aria-label="Email address for newsletter" placeholder={t('newsletter.placeholder')} value={email} onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 px-4 py-3 sm:py-4 border border-primary-foreground/20 bg-primary-foreground/5 font-body text-sm text-primary-foreground placeholder:text-primary-foreground/40 focus:outline-none focus:border-neon transition-colors rounded-sm sm:rounded-l-sm sm:rounded-r-none"
                 required
               />

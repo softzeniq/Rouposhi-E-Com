@@ -233,7 +233,7 @@ const ProductPage = () => {
               </button>
 
               <a
-                href={`https://wa.me/971545586545?text=${encodeURIComponent(`Hi! I'd like to order:\n\nProduct: ${product.name}\nBrand: ${product.brand}${product.sizes.length > 0 ? `\nSize: ${selectedSize || 'Not selected'}` : ''}${product.colors.length > 0 ? `\nColor: ${selectedColor || 'Not selected'}` : ''}\nQuantity: ${quantity}\nPrice: ${displayPrice} AED\n\nPlease confirm my order. Thank you!`)}`}
+                href={`https://wa.me/971545586545?text=${encodeURIComponent(`Hi! I'd like to order:\n\nProduct: ${product.name}\nBrand: ${product.brand}${product.sizes.length > 0 ? `\nSize: ${selectedSize || 'Not selected'}` : ''}${product.colors.length > 0 ? `\nColor: ${selectedColor || 'Not selected'}` : ''}\nQuantity: ${quantity}\nPrice: ${displayPrice} AED\n\nPlease confirm my order. Than k you!`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full h-12 bg-[#25D366] text-white font-body text-sm font-bold tracking-wider uppercase hover:bg-[#20bd5a] transition-all duration-300 rounded-sm flex items-center justify-center gap-2 mb-8"
