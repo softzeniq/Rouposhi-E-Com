@@ -148,7 +148,7 @@ const ProductPage = () => {
 
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
               <span className="font-body text-sm text-neon font-bold tracking-wider uppercase">{product.brand}</span>
-              <h1 className="heading-display text-3xl md:text-5xl font-bold mt-1 mb-4 text-foreground">{product.name}</h1>
+              <h1 className="heading-display text-3xl md:text-4xl font-bold mt-1 mb-4 text-foreground">{product.name}</h1>
 
               <div className="flex items-center gap-3 mb-6">
                 <div className="flex gap-0.5">
@@ -162,7 +162,7 @@ const ProductPage = () => {
               <CountdownTimer />
 
               <div className="flex items-center gap-3 mb-8">
-                <span className="font-heading text-4xl font-bold text-neon">{displayPrice} AED</span>
+                <span className="font-heading lg:text-3xl md:text-2xl text-2xl font-bold text-neon">{displayPrice} AED</span>
                 {product.originalPrice && (
                   <>
                     <span className="font-body text-lg text-muted-foreground line-through">{product.originalPrice} AED</span>
@@ -260,8 +260,8 @@ const ProductPage = () => {
           <ProductReviews productId={product.id} />
 
           {related.length > 0 && (
-            <section className="mt-20 pt-10 border-t border-border">
-              <h2 className="heading-display text-2xl md:text-4xl font-bold mb-10 text-foreground">{t('product.related')}</h2>
+            <section className="mt-16 pt-10 border-t border-border">
+              <h2 className="heading-display text-xl md:text-3xl font-bold mb-8 text-foreground">{t('product.related')}</h2>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
                 {related.map(p => <ProductCard key={p.id} product={p} />)}
               </div>
