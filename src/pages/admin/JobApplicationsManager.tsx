@@ -1,12 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Download, ExternalLink, Trash2, Eye, FileText } from 'lucide-react';
-import { format } from 'date-fns';
+import { Trash2, FileText, Briefcase } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+const statusColors: Record<string, string> = {
+  pending: 'bg-yellow-100 text-yellow-700',
+  reviewed: 'bg-blue-100 text-blue-700',
+  interviewed: 'bg-purple-100 text-purple-700',
+  rejected: 'bg-red-100 text-red-700',
+  hired: 'bg-green-100 text-green-700',
+};
+
+const statuses = ['pending', 'reviewed', 'interviewed', 'rejected', 'hired'];
 
 export default function JobApplicationsManager() {
   const [applications, setApplications] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [statusFilter, setStatusFilter] = useState('all');
 
   useEffect(() => {
     fetchApplications();
@@ -29,6 +40,17 @@ export default function JobApplicationsManager() {
     }
   };
 
+  const filtered = useMemo(() => {
+    if (statusFilter === 'all') return applications;
+    return applications.filter(a => a.status === statusFilter);
+  }, [applications, statusFilter]);
+
+  const statusCounts = useMemo(() => {
+    const counts: Record<string, number> = { all: applications.length };
+    statuses.forEach(s => { counts[s] = applications.filter(a => a.status === s).length; });
+    return counts;
+  }, [applications]);
+
   const updateStatus = async (id: string, newStatus: string) => {
     try {
       const { error } = await supabase
@@ -47,8 +69,8 @@ export default function JobApplicationsManager() {
     }
   };
 
-  const deleteApplication = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this application?')) return;
+  const deleteApplication = async (id: string, name: string) => {
+    if (!window.confirm(`Are you sure you want to delete application from ${name}?`)) return;
     
     try {
       const { error } = await supabase
@@ -64,97 +86,95 @@ export default function JobApplicationsManager() {
     }
   };
 
-  if (loading) {
-    return <div className="p-8 flex justify-center"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div></div>;
-  }
+  if (loading) return <p className="text-center py-10 text-muted-foreground font-body">Loading applications...</p>;
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">Job Applications</h1>
-        <p className="text-muted-foreground mt-2">Manage and review candidates who applied through the Careers page.</p>
+    <div>
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="font-heading text-3xl font-bold uppercase tracking-wider text-foreground">Job Applications</h1>
+          <p className="font-body text-sm text-muted-foreground mt-1">{applications.length} total applications</p>
+        </div>
       </div>
 
-      <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left">
-            <thead className="bg-muted/50 text-muted-foreground uppercase text-xs">
-              <tr>
-                <th className="px-6 py-4 font-medium">Applicant</th>
-                <th className="px-6 py-4 font-medium">Position</th>
-                <th className="px-6 py-4 font-medium">Contact</th>
-                <th className="px-6 py-4 font-medium">Date</th>
-                <th className="px-6 py-4 font-medium">Status</th>
-                <th className="px-6 py-4 font-medium text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {applications.length === 0 ? (
-                <tr>
-                  <td colSpan={6} className="px-6 py-10 text-center text-muted-foreground">
-                    No applications received yet.
-                  </td>
-                </tr>
-              ) : (
-                applications.map((app) => (
-                  <tr key={app.id} className="hover:bg-muted/30 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="font-medium text-foreground">{app.full_name}</div>
-                      <div className="text-xs text-muted-foreground mt-1 max-w-[200px] truncate" title={app.cover_letter}>
-                        {app.cover_letter || 'No cover letter'}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
-                        {app.position}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-muted-foreground">
-                      <div>{app.email}</div>
-                      <div>{app.phone}</div>
-                    </td>
-                    <td className="px-6 py-4 text-muted-foreground whitespace-nowrap">
-                      {format(new Date(app.created_at), 'MMM d, yyyy')}
-                    </td>
-                    <td className="px-6 py-4">
-                      <select 
-                        value={app.status}
-                        onChange={(e) => updateStatus(app.id, e.target.value)}
-                        className="bg-background border border-border rounded px-2 py-1 text-xs outline-none focus:border-primary text-foreground"
-                      >
-                        <option value="pending">Pending</option>
-                        <option value="reviewed">Reviewed</option>
-                        <option value="interviewed">Interviewed</option>
-                        <option value="rejected">Rejected</option>
-                        <option value="hired">Hired</option>
-                      </select>
-                    </td>
-                    <td className="px-6 py-4 text-right space-x-2">
-                      {app.cv_url && (
-                        <a 
-                          href={app.cv_url} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="inline-flex p-2 hover:bg-muted rounded-md text-primary transition-colors"
-                          title="View CV"
-                        >
-                          <FileText className="w-4 h-4" />
-                        </a>
-                      )}
-                      <button 
-                        onClick={() => deleteApplication(app.id)}
-                        className="inline-flex p-2 hover:bg-destructive/10 rounded-md text-destructive transition-colors"
-                        title="Delete"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+      <div className="flex flex-wrap gap-2 mb-6">
+        {['all', ...statuses].map(s => (
+          <button
+            key={s}
+            onClick={() => setStatusFilter(s)}
+            className={`px-4 py-2 rounded-md font-body text-sm font-medium transition-colors ${
+              statusFilter === s
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-card border border-border text-muted-foreground hover:text-foreground hover:border-primary/30'
+            }`}
+          >
+            {s === 'all' ? 'All' : s.charAt(0).toUpperCase() + s.slice(1)}
+            <span className="ml-1.5 text-xs opacity-70">({statusCounts[s] || 0})</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="space-y-4">
+        {filtered.length === 0 ? (
+          <div className="text-center py-12 bg-card border border-border rounded-lg">
+            <Briefcase className="w-12 h-12 text-muted-foreground/30 mx-auto mb-3" />
+            <p className="font-body text-muted-foreground">No applications found in this category.</p>
+          </div>
+        ) : (
+          filtered.map(app => (
+            <div key={app.id} className="bg-card border border-border p-6 rounded-lg hover:border-primary/20 transition-colors">
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
+                <div>
+                  <div className="flex items-center gap-3">
+                    <h3 className="font-heading text-xl font-bold uppercase text-foreground">{app.full_name}</h3>
+                    <span className={`px-2 py-1 text-xs font-body font-bold rounded-full uppercase ${statusColors[app.status] || ''}`}>
+                      {app.status}
+                    </span>
+                  </div>
+                  <p className="font-body text-sm text-muted-foreground mt-1">
+                    Applied on: {new Date(app.created_at).toLocaleDateString()}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  {app.cv_url && (
+                    <a href={app.cv_url} target="_blank" rel="noopener noreferrer">
+                      <Button variant="outline" size="sm" className="gap-1.5 border-primary/20 hover:border-primary text-primary">
+                        <FileText className="h-3.5 w-3.5" /> View CV
+                      </Button>
+                    </a>
+                  )}
+                  <select 
+                    value={app.status} 
+                    onChange={e => updateStatus(app.id, e.target.value)}
+                    className="px-4 py-2 border border-border bg-background rounded-md font-body text-sm text-foreground focus:outline-none focus:border-primary"
+                  >
+                    {statuses.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
+                  </select>
+                  <Button variant="destructive" size="sm" onClick={() => deleteApplication(app.id, app.full_name)} className="gap-1.5">
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-border">
+                <div>
+                  <p className="font-body text-xs uppercase tracking-wider text-muted-foreground mb-2">Contact Details</p>
+                  <p className="font-body text-sm font-semibold text-foreground">{app.email}</p>
+                  <p className="font-body text-sm text-muted-foreground mt-1">{app.phone}</p>
+                </div>
+                <div>
+                  <p className="font-body text-xs uppercase tracking-wider text-muted-foreground mb-2">Application Info</p>
+                  <p className="font-body text-sm text-foreground">Position: <span className="font-semibold text-primary">{app.position}</span></p>
+                  {app.cover_letter && (
+                    <div className="mt-2 bg-background p-3 rounded border border-border text-sm text-foreground/80 italic font-body">
+                      "{app.cover_letter}"
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
