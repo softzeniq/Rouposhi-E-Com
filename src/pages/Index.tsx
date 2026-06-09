@@ -255,14 +255,14 @@ const Index = () => {
             <div ref={categoryScrollRef1} className="overflow-x-auto hide-scrollbar pb-2 lg:pb-3 w-full scroll-smooth" style={{ scrollSnapType: 'x mandatory' }}>
               <div className="flex gap-3 md:gap-4 w-max px-1 lg:px-0">
                 {categoryRow1.map((cat, i) => (
-                  <motion.div key={cat.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.02 }} className="w-[85px] sm:w-[100px] md:w-[120px] lg:w-[140px] shrink-0" style={{ scrollSnapAlign: 'start' }}>
+                  <div key={cat.id} className="w-[85px] sm:w-[100px] md:w-[120px] lg:w-[140px] shrink-0" style={{ scrollSnapAlign: 'start' }}>
                     <Link to={`/shop?category=${cat.slug}`} className="flex flex-col items-center group text-center w-full">
                       <div className="w-full aspect-square overflow-hidden rounded-lg bg-gradient-to-b from-[#eaf6ff] to-[#dbf0ff] transition-all mb-2 relative group-hover:shadow-md border border-border/50">
                         <img src={getCategoryImage(cat.slug, cat.image_url)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
                       </div>
                       <h3 className="font-body text-[11px] sm:text-[12px] md:text-[14px] font-medium text-foreground group-hover:text-primary transition-colors truncate w-full text-center leading-tight px-1">{cat.name}</h3>
                     </Link>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -271,14 +271,14 @@ const Index = () => {
               <div ref={categoryScrollRef2} className="overflow-x-auto hide-scrollbar pb-2 lg:pb-0 w-full scroll-smooth" style={{ scrollSnapType: 'x mandatory' }}>
                 <div className="flex gap-3 md:gap-4 w-max px-1 lg:px-0">
                   {categoryRow2.map((cat, i) => (
-                    <motion.div key={cat.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.02 }} className="w-[85px] sm:w-[100px] md:w-[120px] lg:w-[140px] shrink-0" style={{ scrollSnapAlign: 'start' }}>
+                    <div key={cat.id} className="w-[85px] sm:w-[100px] md:w-[120px] lg:w-[140px] shrink-0" style={{ scrollSnapAlign: 'start' }}>
                       <Link to={`/shop?category=${cat.slug}`} className="flex flex-col items-center group text-center w-full">
                         <div className="w-full aspect-square overflow-hidden rounded-lg bg-gradient-to-b from-[#eaf6ff] to-[#dbf0ff] transition-all mb-2 relative group-hover:shadow-md border border-border/50">
                           <img src={getCategoryImage(cat.slug, cat.image_url)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
                         </div>
                         <h3 className="font-body text-[11px] sm:text-[12px] md:text-[14px] font-medium text-foreground group-hover:text-primary transition-colors truncate w-full text-center leading-tight px-1">{cat.name}</h3>
                       </Link>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </div>
