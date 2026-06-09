@@ -243,9 +243,9 @@ const Index = () => {
       {/* Categories Grid */}
       <section className="py-12 lg:py-16 bg-pink-50/30">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="flex items-end justify-between mb-8">
+          <div className="flex items-end justify-between mb-6">
             <div>
-              <h2 className="heading-display text-2xl md:text-2xl font-bold text-foreground">{t('categories.title')}</h2>
+              <h2 className="heading-display text-xl md:text-2xl font-bold text-foreground">{t('categories.title')}</h2>
             </div>
             <Link to="/shop" className="hidden md:flex items-center gap-1 font-body text-sm font-medium text-foreground hover-neon transition-colors">
               {t('categories.all')} <ChevronRight className="w-4 h-4" />
@@ -288,12 +288,12 @@ const Index = () => {
       </section>
 
       {/* Trending Products */}
-      <section className="py-14 bg-card">
+      <section className="py-12 bg-card">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-end justify-between mb-8">
             <div>
               <span className="text-neon font-body text-sm font-bold tracking-[0.1em] uppercase">{t('trending.label')}</span>
-              <h2 className="heading-display text-4xl md:text-2xl font-bold mt-1 text-foreground">{t('trending.title')}</h2>
+              <h2 className="heading-display text-2xl md:text-2xl font-bold mt-1 text-foreground">{t('trending.title')}</h2>
             </div>
             <Link to="/shop" className="hidden md:flex items-center gap-2 font-body text-sm font-semibold tracking-widers text-foreground hover-neon transition-colors">
               {t('trending.view_all')} <ChevronRight className="w-4 h-4" />
@@ -313,7 +313,7 @@ const Index = () => {
           <div className="flex items-end justify-between mb-8">
             <div>
               <span className="text-neon font-body text-sm font-bold tracking-[0.1em] uppercase">{t('new.label')}</span>
-              <h2 className="heading-display text-4xl md:text-2xl font-bold mt-1 text-foreground">{t('new.title')}</h2>
+              <h2 className="heading-display text-2xl md:text-2xl font-bold mt-1 text-foreground">{t('new.title')}</h2>
             </div>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-2.5 lg:gap-4">
