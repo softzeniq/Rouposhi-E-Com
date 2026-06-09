@@ -106,7 +106,7 @@ const ShopPage = () => {
 
           <div className="flex gap-8">
             <aside className={`${showFilters ? 'block' : 'hidden'} md:block w-full md:w-64 shrink-0 sticky top-28 self-start`}>
-              <div className="bg-card border border-border p-6 rounded-xl shadow-sm flex flex-col gap-8 h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
+              <div className="bg-card border border-border p-6 rounded-xl shadow-sm flex flex-col gap-8 h-[calc(100vh-8rem)] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 <div>
                   <h3 className="font-heading font-bold uppercase tracking-wider text-[15px] mb-4 text-foreground border-b border-border pb-3">{t('shop.categories')}</h3>
                   <div className="space-y-1.5">

@@ -30,15 +30,18 @@ const Login = () => {
 
     // Check if it's an email (contains @)
     const isEmail = identifier.includes('@');
+    let finalEmail = identifier;
     
-    if (isEmail) {
-      const { error } = await supabase.auth.signInWithPassword({ email: identifier, password });
-      authError = error;
-    } else {
-      // Treat as phone number
-      const { error } = await supabase.auth.signInWithPassword({ phone: identifier, password });
-      authError = error;
+    if (!isEmail) {
+      // Trick: Convert phone to a dummy email
+      finalEmail = `${identifier.replace(/[^0-9+]/g, '')}@phone.saudiecom.com`;
     }
+
+    const { error: signInError } = await supabase.auth.signInWithPassword({ 
+      email: finalEmail, 
+      password 
+    });
+    authError = signInError;
     
     if (authError) {
       setError(authError.message);
@@ -60,22 +63,33 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
+      {/* Decorative background blobs */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-400/10 blur-[100px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-purple-400/10 blur-[100px]" />
+      </div>
+
       <Navbar />
-      <div className="container mx-auto px-4 py-20 lg:py-28 flex justify-center">
-        <div className="bg-[#f8fafc] w-full max-w-[440px] p-8 md:p-10 rounded-xl border border-gray-200">
+      
+      <div className="flex-grow w-full flex items-center justify-center px-4 pt-32 pb-16 lg:pt-36">
+        <div className="bg-white/80 backdrop-blur-xl w-full max-w-[440px] p-8 md:p-10 rounded-2xl border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 opacity-80" />
           
-          <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-wider mb-8 text-center text-[#111827]">LOGIN</h1>
+          <div className="text-center mb-8">
+            <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-widest text-gray-900 mb-2">LOGIN</h1>
+            <p className="text-sm text-gray-500 font-medium">Welcome back to your account</p>
+          </div>
 
           {error && <p className="text-destructive bg-destructive/10 p-3 rounded-md mb-4 text-center text-sm">{error}</p>}
           
           <form onSubmit={handleLogin} className="flex flex-col gap-5">
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-semibold text-[#111827]">Email / Phone Number</label>
+              <label className="text-sm font-semibold text-gray-700 ml-1">Email / Phone Number</label>
               <input
                 type="text"
                 placeholder="Enter your email or phone number"
-                className="border border-gray-300 bg-white text-[#111827] px-4 py-3 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                className="border border-gray-200 bg-gray-50/50 text-gray-900 px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 text-sm"
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
                 required
@@ -83,19 +97,19 @@ const Login = () => {
             </div>
             
             <div className="flex flex-col gap-1.5 relative">
-              <label className="text-sm font-semibold text-[#111827]">Password</label>
+              <label className="text-sm font-semibold text-gray-700 ml-1">Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
-                  className="border border-gray-300 bg-white text-[#111827] px-4 py-3 rounded-md w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all pr-12 text-sm"
+                  className="border border-gray-200 bg-gray-50/50 text-gray-900 px-4 py-3.5 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 pr-12 text-sm"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
                 <button 
                   type="button" 
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 transition-colors"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -106,7 +120,7 @@ const Login = () => {
             <button 
               type="submit" 
               disabled={loading} 
-              className="bg-[#111827] text-white py-3.5 rounded-md font-bold uppercase tracking-wider hover:bg-[#1f2937] transition-colors mt-2 flex justify-center items-center gap-2"
+              className="w-full bg-gray-900 text-white py-3.5 rounded-xl font-bold uppercase tracking-wider hover:bg-gray-800 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 mt-2 flex justify-center items-center gap-2"
             >
               {loading ? 'LOGGING IN...' : (
                 <>
@@ -116,13 +130,7 @@ const Login = () => {
             </button>
           </form>
 
-          <div className="text-center mt-5 mb-6">
-            <Link to="/forgot-password" className="text-[#111827] font-semibold text-sm hover:underline">
-              Forgot Password?
-            </Link>
-          </div>
-
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 my-6">
             <div className="flex-1 h-px bg-gray-300"></div>
             <span className="text-gray-400 text-xs uppercase tracking-wider font-semibold">or</span>
             <div className="flex-1 h-px bg-gray-300"></div>
@@ -131,14 +139,14 @@ const Login = () => {
           <div className="flex flex-col gap-3">
             <button 
               onClick={() => navigate('/register')}
-              className="w-full bg-[#f3f4f6] text-[#111827] py-3.5 rounded-md font-bold uppercase tracking-wider flex justify-center items-center gap-2 hover:bg-[#e5e7eb] transition-colors"
+              className="w-full bg-gray-50 text-gray-900 py-3.5 rounded-xl font-bold uppercase tracking-wider flex justify-center items-center gap-2 hover:bg-gray-100 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 border border-gray-200"
             >
               <UserPlus size={18} /> CREATE NEW ACCOUNT
             </button>
 
             <button 
               onClick={handleGoogleLogin}
-              className="w-full bg-white border border-gray-300 text-[#111827] py-3.5 rounded-md font-bold uppercase tracking-wider flex justify-center items-center gap-3 hover:bg-gray-50 transition-colors"
+              className="w-full bg-white border border-gray-200 text-gray-900 py-3.5 rounded-xl font-bold uppercase tracking-wider flex justify-center items-center gap-3 hover:bg-gray-50 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300"
             >
               <GoogleIcon /> CONTINUE WITH GOOGLE
             </button>
