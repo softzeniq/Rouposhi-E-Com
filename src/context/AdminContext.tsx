@@ -85,22 +85,22 @@ interface AdminContextType {
 }
 
 const defaultSettings: SiteSettings = {
-  siteName: 'SRK Collection',
-  siteDescription: 'Premium sports shoes in Kuwait',
-  metaTitle: 'SRK Collection - Premium Sports Shoes in Kuwait',
-  metaDescription: 'Shop authentic Nike, Adidas, Puma sports shoes in Kuwait. Fast delivery and COD.',
+  siteName: 'Legacy-29',
+  siteDescription: 'Premium sports shoes in Dubai',
+  metaTitle: 'Legacy-29 - Premium Sports Shoes in Dubai',
+  metaDescription: 'Shop authentic Nike, Adidas, Puma sports shoes in Dubai. Fast delivery and COD.',
   whatsappNumber: '+96512345678',
-  instagramHandle: 'srkcollectionkw',
+  instagramHandle: 'legacy29',
   freeShippingThreshold: 30,
   currency: 'BDT',
 };
 
 const defaultOrders: Order[] = [
-  { id: 'ORD001', customerName: 'Ahmed Al-Sabah', customerEmail: 'ahmed@email.com', customerPhone: '+96599001122', items: [{ productName: 'Ultraboost 24', size: 43, color: 'Core Black', quantity: 1, price: 32 }], total: 32, status: 'delivered', paymentMethod: 'cod', shippingAddress: 'Salmiya, Block 5, Kuwait', createdAt: '2026-03-01' },
-  { id: 'ORD002', customerName: 'Fatima Hassan', customerEmail: 'fatima@email.com', customerPhone: '+96599003344', items: [{ productName: 'Air Jordan Retro High OG', size: 40, color: 'Gym Red/Black', quantity: 1, price: 45 }], total: 45, status: 'shipped', paymentMethod: 'cod', shippingAddress: 'Hawally, Block 2, Kuwait', createdAt: '2026-03-05' },
-  { id: 'ORD003', customerName: 'Omar Khalid', customerEmail: 'omar@email.com', customerPhone: '+96599005566', items: [{ productName: 'Predator Elite FG', size: 44, color: 'Core Black/Gold', quantity: 1, price: 55 }, { productName: 'Gel-Kayano 30', size: 44, color: 'Safety Yellow', quantity: 1, price: 38 }], total: 93, status: 'confirmed', paymentMethod: 'cod', shippingAddress: 'Jabriya, Block 8, Kuwait', createdAt: '2026-03-08' },
-  { id: 'ORD004', customerName: 'Sara Mohammed', customerEmail: 'sara@email.com', customerPhone: '+96599007788', items: [{ productName: 'Cloudrunner 2', size: 38, color: 'Hot Pink', quantity: 2, price: 36 }], total: 72, status: 'pending', paymentMethod: 'cod', shippingAddress: 'Mishref, Block 1, Kuwait', createdAt: '2026-03-09' },
-  { id: 'ORD005', customerName: 'Khalid Nasser', customerEmail: 'khalid@email.com', customerPhone: '+96599009900', items: [{ productName: 'Air Max 97', size: 42, color: 'Triple Black', quantity: 1, price: 35 }], total: 35, status: 'pending', paymentMethod: 'cod', shippingAddress: 'Farwaniya, Block 3, Kuwait', createdAt: '2026-03-10' },
+  { id: 'ORD001', customerName: 'Ahmed Al-Sabah', customerEmail: 'ahmed@email.com', customerPhone: '+96599001122', items: [{ productName: 'Ultraboost 24', size: 43, color: 'Core Black', quantity: 1, price: 32 }], total: 32, status: 'delivered', paymentMethod: 'cod', shippingAddress: 'Downtown, Dubai', createdAt: '2026-03-01' },
+  { id: 'ORD002', customerName: 'Fatima Hassan', customerEmail: 'fatima@email.com', customerPhone: '+96599003344', items: [{ productName: 'Air Jordan Retro High OG', size: 40, color: 'Gym Red/Black', quantity: 1, price: 45 }], total: 45, status: 'shipped', paymentMethod: 'cod', shippingAddress: 'Marina, Dubai', createdAt: '2026-03-05' },
+  { id: 'ORD003', customerName: 'Omar Khalid', customerEmail: 'omar@email.com', customerPhone: '+96599005566', items: [{ productName: 'Predator Elite FG', size: 44, color: 'Core Black/Gold', quantity: 1, price: 55 }, { productName: 'Gel-Kayano 30', size: 44, color: 'Safety Yellow', quantity: 1, price: 38 }], total: 93, status: 'confirmed', paymentMethod: 'cod', shippingAddress: 'Jumeirah, Dubai', createdAt: '2026-03-08' },
+  { id: 'ORD004', customerName: 'Sara Mohammed', customerEmail: 'sara@email.com', customerPhone: '+96599007788', items: [{ productName: 'Cloudrunner 2', size: 38, color: 'Hot Pink', quantity: 2, price: 36 }], total: 72, status: 'pending', paymentMethod: 'cod', shippingAddress: 'Deira, Dubai', createdAt: '2026-03-09' },
+  { id: 'ORD005', customerName: 'Khalid Nasser', customerEmail: 'khalid@email.com', customerPhone: '+96599009900', items: [{ productName: 'Air Max 97', size: 42, color: 'Triple Black', quantity: 1, price: 35 }], total: 35, status: 'pending', paymentMethod: 'cod', shippingAddress: 'Al Barsha, Dubai', createdAt: '2026-03-10' },
 ];
 
 const defaultCoupons: Coupon[] = [

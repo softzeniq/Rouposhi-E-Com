@@ -49,47 +49,58 @@ const Register = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="container mx-auto px-4 py-32 max-w-md min-h-[70vh] flex flex-col justify-center">
-        <h1 className="text-3xl font-heading font-bold uppercase tracking-wider mb-6 text-center text-foreground">Register</h1>
-        {error && <p className="text-destructive mb-4 text-center text-sm">{error}</p>}
-        <form onSubmit={handleRegister} className="flex flex-col gap-4">
-          <input
-            type="text"
-            placeholder="Full Name"
-            className="border border-border bg-background text-foreground px-4 py-3 rounded-md focus:outline-none focus:border-neon"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            className="border border-border bg-background text-foreground px-4 py-3 rounded-md focus:outline-none focus:border-neon"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="border border-border bg-background text-foreground px-4 py-3 rounded-md focus:outline-none focus:border-neon"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            className="border border-border bg-background text-foreground px-4 py-3 rounded-md focus:outline-none focus:border-neon"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-          <button type="submit" disabled={loading} className="bg-primary text-primary-foreground py-3 rounded-md font-bold uppercase tracking-widest hover:bg-primary/90 transition-colors">
-            {loading ? 'Creating account...' : 'Register'}
-          </button>
-        </form>
-        <p className="mt-6 text-center text-muted-foreground text-sm">Already have an account? <Link to="/login" className="text-neon hover:underline">Login here</Link></p>
+      <div className="container mx-auto px-4 py-20 lg:py-28 flex justify-center">
+        <div className="bg-[#f8fafc] w-full max-w-[440px] p-8 md:p-10 rounded-xl border border-gray-200">
+          <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-wider mb-8 text-center text-[#111827]">REGISTER</h1>
+          
+          {error && <p className="text-destructive bg-destructive/10 p-3 rounded-md mb-4 text-center text-sm">{error}</p>}
+          
+          <form onSubmit={handleRegister} className="flex flex-col gap-4">
+            <input
+              type="text"
+              placeholder="Full Name"
+              className="border border-gray-300 bg-white text-[#111827] px-4 py-3.5 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              className="border border-gray-300 bg-white text-[#111827] px-4 py-3.5 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              className="border border-gray-300 bg-white text-[#111827] px-4 py-3.5 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              className="border border-gray-300 bg-white text-[#111827] px-4 py-3.5 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+            <button 
+              type="submit" 
+              disabled={loading} 
+              className="bg-[#111827] text-white py-4 rounded-md font-bold uppercase tracking-wider hover:bg-[#1f2937] transition-colors mt-2"
+            >
+              {loading ? 'CREATING ACCOUNT...' : 'REGISTER'}
+            </button>
+          </form>
+          
+          <p className="mt-6 text-center text-gray-500 text-sm">
+            Already have an account? <Link to="/login" className="text-blue-500 hover:underline">Login here</Link>
+          </p>
+        </div>
       </div>
       <Footer />
     </div>

@@ -78,32 +78,37 @@ const ShopPage = () => {
           </div>
 
           <div className="flex gap-8">
-            <aside className={`${showFilters ? 'block' : 'hidden'} md:block w-full md:w-56 shrink-0`}>
-              <div className="sticky top-28 space-y-8">
+            <aside className={`${showFilters ? 'block' : 'hidden'} md:block w-full md:w-64 shrink-0 sticky top-28 self-start`}>
+              <div className="bg-card border border-border p-6 rounded-xl shadow-sm flex flex-col gap-8 h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
                 <div>
-                  <h3 className="font-heading font-bold uppercase tracking-wider text-sm mb-4 text-foreground">{t('shop.categories')}</h3>
-                  <div className="space-y-2">
+                  <h3 className="font-heading font-bold uppercase tracking-wider text-[15px] mb-4 text-foreground border-b border-border pb-3">{t('shop.categories')}</h3>
+                  <div className="space-y-1.5">
                     <button onClick={() => setCategory('')}
-                      className={`block w-full text-left font-body text-sm py-1.5 transition-colors ${!categoryFilter ? 'text-neon font-semibold' : 'text-muted-foreground hover:text-foreground'}`}>
+                      className={`flex items-center w-full text-left font-body text-sm py-2 px-3 rounded-lg transition-all ${!categoryFilter ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}>
+                      <span className="w-6"></span>
                       {t('shop.all_products')}
                     </button>
                     {dbCategories.map(cat => (
                       <button key={cat.id} onClick={() => setCategory(cat.slug)}
-                        className={`block w-full text-left font-body text-sm py-1.5 transition-colors ${categoryFilter === cat.slug ? 'text-neon font-semibold' : 'text-muted-foreground hover:text-foreground'}`}>
-                        {cat.image_url && <img src={cat.image_url} alt="" className="w-4 h-4 inline-block mr-2 rounded object-cover" />}
+                        className={`flex items-center w-full text-left font-body text-sm py-2 px-3 rounded-lg transition-all ${categoryFilter === cat.slug ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}>
+                        {cat.image_url ? (
+                          <img src={cat.image_url} alt="" className="w-5 h-5 inline-block mr-2.5 rounded object-cover shadow-sm" />
+                        ) : (
+                          <span className="w-7"></span>
+                        )}
                         {cat.name}
                       </button>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-heading font-bold uppercase tracking-wider text-sm mb-4 text-foreground">{t('shop.price')}</h3>
+                  <h3 className="font-heading font-bold uppercase tracking-wider text-[15px] mb-4 text-foreground border-b border-border pb-3">{t('shop.price')}</h3>
                   <div className="flex gap-3 items-center font-body text-sm">
                     <input type="number" value={priceRange[0]} onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])}
-                      className="w-20 px-3 py-2 border border-border bg-background text-sm text-foreground focus:outline-none focus:border-neon rounded-sm" placeholder="Min" />
-                    <span className="text-muted-foreground">–</span>
+                      className="w-full px-3 py-2 border border-border bg-background text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary rounded-md transition-all" placeholder="Min" />
+                    <span className="text-muted-foreground font-bold">–</span>
                     <input type="number" value={priceRange[1]} onChange={(e) => setPriceRange([priceRange[0], +e.target.value])}
-                      className="w-20 px-3 py-2 border border-border bg-background text-sm text-foreground focus:outline-none focus:border-neon rounded-sm" placeholder="Max" />
+                      className="w-full px-3 py-2 border border-border bg-background text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary rounded-md transition-all" placeholder="Max" />
                   </div>
                 </div>
               </div>
@@ -116,7 +121,7 @@ const ShopPage = () => {
                   <Loader2 className="w-10 h-10 animate-spin text-neon" />
                 </div>
               ) : filtered.length > 0 ? (
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 lg:gap-4">
                   {filtered.map(product => <ProductCard key={product.id} product={product} />)}
                 </div>
               ) : (

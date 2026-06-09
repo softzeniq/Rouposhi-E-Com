@@ -99,7 +99,7 @@ const AdminLoginPage = () => {
                   type="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  placeholder="admin@srkcollection.ae"
+                  placeholder="admin@legacy-29.com"
                   className="pl-10"
                   required
                 />

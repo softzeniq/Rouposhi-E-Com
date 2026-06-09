@@ -99,7 +99,7 @@ const CheckoutPage = () => {
       productId: item.product.id, productName: item.product.name,
       size: item.size, color: item.color, quantity: item.quantity, price: item.product.price,
     }));
-    const shippingAddress = `${form.address}, Kuwait`;
+    const shippingAddress = `${form.address}, Dubai`;
     const orderNumber = `ORD${String(Date.now()).slice(-6)}`;
 
     try {

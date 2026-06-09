@@ -1,9 +1,10 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { Product } from '@/data/products';
 import { useLanguage } from '@/context/LanguageContext';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface ProductCardProps {
   product: Product;
@@ -11,8 +12,24 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const { toggleWishlist, isInWishlist } = useCart();
-  const { t } = useLanguage();
   const wishlisted = isInWishlist(product.id);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const hasMultipleImages = product.images && product.images.length > 1;
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (hasMultipleImages) {
+      interval = setInterval(() => {
+        setCurrentImageIndex((prev) => (prev + 1) % product.images.length);
+      }, 2500); // Auto slide every 2.5 seconds
+    }
+    return () => clearInterval(interval);
+  }, [hasMultipleImages, product.images]);
+
+  const discountPercentage = product.originalPrice 
+    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+    : 0;
 
   return (
     <motion.div
@@ -20,41 +37,58 @@ const ProductCard = ({ product }: ProductCardProps) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="group"
+      className="group bg-card rounded-lg overflow-hidden border border-border hover:border-primary/50 hover:shadow-md transition-all"
     >
       <Link to={`/product/${product.id}`} className="block">
-        <div className="relative aspect-[5/6] overflow-hidden bg-card rounded-lg mb-4 border border-border">
-          <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
-          <div className="absolute inset-0 bg-neon/0 group-hover:bg-neon/5 transition-colors duration-300" />
-          {product.isNew && (
-            <span className="absolute top-3 start-3 bg-neon text-accent-foreground px-3 py-1 text-xs font-body font-bold tracking-wider uppercase rounded-sm">
-              {t('card.new')}
-            </span>
+        <div className="relative aspect-square overflow-hidden bg-background">
+          <AnimatePresence>
+            <motion.img 
+              key={currentImageIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.8 }}
+              src={hasMultipleImages ? product.images[currentImageIndex] : product.image} 
+              alt={product.name} 
+              className="absolute inset-0 w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-500" 
+              loading="lazy" 
+            />
+          </AnimatePresence>
+          
+          {/* Dynamic Pagination dots */}
+          {hasMultipleImages && (
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-10">
+              {product.images.map((_, idx) => (
+                <div 
+                  key={idx} 
+                  className={`w-1.5 h-1.5 rounded-full transition-colors ${idx === currentImageIndex ? 'bg-neon' : 'bg-muted'}`}
+                ></div>
+              ))}
+            </div>
           )}
-          {product.originalPrice && (
-            <span className="absolute top-3 start-3 bg-hot text-accent-foreground px-3 py-1 text-xs font-body font-bold tracking-wider uppercase rounded-sm"
-              style={product.isNew ? { insetInlineStart: '4.5rem' } : {}}
-            >
-              {t('card.sale')}
-            </span>
-          )}
+
           <button
             onClick={(e) => { e.preventDefault(); toggleWishlist(product.id); }}
-            className="absolute top-3 end-3 w-9 h-9 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-full transition-all hover:bg-background hover:scale-110 border border-border"
+            className="absolute bottom-2 right-2 w-7 h-7 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-full transition-all hover:bg-background z-20 shadow-sm border border-border/50"
           >
-            <Heart className={`w-4 h-4 ${wishlisted ? 'fill-neon text-neon' : 'text-foreground'}`} />
+            <Heart className={`w-4 h-4 ${wishlisted ? 'fill-neon text-neon' : 'text-muted-foreground hover:text-foreground'}`} />
           </button>
-          <span className="absolute bottom-3 start-3 bg-background/90 backdrop-blur-sm px-2 py-1 text-xs font-body font-semibold tracking-wider uppercase rounded-sm text-foreground border border-border">
-            {product.brand}
-          </span>
         </div>
-        <h3 className="font-heading text-sm md:text-base font-medium uppercase tracking-wide text-foreground line-clamp-2 leading-snug mb-1">{product.name}</h3>
-        <p className="font-body text-xs text-muted-foreground mb-1">{product.brand}</p>
-        <div className="flex items-center gap-2 font-body text-sm">
-          <span className="font-bold text-neon">{product.price} AED</span>
-          {product.originalPrice && (
-            <span className="text-muted-foreground line-through text-xs">{product.originalPrice} AED</span>
-          )}
+        
+        <div className="p-3">
+          <h3 className="text-[13px] font-medium text-foreground truncate mb-1.5">{product.name}</h3>
+          
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="font-bold text-neon text-sm leading-none">{product.price} AED</span>
+            {product.originalPrice && (
+              <>
+                <span className="text-muted-foreground line-through text-[11px] leading-none">{product.originalPrice} AED</span>
+                <span className="text-hot text-[10px] font-bold leading-none">
+                  ({discountPercentage}% OFF)
+                </span>
+              </>
+            )}
+          </div>
         </div>
       </Link>
     </motion.div>
