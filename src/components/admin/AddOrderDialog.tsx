@@ -168,7 +168,7 @@ const AddOrderDialog = () => {
                     >
                       <option value="">Select a product...</option>
                       {products.filter(p => p.is_active).map(p => (
-                        <option key={p.id} value={p.name}>{p.name} - {p.price} AED</option>
+                        <option key={p.id} value={p.name}>{p.name} - Đ {p.price}</option>
                       ))}
                     </select>
                   </div>
@@ -199,7 +199,7 @@ const AddOrderDialog = () => {
           <div className="flex items-center justify-between pt-4 border-t border-border">
             <div>
               <span className="font-heading text-lg font-bold text-foreground">Total: </span>
-              <span className="font-heading text-lg font-bold text-primary">{total} AED</span>
+              <span className="font-heading text-lg font-bold text-primary">Đ {total}</span>
             </div>
             <Button onClick={handleSubmit} disabled={addOrder.isPending} className="gap-2">
               {addOrder.isPending ? 'Creating...' : 'Create Order'}

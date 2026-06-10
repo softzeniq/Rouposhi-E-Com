@@ -108,7 +108,7 @@ const CheckoutPage = () => {
         customer_email: '', customer_phone: form.phone,
         items: orderItems, total, status: 'pending', payment_method: 'cod',
         shipping_address: shippingAddress,
-        notes: `${form.notes}${selectedShipping ? `\nShipping: ${selectedShipping.name} (${shippingCharge === 0 ? 'Free' : shippingCharge + ' AED'})` : ''}`,
+        notes: `${form.notes}${selectedShipping ? `\nShipping: ${selectedShipping.name} (${shippingCharge === 0 ? 'Free' : 'Đ ' + shippingCharge})` : ''}`,
       });
       await markLeadCompleted();
       setOrderId(orderNumber);
@@ -278,7 +278,7 @@ const CheckoutPage = () => {
             <span className="text-muted-foreground">
               {items.reduce((s, i) => s + i.quantity, 0)} {t('checkout.items_count')}
             </span>
-            <span className="font-bold text-foreground">{total.toFixed(3)} AED</span>
+            <span className="font-bold text-foreground">Đ {total.toFixed(3)}</span>
           </div>
         </div>
       </div>

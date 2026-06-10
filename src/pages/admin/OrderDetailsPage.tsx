@@ -134,7 +134,7 @@ const OrderDetailsPage = () => {
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="font-body text-sm font-bold text-foreground">{(item.price * item.quantity).toFixed(3)} AED</p>
+                    <p className="font-body text-sm font-bold text-foreground">Đ {(item.price * item.quantity).toFixed(3)}</p>
                     {item.quantity > 1 && (
                       <p className="font-body text-xs text-muted-foreground">{Number(item.price).toFixed(3)} each</p>
                     )}
@@ -145,7 +145,7 @@ const OrderDetailsPage = () => {
             <div className="border-t border-border mt-4 pt-4 space-y-2">
               <div className="flex justify-between font-body text-sm text-muted-foreground">
                 <span>Subtotal ({items.reduce((s: number, i: any) => s + i.quantity, 0)} items)</span>
-                <span>{Number(order.total).toFixed(3)} AED</span>
+                <span>Đ {Number(order.total).toFixed(3)}</span>
               </div>
               <div className="flex justify-between font-body text-sm text-muted-foreground">
                 <span>Shipping</span>
@@ -153,7 +153,7 @@ const OrderDetailsPage = () => {
               </div>
               <div className="flex justify-between font-heading text-lg font-bold text-foreground pt-2 border-t border-border">
                 <span>Total</span>
-                <span className="text-primary">{Number(order.total).toFixed(3)} AED</span>
+                <span className="text-primary">Đ {Number(order.total).toFixed(3)}</span>
               </div>
             </div>
           </div>

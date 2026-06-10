@@ -49,7 +49,7 @@ const StepReview = ({ form, items, cartTotal, shippingName, shippingCharge, tota
         </div>
         <div className="flex items-center justify-between font-body text-sm">
           <span className="text-foreground">{shippingName}</span>
-          <span className="font-bold text-primary">{shippingCharge === 0 ? t('cart.free') : `${shippingCharge.toFixed(3)} AED`}</span>
+          <span className="font-bold text-primary">{shippingCharge === 0 ? t('cart.free') : `Đ ${shippingCharge.toFixed(3)}`}</span>
         </div>
         <p className="font-body text-xs text-muted-foreground mt-1">{t('checkout.cod')}</p>
       </div>
@@ -68,7 +68,7 @@ const StepReview = ({ form, items, cartTotal, shippingName, shippingCharge, tota
               <div className="flex-1 min-w-0">
                 <p className="font-body text-xs font-bold truncate text-foreground">{item.product.name}</p>
                 <p className="font-body text-xs text-muted-foreground">{t('size')} {item.size} · {item.color} · x{item.quantity}</p>
-                <p className="font-body text-xs font-bold text-primary">{(item.product.price * item.quantity).toFixed(2)} AED</p>
+                <p className="font-body text-xs font-bold text-primary">Đ {(item.product.price * item.quantity).toFixed(2)}</p>
               </div>
             </div>
           ))}
@@ -79,15 +79,15 @@ const StepReview = ({ form, items, cartTotal, shippingName, shippingCharge, tota
       <div className="border-t border-border pt-4 space-y-2 font-body text-sm">
         <div className="flex justify-between">
           <span className="text-muted-foreground">{t('cart.subtotal')}</span>
-          <span>{cartTotal.toFixed(2)} AED</span>
+          <span>Đ {cartTotal.toFixed(2)}</span>
         </div>
         <div className="flex justify-between">
           <span className="text-muted-foreground">{t('cart.shipping')}</span>
-          <span>{shippingCharge === 0 ? t('cart.free') : `${shippingCharge.toFixed(3)} AED`}</span>
+          <span>{shippingCharge === 0 ? t('cart.free') : `Đ ${shippingCharge.toFixed(3)}`}</span>
         </div>
         <div className="flex justify-between font-heading text-xl font-bold border-t border-border pt-3 text-foreground">
           <span>{t('cart.total')}</span>
-          <span className="text-primary">{total.toFixed(3)} AED</span>
+          <span className="text-primary">Đ {total.toFixed(3)}</span>
         </div>
       </div>
     </div>

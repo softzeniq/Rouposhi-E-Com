@@ -55,7 +55,7 @@ const StepShipping = ({ methods, selectedId, onSelect }: StepShippingProps) => {
               <div className="flex items-center justify-between">
                 <p className="font-body text-sm font-bold text-foreground">{method.name}</p>
                 <span className="font-body text-sm font-bold text-primary">
-                  {charge === 0 ? t('cart.free') : `${charge.toFixed(3)} AED`}
+                  {charge === 0 ? t('cart.free') : `Đ ${charge.toFixed(3)}`}
                 </span>
               </div>
               <div className="flex items-center gap-2 mt-1">

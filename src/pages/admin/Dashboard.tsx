@@ -1,20 +1,53 @@
+import { useState } from 'react';
 import { useOrders, useProducts } from '@/hooks/useDatabase';
 import { Package, ShoppingCart, DollarSign, Clock } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 
 const Dashboard = () => {
-  const { data: orders = [] } = useOrders();
+  const { data: allOrders = [] } = useOrders();
   const { data: products = [] } = useProducts();
+
+  const [dateFilter, setDateFilter] = useState('all');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
+  const orders = allOrders.filter(o => {
+    if (dateFilter === 'all') return true;
+    
+    // Fallback safely if created_at is missing
+    const orderDate = new Date(o.created_at || new Date());
+    const now = new Date();
+    
+    if (dateFilter === 'today') {
+      return orderDate.toDateString() === now.toDateString();
+    }
+    if (dateFilter === 'week') {
+      const weekAgo = new Date();
+      weekAgo.setDate(now.getDate() - 7);
+      return orderDate >= weekAgo;
+    }
+    if (dateFilter === 'month') {
+      return orderDate.getMonth() === now.getMonth() && orderDate.getFullYear() === now.getFullYear();
+    }
+    if (dateFilter === 'custom' && startDate && endDate) {
+      const s = new Date(startDate);
+      s.setHours(0,0,0,0);
+      const e = new Date(endDate);
+      e.setHours(23,59,59,999);
+      return orderDate >= s && orderDate <= e;
+    }
+    return true;
+  });
 
   const totalRevenue = orders.reduce((s, o) => s + Number(o.total), 0);
   const pendingOrders = orders.filter(o => o.status === 'pending').length;
   const deliveredOrders = orders.filter(o => o.status === 'delivered').length;
 
   const stats = [
-    { label: 'Total Revenue', value: `${totalRevenue} AED`, icon: DollarSign, change: `${orders.length} orders` },
+    { label: 'Total Revenue', value: `Đ ${totalRevenue}`, icon: DollarSign, change: `${orders.length} orders` },
     { label: 'Total Orders', value: orders.length, icon: ShoppingCart, change: `${pendingOrders} pending` },
     { label: 'Products', value: products.length, icon: Package, change: `${products.filter(p => p.is_active).length} active` },
-    { label: 'Delivered', value: deliveredOrders, icon: Clock, change: `${Math.round((deliveredOrders / (orders.length || 1)) * 100)}% rate` },
+    { label: 'Delivered', value: deliveredOrders, icon: Clock, change: `${orders.length ? Math.round((deliveredOrders / orders.length) * 100) : 0}% rate` },
   ];
 
   // Build revenue by status
@@ -50,9 +83,43 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="font-heading text-3xl font-bold uppercase tracking-wider text-foreground">Dashboard</h1>
-        <p className="font-body text-sm text-muted-foreground mt-1">Welcome back to Legacy-29 admin</p>
+      <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+        <div>
+          <h1 className="font-heading text-3xl font-bold uppercase tracking-wider text-foreground">Dashboard</h1>
+          <p className="font-body text-sm text-muted-foreground mt-1">Welcome back to Legacy-29 admin</p>
+        </div>
+        
+        <div className="flex flex-col sm:flex-row items-center gap-3">
+          <select 
+            value={dateFilter} 
+            onChange={(e) => setDateFilter(e.target.value)}
+            className="border border-border rounded-md px-3 py-2 font-body text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+          >
+            <option value="all">All Time</option>
+            <option value="today">Today</option>
+            <option value="week">Last 7 Days</option>
+            <option value="month">This Month</option>
+            <option value="custom">Custom Date</option>
+          </select>
+          
+          {dateFilter === 'custom' && (
+            <div className="flex items-center gap-2">
+              <input 
+                type="date" 
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="border border-border rounded-md px-3 py-2 font-body text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+              />
+              <span className="text-muted-foreground">-</span>
+              <input 
+                type="date" 
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="border border-border rounded-md px-3 py-2 font-body text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -119,7 +186,7 @@ const Dashboard = () => {
                   <p className="font-body text-xs text-muted-foreground">{order.customer_name}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-body text-sm font-bold text-primary">{Number(order.total)} AED</p>
+                  <p className="font-body text-sm font-bold text-primary">Đ {Number(order.total)}</p>
                   <span className={`inline-block px-2 py-0.5 text-xs font-body font-semibold rounded-full uppercase ${statusColors[order.status] || ''}`}>{order.status}</span>
                 </div>
               </div>

@@ -24,7 +24,11 @@ const Navbar = () => {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link to="/" className="flex items-center gap-2">
-            <img src={s?.logo_url || "https://svswmeaakrhgveuxtrbv.supabase.co/storage/v1/object/public/product-images/logo/1781079502869-3lqkfvdx.png"} alt={s?.site_name || 'Legacy-29'} width="150" height="48" className="h-10 lg:h-12 w-auto object-contain" />
+            {s?.logo_url ? (
+              <img src={s.logo_url} alt={s?.site_name || 'Legacy-29'} width="150" height="48" className="h-10 lg:h-12 w-auto object-contain" />
+            ) : (
+              <div className="h-10 lg:h-12 w-[150px]"></div>
+            )}
           </Link>
 
           <div className="hidden md:flex items-center gap-8 font-body text-[13px] tracking-widest uppercase font-semibold text-foreground/80">

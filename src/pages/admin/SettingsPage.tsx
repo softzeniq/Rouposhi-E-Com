@@ -34,7 +34,7 @@ const SettingsPage = () => {
   const s = Array.isArray(settings) ? settings[0] || {} : settings || {};
   const [form, setForm] = useState({
     site_name: '', site_description: '', meta_title: '', meta_description: '',
-    whatsapp_number: '', instagram_handle: '', free_shipping_threshold: 30, currency: 'AED',
+    whatsapp_number: '', instagram_handle: '', free_shipping_threshold: 30, currency: 'Đ',
     language: 'en',
     logo_url: '', favicon_url: '', footer_description: '', footer_copyright: '', footer_tagline: '',
     contact_email: '', contact_phone: '', contact_address: '',
@@ -52,7 +52,7 @@ const SettingsPage = () => {
         site_name: s.site_name || '', site_description: s.site_description || '',
         meta_title: s.meta_title || '', meta_description: s.meta_description || '',
         whatsapp_number: s.whatsapp_number || '', instagram_handle: s.instagram_handle || '',
-        free_shipping_threshold: Number(s.free_shipping_threshold) || 30, currency: s.currency || 'AED',
+        free_shipping_threshold: Number(s.free_shipping_threshold) || 30, currency: s.currency || 'Đ',
         language: s.language || 'en',
         logo_url: s.logo_url || '/logo.png', favicon_url: s.favicon_url || '/favicon.ico',
         footer_description: s.footer_description || '', footer_copyright: s.footer_copyright || '', footer_tagline: s.footer_tagline || '',

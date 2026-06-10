@@ -162,10 +162,10 @@ const ProductPage = () => {
               <CountdownTimer />
 
               <div className="flex items-center gap-3 mb-8">
-                <span className="font-heading lg:text-3xl md:text-2xl text-2xl font-bold text-neon">{displayPrice} AED</span>
+                <span className="font-heading lg:text-3xl md:text-2xl text-2xl font-bold text-neon">Đ {displayPrice}</span>
                 {product.originalPrice && (
                   <>
-                    <span className="font-body text-lg text-muted-foreground line-through">{product.originalPrice} AED</span>
+                    <span className="font-body text-lg text-muted-foreground line-through">Đ {product.originalPrice}</span>
                     <span className="bg-destructive text-destructive-foreground px-2 py-1 text-xs font-body font-bold tracking-wider uppercase rounded-sm">
                       {Math.round((1 - displayPrice / product.originalPrice) * 100)}% OFF
                     </span>
@@ -233,7 +233,7 @@ const ProductPage = () => {
               </button>
 
               <a
-                href={`https://wa.me/971545586545?text=${encodeURIComponent(`Hi! I'd like to order:\n\nProduct: ${product.name}\nBrand: ${product.brand}${product.sizes.length > 0 ? `\nSize: ${selectedSize || 'Not selected'}` : ''}${product.colors.length > 0 ? `\nColor: ${selectedColor || 'Not selected'}` : ''}\nQuantity: ${quantity}\nPrice: ${displayPrice} AED\n\nPlease confirm my order. Than k you!`)}`}
+                href={`https://wa.me/971545586545?text=${encodeURIComponent(`Hi! I'd like to order:\n\nProduct: ${product.name}\nBrand: ${product.brand}${product.sizes.length > 0 ? `\nSize: ${selectedSize || 'Not selected'}` : ''}${product.colors.length > 0 ? `\nColor: ${selectedColor || 'Not selected'}` : ''}\nQuantity: ${quantity}\nPrice: Đ ${displayPrice}\n\nPlease confirm my order. Than k you!`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full h-12 bg-[#25D366] text-white font-body text-sm font-bold tracking-wider uppercase hover:bg-[#20bd5a] transition-all duration-300 rounded-sm flex items-center justify-center gap-2 mb-8"
