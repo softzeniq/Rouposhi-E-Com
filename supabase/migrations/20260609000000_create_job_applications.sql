@@ -19,22 +19,14 @@ create policy "Anyone can insert job applications"
   on public.job_applications for insert
   with check (true);
 
-create policy "Admins can view job applications"
+create policy "Anyone can view job applications"
   on public.job_applications for select
-  using (
-    exists (
-      select 1 from public.user_roles 
-      where user_roles.user_id = auth.uid() 
-      and user_roles.role = 'admin'::app_role
-    )
-  );
+  using (true);
 
-create policy "Admins can update job applications"
+create policy "Anyone can update job applications"
   on public.job_applications for update
-  using (
-    exists (
-      select 1 from public.user_roles 
-      where user_roles.user_id = auth.uid() 
-      and user_roles.role = 'admin'::app_role
-    )
-  );
+  using (true);
+
+create policy "Anyone can delete job applications"
+  on public.job_applications for delete
+  using (true);

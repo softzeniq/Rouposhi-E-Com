@@ -46,22 +46,23 @@ const Navbar = () => {
               {t('footer.about')}
               <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-neon transition-all duration-300 group-hover:w-full"></span>
             </Link>
-            <Link to="/contact" className="relative py-2 group hover:text-neon transition-colors duration-300">
-              {t('footer.contact')}
-              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-neon transition-all duration-300 group-hover:w-full"></span>
-            </Link>
             <Link to="/careers" className="relative py-2 group hover:text-neon transition-colors duration-300">
               Careers
               <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-neon transition-all duration-300 group-hover:w-full"></span>
             </Link>
+            <Link to="/contact" className="relative py-2 group hover:text-neon transition-colors duration-300">
+              {t('footer.contact')}
+              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-neon transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+            
           </div>
 
           <div className="flex items-center gap-2 md:gap-4 text-foreground">
-            <Link to="/shop" className="relative flex items-center justify-center w-10 h-10 rounded-full hover:bg-secondary/50 hover:text-neon transition-all duration-300 group" aria-label="Search">
+            <Link to="/shop" className="relative flex items-center justify-center w-10 h-10 rounded-full hover:bg-secondary/100 bg-red-500/10 hover:text-neon transition-all duration-300 group" aria-label="Search">
               <Search className="w-[18px] h-[18px] transition-transform group-hover:scale-110" />
             </Link>
             
-            <Link to="/cart" aria-label="Shopping Cart" className="relative flex items-center justify-center w-10 h-10 rounded-full hover:bg-secondary/50 hover:text-neon transition-all duration-300 group">
+            <Link to="/cart" aria-label="Shopping Cart" className="relative flex items-center justify-center w-10 h-10 rounded-full bg-red-500/10 hover:bg-secondary/100 hover:text-neon transition-all duration-300 group">
               <ShoppingCart className="w-[18px] h-[18px] transition-transform group-hover:scale-110" />
               {cartCount > 0 && (
                 <span className="absolute top-0 right-0 translate-x-1/4 -translate-y-1/4 w-[18px] h-[18px] bg-neon text-accent-foreground rounded-full text-[10px] flex items-center justify-center font-bold shadow-sm border-2 border-background">
@@ -87,7 +88,7 @@ const Navbar = () => {
                 </button>
               </div>
             ) : (
-              <Link to="/login" className="flex items-center gap-2 bg-neon text-accent-foreground hover:bg-neon-glow px-5 md:px-6 py-2 md:py-2.5 rounded-full font-body text-xs font-bold uppercase tracking-widest transition-all duration-300 shadow-lg glow-neon hover:-translate-y-0.5">
+              <Link to="/login" className="flex items-center gap-2 bg-neon text-accent-foreground hover:bg-neon-glow px-5 md:px-6 py-2 md:py-3 rounded-full font-body text-xs font-bold uppercase tracking-widest transition-all duration-300 shadow-lg glow-neon">
                 <UserIcon className="w-4 h-4" />
                 <span className="hidden md:block">{t('login', 'Login')}</span>
               </Link>
