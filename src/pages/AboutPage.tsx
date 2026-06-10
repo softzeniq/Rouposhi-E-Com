@@ -21,7 +21,7 @@ const AboutPage = () => {
         {/* =========================================
             SECTION 1: HERO (Based on Image 1)
             ========================================= */}
-        <div className="bg-[#F8F9FA] pt-52 pb-24 border-b border-gray-100">
+        <div className="bg-[#F8F9FA] lg:pt-52 pt-32 pb-24 border-b border-gray-100">
           <div className="container mx-auto px-4 lg:px-8">
             <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
               
