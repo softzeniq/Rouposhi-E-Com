@@ -24,7 +24,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link to="/" className="flex items-center gap-2">
-            <img src={s?.logo_url || 'https://i.ibb.co/3Wr2fF5/legacy-29-logo.png'} alt={s?.site_name || 'Legacy-29'} className="h-10 lg:h-12 w-auto object-contain" />
+            <img src={s?.logo_url || "https://svswmeaakrhgveuxtrbv.supabase.co/storage/v1/object/public/product-images/logo/1781079502869-3lqkfvdx.png"} alt={s?.site_name || 'Legacy-29'} className="h-10 lg:h-12 w-auto object-contain" />
           </Link>
 
           <div className="hidden md:flex items-center gap-8 font-body text-[13px] tracking-widest uppercase font-semibold text-foreground/80">
