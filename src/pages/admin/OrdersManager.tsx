@@ -6,6 +6,7 @@ import { printInvoice, printCourierSlip } from '@/components/admin/InvoicePrint'
 import { Printer, Truck, Trash2, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AddOrderDialog from '@/components/admin/AddOrderDialog';
+import DirhamIcon from '@/components/DirhamIcon';
 const statusColors: Record<string, string> = {
   pending: 'bg-yellow-100 text-yellow-700',
   confirmed: 'bg-blue-100 text-blue-700',
@@ -124,12 +125,12 @@ const OrdersManager = () => {
                   {items.map((item: any, i: number) => (
                     <div key={i} className="flex justify-between font-body text-sm py-1 text-foreground">
                       <span>{item.productName} (Size {item.size}, {item.color}) x{item.quantity}</span>
-                      <span className="font-semibold">Đ {item.price * item.quantity}</span>
+                      <span className="font-semibold flex items-center gap-1"><DirhamIcon /> {item.price * item.quantity}</span>
                     </div>
                   ))}
                   <div className="flex justify-between font-heading text-base font-bold mt-2 pt-2 border-t border-border text-foreground">
                     <span>Total</span>
-                    <span className="text-primary">Đ {Number(order.total)}</span>
+                    <span className="text-primary flex items-center gap-1"><DirhamIcon /> {Number(order.total)}</span>
                   </div>
                 </div>
               </div>

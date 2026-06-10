@@ -163,10 +163,10 @@ const ProductPage = () => {
               <CountdownTimer />
 
               <div className="flex items-center gap-3 mb-8">
-                <span className="font-heading lg:text-3xl md:text-2xl text-2xl font-bold text-neon"><DirhamIcon className="w-[1.2em] mr-1" />{displayPrice}</span>
+                <span className="font-heading lg:text-3xl md:text-2xl text-2xl font-bold text-foreground"><DirhamIcon className="mr-2" />{displayPrice}</span>
                 {product.originalPrice && (
                   <>
-                    <span className="font-body text-lg text-muted-foreground line-through"><DirhamIcon className="w-[1.2em] mr-1" />{product.originalPrice}</span>
+                    <span className="font-body text-lg text-muted-foreground line-through"><DirhamIcon className="mr-1" />{product.originalPrice}</span>
                     <span className="bg-destructive text-destructive-foreground px-2 py-1 text-xs font-body font-bold tracking-wider uppercase rounded-sm">
                       {Math.round((1 - displayPrice / product.originalPrice) * 100)}% OFF
                     </span>

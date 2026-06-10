@@ -61,7 +61,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <div className="p-3">
           <h3 className="text-[15px] font-medium text-foreground truncate mb-1.5">{product.name}</h3>
           
-          <div className="flex items-center gap-1.5 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="font-bold text-[18px] leading-none flex items-center gap-1">
               <DirhamIcon /> <span>{product.price}</span>
             </span>

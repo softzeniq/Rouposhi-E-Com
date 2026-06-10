@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useOrders, useProducts } from '@/hooks/useDatabase';
 import { Package, ShoppingCart, DollarSign, Clock } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
+import DirhamIcon from '@/components/DirhamIcon';
 
 const Dashboard = () => {
   const { data: allOrders = [] } = useOrders();
@@ -44,7 +45,7 @@ const Dashboard = () => {
   const deliveredOrders = orders.filter(o => o.status === 'delivered').length;
 
   const stats = [
-    { label: 'Total Revenue', value: `Đ ${totalRevenue}`, icon: DollarSign, change: `${orders.length} orders` },
+    { label: 'Total Revenue', value: <span className="flex items-center"><DirhamIcon className="mr-1" /> {totalRevenue}</span>, icon: DollarSign, change: `${orders.length} orders` },
     { label: 'Total Orders', value: orders.length, icon: ShoppingCart, change: `${pendingOrders} pending` },
     { label: 'Products', value: products.length, icon: Package, change: `${products.filter(p => p.is_active).length} active` },
     { label: 'Delivered', value: deliveredOrders, icon: Clock, change: `${orders.length ? Math.round((deliveredOrders / orders.length) * 100) : 0}% rate` },
@@ -186,7 +187,7 @@ const Dashboard = () => {
                   <p className="font-body text-xs text-muted-foreground">{order.customer_name}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-body text-sm font-bold text-primary">Đ {Number(order.total)}</p>
+                  <p className="font-body text-sm font-bold text-primary flex items-center justify-end"><DirhamIcon className="mr-1" /> {Number(order.total)}</p>
                   <span className={`inline-block px-2 py-0.5 text-xs font-body font-semibold rounded-full uppercase ${statusColors[order.status] || ''}`}>{order.status}</span>
                 </div>
               </div>

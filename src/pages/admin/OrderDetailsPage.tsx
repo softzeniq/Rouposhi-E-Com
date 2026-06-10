@@ -4,6 +4,7 @@ import { printInvoice, printCourierSlip } from '@/components/admin/InvoicePrint'
 import { Printer, Truck, ArrowLeft, Package, User, MapPin, CreditCard, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import DirhamIcon from '@/components/DirhamIcon';
 
 const statusColors: Record<string, string> = {
   pending: 'bg-yellow-100 text-yellow-700 border-yellow-200',
@@ -134,7 +135,7 @@ const OrderDetailsPage = () => {
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="font-body text-sm font-bold text-foreground">Đ {(item.price * item.quantity).toFixed(3)}</p>
+                    <p className="font-body text-sm font-bold text-foreground flex items-center gap-1 justify-end"><DirhamIcon /> {(item.price * item.quantity).toFixed(3)}</p>
                     {item.quantity > 1 && (
                       <p className="font-body text-xs text-muted-foreground">{Number(item.price).toFixed(3)} each</p>
                     )}
@@ -145,7 +146,7 @@ const OrderDetailsPage = () => {
             <div className="border-t border-border mt-4 pt-4 space-y-2">
               <div className="flex justify-between font-body text-sm text-muted-foreground">
                 <span>Subtotal ({items.reduce((s: number, i: any) => s + i.quantity, 0)} items)</span>
-                <span>Đ {Number(order.total).toFixed(3)}</span>
+                <span className="flex items-center gap-1"><DirhamIcon /> {Number(order.total).toFixed(3)}</span>
               </div>
               <div className="flex justify-between font-body text-sm text-muted-foreground">
                 <span>Shipping</span>
@@ -153,7 +154,7 @@ const OrderDetailsPage = () => {
               </div>
               <div className="flex justify-between font-heading text-lg font-bold text-foreground pt-2 border-t border-border">
                 <span>Total</span>
-                <span className="text-primary">Đ {Number(order.total).toFixed(3)}</span>
+                <span className="text-primary flex items-center gap-1"><DirhamIcon /> {Number(order.total).toFixed(3)}</span>
               </div>
             </div>
           </div>

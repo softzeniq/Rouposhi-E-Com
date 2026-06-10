@@ -1,5 +1,6 @@
 import { useOrders } from '@/hooks/useDatabase';
 import { Mail, Phone, MapPin } from 'lucide-react';
+import DirhamIcon from '@/components/DirhamIcon';
 
 const CustomersPage = () => {
   const { data: orders = [], isLoading } = useOrders();
@@ -64,7 +65,7 @@ const CustomersPage = () => {
                     <p className="font-body text-xs text-muted-foreground flex items-center gap-1 mt-1"><Phone className="w-3 h-3" /> {c.phone}</p>
                   </td>
                   <td className="p-4 font-body text-sm font-semibold text-foreground">{c.orders}</td>
-                  <td className="p-4 font-body text-sm font-bold text-primary">Đ {c.totalSpent}</td>
+                  <td className="p-4 font-body text-sm font-bold text-primary flex items-center"><DirhamIcon className="mr-1" /> {c.totalSpent}</td>
                   <td className="p-4 font-body text-sm text-muted-foreground">{new Date(c.lastOrder).toLocaleDateString()}</td>
                 </tr>
               ))}

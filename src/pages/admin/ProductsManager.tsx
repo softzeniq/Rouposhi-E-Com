@@ -8,6 +8,7 @@ import { Plus, Pencil, Trash2, X, Search, Upload, ImageIcon, Loader2 } from 'luc
 import { Switch } from '@/components/ui/switch';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+import DirhamIcon from '@/components/DirhamIcon';
 
 interface VariationRow {
   size: string;
@@ -291,8 +292,8 @@ const ProductsManager = () => {
                   </td>
                   <td className="p-4 font-body text-sm text-muted-foreground hidden md:table-cell">{(p as any).sku || '—'}</td>
                   <td className="p-4">
-                    <p className="font-body text-sm font-bold text-primary">Đ {Number(p.price)}</p>
-                    {p.original_price && <p className="font-body text-xs text-muted-foreground line-through">Đ {Number(p.original_price)}</p>}
+                    <p className="font-body text-sm font-bold text-primary flex items-center gap-1"><DirhamIcon /> {Number(p.price)}</p>
+                    {p.original_price && <p className="font-body text-xs text-muted-foreground line-through flex items-center gap-1"><DirhamIcon /> {Number(p.original_price)}</p>}
                   </td>
                   <td className="p-4 font-body text-sm capitalize text-foreground hidden md:table-cell">{p.category}</td>
                   <td className="p-4 font-body text-sm text-foreground">{p.stock}</td>
@@ -362,11 +363,11 @@ const ProductsManager = () => {
                 <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-muted-foreground">Pricing & Stock</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block font-body text-xs uppercase tracking-wider text-muted-foreground mb-1">Regular Price (Đ) *</label>
+                    <label className="block font-body text-xs uppercase tracking-wider text-muted-foreground mb-1 flex items-center gap-1">Regular Price (<DirhamIcon className="w-3 h-3" />) *</label>
                     <Input type="number" step="0.01" value={form.price} onChange={e => setForm({ ...form, price: +e.target.value })} required />
                   </div>
                   <div>
-                    <label className="block font-body text-xs uppercase tracking-wider text-muted-foreground mb-1">Discount Price (Đ)</label>
+                    <label className="block font-body text-xs uppercase tracking-wider text-muted-foreground mb-1 flex items-center gap-1">Discount Price (<DirhamIcon className="w-3 h-3" />)</label>
                     <Input type="number" step="0.01" value={form.original_price || ''} onChange={e => setForm({ ...form, original_price: e.target.value ? +e.target.value : null })} placeholder="Original before discount" />
                     <p className="font-body text-xs text-muted-foreground mt-1">Set original price here if on sale</p>
                   </div>

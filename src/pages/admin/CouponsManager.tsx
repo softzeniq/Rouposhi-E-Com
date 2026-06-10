@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useCoupons, useAddCoupon, useUpdateCoupon, useDeleteCoupon, type DbCoupon } from '@/hooks/useDatabase';
 import { Plus, Pencil, Trash2, X } from 'lucide-react';
 import { toast } from 'sonner';
+import DirhamIcon from '@/components/DirhamIcon';
 
 const CouponsManager = () => {
   const { data: coupons = [], isLoading } = useCoupons();
@@ -56,8 +57,8 @@ const CouponsManager = () => {
                 {c.is_active ? 'Active' : 'Inactive'}
               </span>
             </div>
-            <p className="font-body text-2xl font-bold mb-1 text-foreground">{c.type === 'percentage' ? `${Number(c.value)}% OFF` : `Đ ${Number(c.value)} OFF`}</p>
-            <p className="font-body text-xs text-muted-foreground mb-3">Min order: Đ {Number(c.min_order)}</p>
+            <p className="font-body text-2xl font-bold mb-1 text-foreground">{c.type === 'percentage' ? `${Number(c.value)}% OFF` : <span className="flex items-center gap-1"><DirhamIcon /> {Number(c.value)} OFF</span>}</p>
+            <p className="font-body text-xs text-muted-foreground mb-3 flex items-center gap-1">Min order: <DirhamIcon className="w-3 h-3" /> {Number(c.min_order)}</p>
             <div className="flex justify-between font-body text-xs text-muted-foreground mb-4">
               <span>Used: {c.used_count}/{c.max_uses}</span>
               <span>Expires: {c.expires_at}</span>
@@ -107,7 +108,7 @@ const CouponsManager = () => {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block font-body text-xs uppercase tracking-wider text-muted-foreground mb-1">Min Order (Đ)</label>
+                  <label className="block font-body text-xs uppercase tracking-wider text-muted-foreground mb-1 flex items-center gap-1">Min Order (<DirhamIcon className="w-3 h-3" />)</label>
                   <input type="number" value={form.min_order} onChange={e => setForm({ ...form, min_order: +e.target.value })}
                     className="w-full px-4 py-2.5 border border-border bg-background rounded-md font-body text-sm text-foreground focus:outline-none focus:border-primary" />
                 </div>

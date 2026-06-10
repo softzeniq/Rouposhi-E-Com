@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
+import DirhamIcon from '@/components/DirhamIcon';
 
 const emptyForm = { name: '', area_zone: '', charge: 0, estimated_delivery: '', description: '', is_active: true, sort_order: 0 };
 
@@ -86,7 +87,7 @@ const ShippingMethodsManager = () => {
                   </div>
                 </td>
                 <td className="p-4 font-body text-sm text-foreground">{m.area_zone || '—'}</td>
-                <td className="p-4 font-body text-sm font-bold text-primary">{m.charge === 0 ? 'Free' : `Đ ${Number(m.charge).toFixed(3)}`}</td>
+                <td className="p-4 font-body text-sm font-bold text-primary">{m.charge === 0 ? 'Free' : <span className="flex items-center gap-1"><DirhamIcon /> {Number(m.charge).toFixed(3)}</span>}</td>
                 <td className="p-4 font-body text-xs text-muted-foreground hidden md:table-cell">{m.estimated_delivery || '—'}</td>
                 <td className="p-4">
                   <Switch checked={m.is_active} onCheckedChange={() => toggleActive(m)} />
@@ -125,7 +126,7 @@ const ShippingMethodsManager = () => {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="font-body text-xs uppercase tracking-wider text-muted-foreground mb-1 block">Charge (Đ)</label>
+                  <label className="font-body text-xs uppercase tracking-wider text-muted-foreground mb-1 flex items-center gap-1">Charge (<DirhamIcon className="w-3 h-3" />)</label>
                   <Input type="number" step="0.001" min="0" value={form.charge} onChange={e => setForm(p => ({ ...p, charge: Number(e.target.value) }))} />
                 </div>
                 <div>
