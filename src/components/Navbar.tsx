@@ -123,15 +123,15 @@ const Navbar = () => {
               <Link to="/contact" onClick={() => setMobileOpen(false)} className="hover:text-neon transition-colors py-3 border-b border-border/40">{t('footer.contact')}</Link>
               {user ? (
                 <div className="flex flex-col gap-3 mt-4">
-                  <Link to="/profile" onClick={() => setMobileOpen(false)} className="hover:bg-primary/10 bg-secondary/50 rounded-lg transition-colors py-3.5 px-4 flex items-center gap-3">
-                    <UserIcon className="w-5 h-5 text-primary" /> Profile
+                  <Link to="/profile" onClick={() => setMobileOpen(false)} className="hover:bg-gray-200 bg-[#F4F4F4] text-[#111] font-bold tracking-wider rounded-xl transition-colors py-4 px-5 flex items-center gap-3">
+                    <UserIcon className="w-5 h-5" /> Profile
                   </Link>
-                  <button onClick={() => { signOut(); setMobileOpen(false); }} className="hover:bg-destructive hover:text-destructive-foreground bg-destructive/10 text-destructive rounded-lg transition-colors py-3.5 px-4 text-start flex items-center gap-3">
+                  <button onClick={() => { signOut(); setMobileOpen(false); }} className="hover:bg-red-100 text-red-500 font-bold tracking-wider bg-red-50 rounded-xl transition-colors py-4 px-5 text-start flex items-center gap-3">
                     <LogOut className="w-5 h-5" /> {t('logout', 'Logout')}
                   </button>
                 </div>
               ) : (
-                <Link to="/login" onClick={() => setMobileOpen(false)} className="bg-neon text-accent-foreground glow-neon hover:bg-neon-glow px-4 py-4 rounded-lg transition-all flex items-center justify-center gap-2 mt-4 font-bold uppercase tracking-wider shadow-lg">
+                <Link to="/login" onClick={() => setMobileOpen(false)} className="bg-[#111] text-white hover:bg-black px-4 py-4 rounded-xl transition-all flex items-center justify-center gap-2 mt-4 font-bold uppercase tracking-wider shadow-md">
                   <UserIcon className="w-5 h-5" /> {t('login', 'Login')}
                 </Link>
               )}
