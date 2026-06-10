@@ -57,15 +57,15 @@ const Navbar = () => {
             
           </div>
 
-          <div className="flex items-center gap-2 md:gap-4 text-foreground">
-            <Link to="/shop" className="relative flex items-center justify-center w-10 h-10 rounded-full hover:bg-secondary/100 bg-red-500/10 hover:text-neon transition-all duration-300 group" aria-label="Search">
+          <div className="flex items-center gap-2 md:gap-3 text-foreground">
+            <Link to="/shop" className="relative flex items-center justify-center w-10 h-10 rounded-full bg-[#F4F4F4] hover:bg-gray-200 text-[#111] transition-all duration-300 group" aria-label="Search">
               <Search className="w-[18px] h-[18px] transition-transform group-hover:scale-110" />
             </Link>
             
-            <Link to="/cart" aria-label="Shopping Cart" className="relative flex items-center justify-center w-10 h-10 rounded-full bg-red-500/10 hover:bg-secondary/100 hover:text-neon transition-all duration-300 group">
+            <Link to="/cart" aria-label="Shopping Cart" className="relative flex items-center justify-center w-10 h-10 rounded-full bg-[#F4F4F4] hover:bg-gray-200 text-[#111] transition-all duration-300 group">
               <ShoppingCart className="w-[18px] h-[18px] transition-transform group-hover:scale-110" />
               {cartCount > 0 && (
-                <span className="absolute top-0 right-0 translate-x-1/4 -translate-y-1/4 w-[18px] h-[18px] bg-neon text-accent-foreground rounded-full text-[10px] flex items-center justify-center font-bold shadow-sm border-2 border-background">
+                <span className="absolute top-0 right-0 translate-x-1/4 -translate-y-1/4 w-5 h-5 bg-[#111] text-white rounded-full text-[10px] flex items-center justify-center font-bold shadow-sm border-2 border-white">
                   {cartCount}
                 </span>
               )}
@@ -74,27 +74,27 @@ const Navbar = () => {
             <div className="hidden md:block w-px h-6 bg-border mx-1"></div>
 
             {user ? (
-              <div className="flex items-center gap-1">
-                <Link to="/profile" className="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-secondary/50 transition-colors group" aria-label="Profile">
-                  <div className="bg-primary/10 p-1.5 rounded-full group-hover:bg-neon/10 transition-colors">
-                    <UserIcon className="w-3.5 h-3.5 text-primary group-hover:text-neon" />
+              <div className="hidden md:flex items-center gap-1">
+                <Link to="/profile" className="flex items-center gap-2 md:px-3 md:py-1.5 rounded-full hover:bg-gray-100 transition-colors group" aria-labl="Profile">
+                  <div className="w-10 h-10 md:w-8 md:h-8 flex items-center justify-center bg-[#F4F4F4] md:bg-transparent rounded-full group-hover:bg-gray-200 transition-colors">
+                    <UserIcon className="w-[18px] h-[18px] md:w-4 md:h-4 text-[#111]" />
                   </div>
-                  <span className="hidden md:block font-body text-xs font-bold uppercase tracking-widest group-hover:text-neon transition-colors mt-[1px]">
+                  <span className="hidden md:block font-bold text-xs uppercase tracking-widest text-[#111] mt-[1px]">
                     {user.user_metadata?.full_name?.split(' ')[0] || 'Profile'}
                   </span>
                 </Link>
-                <button onClick={() => signOut()} className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-all duration-300 group" aria-label="Logout" title="Logout">
+                <button onClick={() => signOut()} className="hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-red-50 text-gray-400 hover:text-red-500 transition-all duration-300 group" aria-label="Logout" title="Logout">
                   <LogOut className="w-4 h-4 transition-transform group-hover:scale-110" />
                 </button>
               </div>
             ) : (
-              <Link to="/login" className="flex items-center gap-2 bg-neon text-accent-foreground hover:bg-neon-glow px-5 md:px-6 py-2 md:py-3 rounded-full font-body text-xs font-bold uppercase tracking-widest transition-all duration-300 shadow-lg glow-neon">
-                <UserIcon className="w-4 h-4" />
-                <span className="hidden md:block">{t('login', 'Login')}</span>
+              <Link to="/login" className="hidden md:flex items-center justify-center w-10 h-10 md:w-auto md:h-auto md:px-6 md:py-2.5 rounded-full bg-[#111] md:bg-[#111] text-white hover:bg-black transition-all duration-300 shadow-sm group">
+                <UserIcon className="w-[18px] h-[18px] md:w-4 md:h-4 md:mr-2" />
+                <span className="hidden md:block font-bold text-[11px] uppercase tracking-widest">Login</span>
               </Link>
             )}
             
-            <button aria-label="Toggle mobile menu" className="md:hidden hover:text-neon transition-colors duration-300 ml-1" onClick={() => setMobileOpen(!mobileOpen)}>
+            <button aria-label="Toggle mobile menu" className="md:hidden flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 text-[#111] transition-colors duration-300 ml-1" onClick={() => setMobileOpen(!mobileOpen)}>
               {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
@@ -119,8 +119,8 @@ const Navbar = () => {
                 </Link>
               ))}
               <Link to="/about" onClick={() => setMobileOpen(false)} className="hover:text-neon transition-colors py-3 border-b border-border/40">{t('footer.about')}</Link>
-              <Link to="/contact" onClick={() => setMobileOpen(false)} className="hover:text-neon transition-colors py-3 border-b border-border/40">{t('footer.contact')}</Link>
               <Link to="/careers" onClick={() => setMobileOpen(false)} className="hover:text-neon transition-colors py-3 border-b border-border/40">Careers</Link>
+              <Link to="/contact" onClick={() => setMobileOpen(false)} className="hover:text-neon transition-colors py-3 border-b border-border/40">{t('footer.contact')}</Link>
               {user ? (
                 <div className="flex flex-col gap-3 mt-4">
                   <Link to="/profile" onClick={() => setMobileOpen(false)} className="hover:bg-primary/10 bg-secondary/50 rounded-lg transition-colors py-3.5 px-4 flex items-center gap-3">
