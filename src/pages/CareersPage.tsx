@@ -4,6 +4,7 @@ import { Briefcase, Send, CheckCircle, Upload, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { uploadProductImage } from '@/lib/image-upload';
+import { Link } from 'react-router-dom';
 
 const CareersPage = () => {
   const [formData, setFormData] = useState({
@@ -75,16 +76,17 @@ const CareersPage = () => {
           <p className="text-muted-foreground font-body mb-8">
             Thank you for applying. Our HR team will review your CV and get back to you if your profile matches our requirements.
           </p>
-          <button 
+          <Link 
+            to="/"
             onClick={() => {
               setIsSuccess(false);
               setFormData({ fullName: '', email: '', phone: '', position: 'General Application', coverLetter: '' });
               setCvFile(null);
             }}
-            className="w-full bg-neon text-accent-foreground hover:bg-neon-glow px-6 py-3 rounded-sm font-bold uppercase tracking-wider transition-all shadow-md"
+            className="flex items-center justify-center w-full bg-neon text-white hover:bg-neon-glow px-6 py-4 rounded-xl font-bold uppercase tracking-wider transition-all shadow-md mt-4"
           >
-            Submit Another
-          </button>
+            Back to Homepage
+          </Link>
         </motion.div>
       </div>
     );
