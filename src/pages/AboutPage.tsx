@@ -405,7 +405,7 @@ const AboutPage = () => {
         </div>
 
         {/* Join the Legacy CTA */}
-        <div className="container mx-auto px-4 lg:px-8 max-w-3xl text-center mt-32 border-t border-gray-100 pt-20">
+        <div className="container mx-auto px-4 lg:px-8 max-w-3xl text-center mt-6 border-t border-gray-100 pt-20">
           <h3 className="text-3xl font-extrabold text-[#111] mb-6">Join the Legacy</h3>
           <p className="text-lg text-gray-500 leading-relaxed mb-8">
             Whether you are redefining your personal style, upgrading your home, or shopping for everyday essentials, Legacy-29 is here to accompany you on that journey. Experience the next level of lifestyle retail.
