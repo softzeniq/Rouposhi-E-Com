@@ -14,8 +14,8 @@ import CheckoutProgress from '@/components/checkout/CheckoutProgress';
 import StepContactInfo from '@/components/checkout/StepContactInfo';
 import StepShipping from '@/components/checkout/StepShipping';
 import StepReview from '@/components/checkout/StepReview';
-import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
+import DirhamIcon from '@/components/DirhamIcon';
 
 const CheckoutPage = () => {
   const { items, cartTotal, clearCart } = useCart();
@@ -278,7 +278,7 @@ const CheckoutPage = () => {
             <span className="text-muted-foreground">
               {items.reduce((s, i) => s + i.quantity, 0)} {t('checkout.items_count')}
             </span>
-            <span className="font-bold text-foreground">Đ {total.toFixed(3)}</span>
+            <span className="font-bold text-foreground flex items-center"><DirhamIcon className="w-[1.2em] mr-1" />{total.toFixed(3)}</span>
           </div>
         </div>
       </div>

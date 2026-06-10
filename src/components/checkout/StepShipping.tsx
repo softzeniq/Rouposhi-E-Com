@@ -1,5 +1,6 @@
 import { Truck } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import DirhamIcon from '@/components/DirhamIcon';
 
 interface ShippingMethod {
   id: string;
@@ -55,7 +56,7 @@ const StepShipping = ({ methods, selectedId, onSelect }: StepShippingProps) => {
               <div className="flex items-center justify-between">
                 <p className="font-body text-sm font-bold text-foreground">{method.name}</p>
                 <span className="font-body text-sm font-bold text-primary">
-                  {charge === 0 ? t('cart.free') : `Đ ${charge.toFixed(3)}`}
+                  {charge === 0 ? t('cart.free') : <><DirhamIcon className="w-[1.2em] mr-1" />{charge.toFixed(3)}</>}
                 </span>
               </div>
               <div className="flex items-center gap-2 mt-1">

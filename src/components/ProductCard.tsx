@@ -3,6 +3,7 @@ import { Heart } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { Product } from '@/data/products';
 import { motion } from 'framer-motion';
+import DirhamIcon from '@/components/DirhamIcon';
 
 interface ProductCardProps {
   product: Product;
@@ -62,12 +63,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
           
           <div className="flex items-center gap-1.5 flex-wrap">
             <span className="font-bold text-[18px] leading-none flex items-center gap-1">
-              <span>Đ</span> <span>{product.price}</span>
+              <DirhamIcon /> <span>{product.price}</span>
             </span>
             {product.originalPrice && (
               <>
                 <span className="text-muted-foreground line-through text-[14px] leading-none flex items-center gap-1">
-                  <span>Đ</span> <span>{product.originalPrice}</span>
+                  <DirhamIcon /> <span>{product.originalPrice}</span>
                 </span>
                 <span className="text-hot text-[12px] font-bold leading-none">
                   ({discountPercentage}% OFF)
