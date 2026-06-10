@@ -24,7 +24,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link to="/" className="flex items-center gap-2">
-            <img src={s?.logo_url || "https://svswmeaakrhgveuxtrbv.supabase.co/storage/v1/object/public/product-images/logo/1781079502869-3lqkfvdx.png"} alt={s?.site_name || 'Legacy-29'} className="h-10 lg:h-12 w-auto object-contain" />
+            <img src={s?.logo_url || "https://svswmeaakrhgveuxtrbv.supabase.co/storage/v1/object/public/product-images/logo/1781079502869-3lqkfvdx.png"} alt={s?.site_name || 'Legacy-29'} width="150" height="48" className="h-10 lg:h-12 w-auto object-contain" />
           </Link>
 
           <div className="hidden md:flex items-center gap-8 font-body text-[13px] tracking-widest uppercase font-semibold text-foreground/80">
@@ -75,7 +75,7 @@ const Navbar = () => {
 
             {user ? (
               <div className="hidden md:flex items-center gap-1">
-                <Link to="/profile" className="flex items-center gap-2 md:px-3 md:py-1.5 rounded-full hover:bg-gray-100 transition-colors group" aria-labl="Profile">
+                <Link to="/profile" className="flex items-center gap-2 md:px-3 md:py-1.5 rounded-full hover:bg-gray-100 transition-colors group" aria-label="Profile">
                   <div className="w-10 h-10 md:w-8 md:h-8 flex items-center justify-center bg-[#F4F4F4] md:bg-transparent rounded-full group-hover:bg-gray-200 transition-colors">
                     <UserIcon className="w-[18px] h-[18px] md:w-4 md:h-4 text-[#111]" />
                   </div>

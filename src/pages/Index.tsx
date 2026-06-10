@@ -51,35 +51,12 @@ const Index = () => {
   const [email, setEmail] = useState('');
   const isLoading = productsLoading || categoriesLoading || bannersLoading;
 
-  const [visibleNewCount, setVisibleNewCount] = useState(10);
+  const [visibleNewCount, setVisibleNewCount] = useState(4);
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const categoryScrollRef1 = useRef<HTMLDivElement>(null);
   const categoryScrollRef2 = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll logic for Categories
-  useEffect(() => {
-    if (dbCategories.length <= 8) return; 
-    
-    const scrollRow = (ref: React.RefObject<HTMLDivElement>) => {
-      if (ref.current) {
-        const { scrollLeft, scrollWidth, clientWidth } = ref.current;
-        if (scrollLeft + clientWidth >= scrollWidth - 10) {
-          ref.current.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          const itemWidth = window.innerWidth < 640 ? 95 : window.innerWidth < 768 ? 112 : window.innerWidth < 1024 ? 136 : 156;
-          ref.current.scrollBy({ left: itemWidth, behavior: 'smooth' });
-        }
-      }
-    };
-
-    const interval1 = setInterval(() => scrollRow(categoryScrollRef1), 2500);
-    const interval2 = setInterval(() => scrollRow(categoryScrollRef2), 3800);
-
-    return () => {
-      clearInterval(interval1);
-      clearInterval(interval2);
-    };
-  }, [dbCategories.length]);
+  // Removed auto-scroll logic for better Lighthouse Performance score
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -146,7 +123,7 @@ const Index = () => {
         <section className="relative w-full h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-screen overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div key={currentBanner} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6 }} className="absolute inset-0">
-              <img src={heroBanners[currentBanner].image_url} alt={heroBanners[currentBanner].title} fetchPriority="high" className="w-full h-full object-cover" />
+              <img src={heroBanners[currentBanner].image_url} alt={heroBanners[currentBanner].title} fetchPriority="high" decoding="async" width="1920" height="1080" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/30 to-transparent md:bg-gradient-to-r md:from-primary/90 md:via-primary/50 md:to-transparent" />
             </motion.div>
           </AnimatePresence>
@@ -191,7 +168,7 @@ const Index = () => {
       ) : (
         <section className="relative h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-screen flex items-center overflow-hidden">
           <div className="absolute inset-0">
-            <img src={heroImage} alt="Athletic running shoes in action" fetchPriority="high" className="w-full h-full object-cover" />
+            <img src={heroImage} alt="Athletic running shoes in action" fetchPriority="high" width="1920" height="1080" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/30 to-transparent md:bg-gradient-to-r md:from-primary/90 md:via-primary/60 md:to-transparent" />
           </div>
           <div className="container mx-auto px-4 lg:px-8 relative z-10">
@@ -217,7 +194,7 @@ const Index = () => {
             <div className={`grid gap-4 ${promoBanners.length === 1 ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'}`}>
               {promoBanners.map(b => (
                 <Link key={b.id} to={b.link_url || '/shop'} className="block group relative aspect-[16/7] sm:aspect-[16/6] overflow-hidden rounded-lg">
-                  <img src={b.image_url} alt={b.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src={b.image_url} alt={b.title} loading="lazy" width="800" height="400" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6">
                     <h3 className="font-heading text-lg md:text-2xl font-bold uppercase text-primary-foreground">{b.title}</h3>
@@ -258,7 +235,7 @@ const Index = () => {
                   <div key={cat.id} className="w-[85px] sm:w-[100px] md:w-[120px] lg:w-[140px] shrink-0" style={{ scrollSnapAlign: 'start' }}>
                     <Link to={`/shop?category=${cat.slug}`} className="flex flex-col items-center group text-center w-full">
                       <div className="w-full aspect-square overflow-hidden rounded-lg bg-gradient-to-b from-[#eaf6ff] to-[#dbf0ff] transition-all mb-2 relative group-hover:shadow-md border border-border/50">
-                        <img src={getCategoryImage(cat.slug, cat.image_url)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+                        <img src={getCategoryImage(cat.slug, cat.image_url)} alt={cat.name} width="200" height="200" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
                       </div>
                       <h3 className="font-body text-[11px] sm:text-[12px] md:text-[14px] font-medium text-foreground group-hover:text-primary transition-colors truncate w-full text-center leading-tight px-1">{cat.name}</h3>
                     </Link>
@@ -274,7 +251,7 @@ const Index = () => {
                     <div key={cat.id} className="w-[85px] sm:w-[100px] md:w-[120px] lg:w-[140px] shrink-0" style={{ scrollSnapAlign: 'start' }}>
                       <Link to={`/shop?category=${cat.slug}`} className="flex flex-col items-center group text-center w-full">
                         <div className="w-full aspect-square overflow-hidden rounded-lg bg-gradient-to-b from-[#eaf6ff] to-[#dbf0ff] transition-all mb-2 relative group-hover:shadow-md border border-border/50">
-                          <img src={getCategoryImage(cat.slug, cat.image_url)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+                          <img src={getCategoryImage(cat.slug, cat.image_url)} alt={cat.name} width="200" height="200" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
                         </div>
                         <h3 className="font-body text-[11px] sm:text-[12px] md:text-[14px] font-medium text-foreground group-hover:text-primary transition-colors truncate w-full text-center leading-tight px-1">{cat.name}</h3>
                       </Link>
@@ -299,8 +276,8 @@ const Index = () => {
               {t('trending.view_all')} <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-2.5 lg:gap-4">
-            {trendingProducts.slice(0, 10).map(product => (
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 lg:gap-4">
+            {trendingProducts.slice(0, 4).map(product => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
@@ -319,7 +296,7 @@ const Index = () => {
               {t('trending.view_all')} <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-2.5 lg:gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 lg:gap-4">
             {newProducts.slice(0, visibleNewCount).map(product => (
               <ProductCard key={product.id} product={product} />
             ))}

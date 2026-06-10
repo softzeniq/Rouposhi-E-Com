@@ -1,10 +1,8 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { Product } from '@/data/products';
-import { useLanguage } from '@/context/LanguageContext';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface ProductCardProps {
   product: Product;
@@ -13,19 +11,7 @@ interface ProductCardProps {
 const ProductCard = ({ product }: ProductCardProps) => {
   const { toggleWishlist, isInWishlist } = useCart();
   const wishlisted = isInWishlist(product.id);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
   const hasMultipleImages = product.images && product.images.length > 1;
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (hasMultipleImages) {
-      interval = setInterval(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % product.images.length);
-      }, 2500); // Auto slide every 2.5 seconds
-    }
-    return () => clearInterval(interval);
-  }, [hasMultipleImages, product.images]);
 
   const discountPercentage = product.originalPrice 
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
@@ -35,41 +21,36 @@ const ProductCard = ({ product }: ProductCardProps) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
+      viewport={{ once: true, margin: "0px 0px 50px 0px" }}
+      transition={{ duration: 0.4 }}
       className="group bg-card rounded-lg overflow-hidden border border-border hover:border-primary/50 hover:shadow-md transition-all"
     >
       <Link to={`/product/${product.id}`} className="block">
         <div className="relative aspect-square overflow-hidden bg-background">
-          <AnimatePresence>
-            <motion.img 
-              key={currentImageIndex}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.8 }}
-              src={hasMultipleImages ? product.images[currentImageIndex] : product.image} 
-              alt={product.name} 
-              className="absolute inset-0 w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-500" 
+          <img 
+            src={product.image} 
+            alt={product.name} 
+            width="400"
+            height="400"
+            decoding="async"
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${hasMultipleImages ? 'group-hover:opacity-0' : 'group-hover:scale-105 transition-transform'}`} 
+            loading="lazy" 
+          />
+          {hasMultipleImages && (
+            <img 
+              src={product.images[1]} 
+              alt={`${product.name} alternate`} 
+              width="400"
+              height="400"
+              decoding="async"
+              className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500 group-hover:scale-105" 
               loading="lazy" 
             />
-          </AnimatePresence>
-          
-          {/* Dynamic Pagination dots */}
-          {hasMultipleImages && (
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-10">
-              {product.images.map((_, idx) => (
-                <div 
-                  key={idx} 
-                  className={`w-1.5 h-1.5 rounded-full transition-colors ${idx === currentImageIndex ? 'bg-neon' : 'bg-muted'}`}
-                ></div>
-              ))}
-            </div>
           )}
 
           <button
             onClick={(e) => { e.preventDefault(); toggleWishlist(product.id); }}
-            aria-label="Toggle wishlist"
+            aria-label={`Toggle wishlist for ${product.name}`}
             className="absolute bottom-2 right-2 w-7 h-7 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-full transition-all hover:bg-background z-20 shadow-sm border border-border/50"
           >
             <Heart className={`w-4 h-4 ${wishlisted ? 'fill-neon text-neon' : 'text-muted-foreground hover:text-foreground'}`} />

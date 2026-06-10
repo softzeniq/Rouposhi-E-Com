@@ -31,19 +31,19 @@ const Footer = () => {
       <div className="container mx-auto px-4 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div>
-            <img src={s?.logo_url || '/logo.png'} alt={s?.site_name || 'Store'} className="h-14 w-auto mb-4" />
+            <img src={s?.logo_url || '/logo.png'} alt={s?.site_name || 'Store'} width="150" height="48" className="h-14 w-auto mb-4" />
             <p className="text-primary-foreground/60 font-body text-sm leading-relaxed mb-6">
               {s?.footer_description || 'Your ultimate destination for authentic sports footwear in Dubai.'}
             </p>
             <div className="flex gap-4">
-              {s?.instagram_url && <a href={s.instagram_url} target="_blank" rel="noopener noreferrer" className="text-primary-foreground/40 hover:text-neon transition-colors"><Instagram className="w-5 h-5" /></a>}
-              {s?.facebook_url && <a href={s.facebook_url} target="_blank" rel="noopener noreferrer" className="text-primary-foreground/40 hover:text-neon transition-colors"><Facebook className="w-5 h-5" /></a>}
-              {s?.twitter_url && <a href={s.twitter_url} target="_blank" rel="noopener noreferrer" className="text-primary-foreground/40 hover:text-neon transition-colors"><Twitter className="w-5 h-5" /></a>}
-              {s?.youtube_url && <a href={s.youtube_url} target="_blank" rel="noopener noreferrer" className="text-primary-foreground/40 hover:text-neon transition-colors"><Youtube className="w-5 h-5" /></a>}
+              {s?.instagram_url && <a href={s.instagram_url} aria-label="Instagram" target="_blank" rel="noopener noreferrer" className="text-primary-foreground/40 hover:text-neon transition-colors"><Instagram className="w-5 h-5" /></a>}
+              {s?.facebook_url && <a href={s.facebook_url} aria-label="Facebook" target="_blank" rel="noopener noreferrer" className="text-primary-foreground/40 hover:text-neon transition-colors"><Facebook className="w-5 h-5" /></a>}
+              {s?.twitter_url && <a href={s.twitter_url} aria-label="Twitter" target="_blank" rel="noopener noreferrer" className="text-primary-foreground/40 hover:text-neon transition-colors"><Twitter className="w-5 h-5" /></a>}
+              {s?.youtube_url && <a href={s.youtube_url} aria-label="YouTube" target="_blank" rel="noopener noreferrer" className="text-primary-foreground/40 hover:text-neon transition-colors"><Youtube className="w-5 h-5" /></a>}
               {!s?.instagram_url && !s?.facebook_url && !s?.twitter_url && !s?.youtube_url && (
                 <>
-                  <span className="text-primary-foreground/40"><Instagram className="w-5 h-5" /></span>
-                  <span className="text-primary-foreground/40"><Facebook className="w-5 h-5" /></span>
+                  <span aria-hidden="true" className="text-primary-foreground/40"><Instagram className="w-5 h-5" /></span>
+                  <span aria-hidden="true" className="text-primary-foreground/40"><Facebook className="w-5 h-5" /></span>
                 </>
               )}
             </div>
