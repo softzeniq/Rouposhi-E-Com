@@ -25,11 +25,11 @@ const CountdownTimer = () => {
 
   return (
     <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4 mb-6">
-      <div className="flex items-center gap-2 mb-2">
+      <div className="flex flex-wrap items-center gap-2 mb-2">
         <Flame className="w-4 h-4 text-destructive animate-pulse" />
         <span className="font-heading text-sm font-bold text-destructive uppercase tracking-wider">Limited Time Offer!</span>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <Clock className="w-4 h-4 text-muted-foreground" />
         <span className="font-body text-sm text-muted-foreground">Sale ends in:</span>
         <div className="flex gap-1 ml-1">

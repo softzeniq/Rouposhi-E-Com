@@ -18,7 +18,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import DirhamIcon from '@/components/DirhamIcon';
 
 const CheckoutPage = () => {
-  const { items, cartTotal, clearCart } = useCart();
+  const { items, cartTotal, clearCart, appliedCoupon, discountAmount } = useCart();
   const addOrder = useAddOrder();
   const navigate = useNavigate();
   const { fbTrackInitiateCheckout, fbTrackPurchase } = useFacebookTracking();
@@ -43,7 +43,7 @@ const CheckoutPage = () => {
 
   const selectedShipping = shippingMethods.find(s => s.id === selectedShippingId);
   const shippingCharge = selectedShipping ? Number(selectedShipping.charge) : 0;
-  const total = cartTotal + shippingCharge;
+  const total = cartTotal - discountAmount + shippingCharge;
 
   // Track initiate checkout
   useEffect(() => {
@@ -108,7 +108,7 @@ const CheckoutPage = () => {
         customer_email: '', customer_phone: form.phone,
         items: orderItems, total, status: 'pending', payment_method: 'cod',
         shipping_address: shippingAddress,
-        notes: `${form.notes}${selectedShipping ? `\nShipping: ${selectedShipping.name} (${shippingCharge === 0 ? 'Free' : 'Đ ' + shippingCharge})` : ''}`,
+        notes: `${form.notes}${selectedShipping ? `\nShipping: ${selectedShipping.name} (${shippingCharge === 0 ? 'Free' : 'Đ ' + shippingCharge})` : ''}${appliedCoupon ? `\nCoupon Applied: ${appliedCoupon.code} (-Đ ${discountAmount.toFixed(2)})` : ''}`,
       });
       await markLeadCompleted();
       setOrderId(orderNumber);
@@ -232,6 +232,8 @@ const CheckoutPage = () => {
                     shippingName={selectedShipping?.name || ''}
                     shippingCharge={shippingCharge}
                     total={total}
+                    discountAmount={discountAmount}
+                    appliedCoupon={appliedCoupon}
                     onEditStep={setStep}
                   />
                 )}

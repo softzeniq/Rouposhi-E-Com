@@ -43,7 +43,7 @@ const ProductReviews = ({ productId }: { productId: string }) => {
         </div>
 
         {/* Trust Badges */}
-        <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-border">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 pt-6 border-t border-border">
           {[
             { icon: CheckCircle, label: '100% Same Authentic', value: 'Guaranteed' },
             { icon: ThumbsUp, label: '98% Satisfaction', value: 'Rate' },

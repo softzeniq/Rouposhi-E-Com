@@ -123,17 +123,17 @@ const ProductPage = () => {
       <Navbar />
       <div className="pt-20 lg:pt-24">
         <div className="container mx-auto px-4 lg:px-8 py-8">
-          <div className="flex items-center gap-2 font-body text-sm text-muted-foreground mb-8">
-            <Link to="/" className="hover:text-foreground transition-colors">{t('nav.home')}</Link><span>/</span>
-            <Link to="/shop" className="hover:text-foreground transition-colors">{t('nav.shop')}</Link><span>/</span>
-            <span className="text-foreground">{product.name}</span>
+          <div className="flex flex-wrap items-center gap-2 font-body text-sm text-muted-foreground mb-8">
+            <Link to="/" className="hover:text-foreground transition-colors whitespace-nowrap">{t('nav.home')}</Link><span>/</span>
+            <Link to="/shop" className="hover:text-foreground transition-colors whitespace-nowrap">{t('nav.shop')}</Link><span>/</span>
+            <span className="text-foreground truncate flex-1 min-w-0">{product.name}</span>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
             <div>
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                className="aspect-square bg-card overflow-hidden rounded-lg border border-border mb-4">
-                <img src={galleryImages[selectedImage]} alt={product.name} className="w-full h-full object-cover" />
+                className="w-full bg-card overflow-hidden rounded-lg border border-border mb-4 flex items-center justify-center">
+                <img src={galleryImages[selectedImage]} alt={product.name} className="w-full h-auto max-h-[60vh] object-contain" />
               </motion.div>
               {galleryImages.length > 1 && (
                 <div className="flex gap-2 overflow-x-auto pb-2">
@@ -149,7 +149,7 @@ const ProductPage = () => {
 
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
               <span className="font-body text-sm text-neon font-bold tracking-wider uppercase">{product.brand}</span>
-              <h1 className="heading-display text-3xl md:text-4xl font-bold mt-1 mb-4 text-foreground">{product.name}</h1>
+              <h1 className="heading-display text-3xl md:text-4xl font-bold mt-1 mb-4 text-foreground break-words">{product.name}</h1>
 
               <div className="flex items-center gap-3 mb-6">
                 <div className="flex gap-0.5">
@@ -162,7 +162,7 @@ const ProductPage = () => {
 
               <CountdownTimer />
 
-              <div className="flex items-center gap-3 mb-8">
+              <div className="flex flex-wrap items-center gap-3 mb-8">
                 <span className="font-heading lg:text-3xl md:text-2xl text-2xl font-bold text-foreground"><DirhamIcon className="mr-2" />{displayPrice}</span>
                 {product.originalPrice && (
                   <>
@@ -210,7 +210,7 @@ const ProductPage = () => {
                 </div>
               )}
 
-              <div className="flex items-center gap-4 mb-8">
+              <div className="flex flex-wrap items-center gap-4 mb-8">
                 <div className="flex items-center border border-border rounded-sm">
                   <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-10 h-12 flex items-center justify-center hover:bg-card transition-colors"><Minus className="w-4 h-4" /></button>
                   <span className="w-12 h-12 flex items-center justify-center font-body text-sm font-bold">{quantity}</span>
@@ -218,7 +218,7 @@ const ProductPage = () => {
                 </div>
                 <button onClick={handleAddToCart}
                   disabled={variationStock !== null && variationStock <= 0}
-                  className="flex-1 h-12 bg-neon text-accent-foreground font-body text-sm font-bold tracking-wider uppercase hover:bg-neon-glow transition-all duration-300 glow-neon rounded-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                  className="flex-1 min-w-[150px] h-12 bg-neon text-accent-foreground font-body text-sm font-bold tracking-wider uppercase hover:bg-neon-glow transition-all duration-300 glow-neon rounded-sm disabled:opacity-50 disabled:cursor-not-allowed">
                   {variationStock !== null && variationStock <= 0 ? t('product.out_of_stock') : t('product.add_to_cart')}
                 </button>
                 <button onClick={() => toggleWishlist(product.id)}

@@ -6,9 +6,14 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { motion } from 'framer-motion';
 import DirhamIcon from '@/components/DirhamIcon';
+import { useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 const CartPage = () => {
-  const { items, removeFromCart, updateQuantity, cartTotal } = useCart();
+  const { items, removeFromCart, updateQuantity, cartTotal, appliedCoupon, applyCoupon, removeCoupon, discountAmount } = useCart();
+  const [couponCode, setCouponCode] = useState('');
+  const [isValidating, setIsValidating] = useState(false);
   const { t } = useLanguage();
 
   if (items.length === 0) {
@@ -29,6 +34,48 @@ const CartPage = () => {
   }
 
   const shipping = cartTotal >= 30 ? 0 : 3;
+  const finalTotal = cartTotal - discountAmount + shipping;
+
+  const handleApplyCoupon = async () => {
+    if (!couponCode.trim()) return;
+    setIsValidating(true);
+    try {
+      const { data, error } = await supabase.from('coupons').select('*').eq('code', couponCode.trim().toUpperCase()).single();
+      
+      if (error || !data) {
+        toast.error(t('cart.invalid_coupon') || 'Invalid coupon code');
+        return;
+      }
+
+      if (!data.is_active) {
+        toast.error('This coupon is no longer active');
+        return;
+      }
+
+      if (data.expires_at && new Date(data.expires_at) < new Date()) {
+        toast.error('This coupon has expired');
+        return;
+      }
+
+      if (data.min_order && cartTotal < Number(data.min_order)) {
+        toast.error(`Minimum order amount is ${data.min_order} to use this coupon`);
+        return;
+      }
+
+      if (data.max_uses && data.used_count && data.used_count >= data.max_uses) {
+        toast.error('This coupon has reached its usage limit');
+        return;
+      }
+
+      applyCoupon({ code: data.code, type: data.type, value: Number(data.value) });
+      toast.success('Coupon applied successfully');
+      setCouponCode('');
+    } catch (err) {
+      toast.error('Failed to validate coupon');
+    } finally {
+      setIsValidating(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -77,9 +124,44 @@ const CartPage = () => {
               <div className="space-y-3 font-body text-sm border-b border-border pb-6 mb-6">
                   <div className="flex justify-between"><span className="text-muted-foreground">{t('cart.subtotal')}</span><span className="text-foreground"><DirhamIcon className="w-[1.2em] mr-1" />{cartTotal.toFixed(2)}</span></div>
                   <div className="flex justify-between"><span className="text-muted-foreground">{t('cart.shipping')}</span><span className="text-foreground flex items-center">{shipping === 0 ? t('cart.free') : <><DirhamIcon className="w-[1.2em] mr-1" />{shipping.toFixed(2)}</>}</span></div>
+                  {appliedCoupon && (
+                    <div className="flex justify-between text-green-600">
+                      <span>Discount ({appliedCoupon.code})</span>
+                      <span className="flex items-center">-<DirhamIcon className="w-[1.2em] mx-1" />{discountAmount.toFixed(2)}</span>
+                    </div>
+                  )}
               </div>
+
+              {!appliedCoupon ? (
+                <div className="flex gap-2 mb-6">
+                  <input 
+                    type="text" 
+                    value={couponCode} 
+                    onChange={e => setCouponCode(e.target.value.toUpperCase())}
+                    placeholder="Coupon Code" 
+                    className="flex-1 bg-background border border-border px-4 py-2 rounded-md font-body text-sm text-foreground focus:outline-none focus:border-primary uppercase"
+                  />
+                  <button 
+                    onClick={handleApplyCoupon}
+                    disabled={isValidating || !couponCode.trim()}
+                    className="bg-primary text-primary-foreground px-4 py-2 rounded-md font-body text-sm font-bold tracking-wider uppercase hover:bg-primary/90 disabled:opacity-50 transition-all"
+                  >
+                    {isValidating ? '...' : 'Apply'}
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center justify-between bg-green-100 border border-green-200 text-green-800 px-4 py-3 rounded-md mb-6 font-body text-sm">
+                  <div>
+                    <span className="font-bold">{appliedCoupon.code}</span> applied!
+                  </div>
+                  <button onClick={removeCoupon} className="text-green-800 hover:text-green-900">
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
+
               <div className="flex justify-between font-heading text-xl font-bold mb-8 text-foreground">
-                <span>{t('cart.total')}</span><span className="text-neon flex items-center"><DirhamIcon className="w-[1.2em] mr-1" />{(cartTotal + shipping).toFixed(2)}</span>
+                <span>{t('cart.total')}</span><span className="text-neon flex items-center"><DirhamIcon className="w-[1.2em] mr-1" />{finalTotal.toFixed(2)}</span>
               </div>
               <Link to="/checkout" className="w-full block text-center bg-primary text-primary-foreground py-4 font-body text-sm font-bold tracking-wider uppercase hover:bg-primary/90 transition-all duration-300 rounded-md mb-3">
                 {t('cart.checkout')}

@@ -137,6 +137,20 @@ export const useCoupons = () => useQuery({
   },
 });
 
+export const useValidateCoupon = (code: string) => useQuery({
+  queryKey: ['coupons', code],
+  queryFn: async () => {
+    if (!code) return null;
+    const { data, error } = await supabase.from('coupons').select('*').eq('code', code.toUpperCase()).single();
+    if (error) {
+      if (error.code === 'PGRST116') return null; // Not found
+      throw error;
+    }
+    return data as DbCoupon;
+  },
+  enabled: !!code,
+});
+
 export const useAddCoupon = () => {
   const qc = useQueryClient();
   return useMutation({

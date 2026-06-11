@@ -16,10 +16,12 @@ interface StepReviewProps {
   shippingName: string;
   shippingCharge: number;
   total: number;
+  discountAmount: number;
+  appliedCoupon: { code: string } | null;
   onEditStep: (step: number) => void;
 }
 
-const StepReview = ({ form, items, cartTotal, shippingName, shippingCharge, total, onEditStep }: StepReviewProps) => {
+const StepReview = ({ form, items, cartTotal, shippingName, shippingCharge, total, discountAmount, appliedCoupon, onEditStep }: StepReviewProps) => {
   const { t } = useLanguage();
 
   return (
@@ -86,6 +88,12 @@ const StepReview = ({ form, items, cartTotal, shippingName, shippingCharge, tota
           <span className="text-muted-foreground">{t('cart.shipping')}</span>
           <span className="flex items-center">{shippingCharge === 0 ? t('cart.free') : <><DirhamIcon className="w-[1.2em] mr-1" />{shippingCharge.toFixed(3)}</>}</span>
         </div>
+        {appliedCoupon && (
+          <div className="flex justify-between text-green-600">
+            <span>Discount ({appliedCoupon.code})</span>
+            <span className="flex items-center">-<DirhamIcon className="w-[1.2em] mx-1" />{discountAmount.toFixed(2)}</span>
+          </div>
+        )}
         <div className="flex justify-between font-heading text-xl font-bold border-t border-border pt-3 text-foreground">
           <span>{t('cart.total')}</span>
           <span className="text-primary flex items-center"><DirhamIcon className="w-[1.2em] mr-1" />{total.toFixed(3)}</span>

@@ -8,6 +8,12 @@ export interface CartItem {
   color: string;
 }
 
+export interface AppliedCoupon {
+  code: string;
+  type: string;
+  value: number;
+}
+
 interface CartContextType {
   items: CartItem[];
   wishlist: string[];
@@ -19,6 +25,10 @@ interface CartContextType {
   isInWishlist: (productId: string) => boolean;
   cartTotal: number;
   cartCount: number;
+  appliedCoupon: AppliedCoupon | null;
+  discountAmount: number;
+  applyCoupon: (coupon: AppliedCoupon) => void;
+  removeCoupon: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -34,8 +44,17 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return saved ? JSON.parse(saved) : [];
   });
 
+  const [appliedCoupon, setAppliedCoupon] = useState<AppliedCoupon | null>(() => {
+    const saved = localStorage.getItem('appliedCoupon');
+    return saved ? JSON.parse(saved) : null;
+  });
+
   useEffect(() => { localStorage.setItem('cart', JSON.stringify(items)); }, [items]);
   useEffect(() => { localStorage.setItem('wishlist', JSON.stringify(wishlist)); }, [wishlist]);
+  useEffect(() => { 
+    if (appliedCoupon) localStorage.setItem('appliedCoupon', JSON.stringify(appliedCoupon));
+    else localStorage.removeItem('appliedCoupon');
+  }, [appliedCoupon]);
 
   const addToCart = useCallback((product: Product, size: number, color: string) => {
     setItems(prev => {
@@ -67,8 +86,28 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const cartTotal = items.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
   const cartCount = items.reduce((sum, i) => sum + i.quantity, 0);
 
+  const applyCoupon = useCallback((coupon: AppliedCoupon) => {
+    setAppliedCoupon(coupon);
+  }, []);
+
+  const removeCoupon = useCallback(() => {
+    setAppliedCoupon(null);
+  }, []);
+
+  let discountAmount = 0;
+  if (appliedCoupon) {
+    if (appliedCoupon.type === 'percentage') {
+      discountAmount = cartTotal * (appliedCoupon.value / 100);
+    } else if (appliedCoupon.type === 'fixed') {
+      discountAmount = appliedCoupon.value;
+    }
+  }
+
+  // Ensure discount doesn't exceed cart total
+  discountAmount = Math.min(discountAmount, cartTotal);
+
   return (
-    <CartContext.Provider value={{ items, wishlist, addToCart, removeFromCart, updateQuantity, clearCart, toggleWishlist, isInWishlist, cartTotal, cartCount }}>
+    <CartContext.Provider value={{ items, wishlist, addToCart, removeFromCart, updateQuantity, clearCart, toggleWishlist, isInWishlist, cartTotal, cartCount, appliedCoupon, discountAmount, applyCoupon, removeCoupon }}>
       {children}
     </CartContext.Provider>
   );
