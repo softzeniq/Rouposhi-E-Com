@@ -129,17 +129,17 @@ const ProductPage = () => {
             <span className="text-foreground truncate flex-1 min-w-0">{product.name}</span>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-            <div>
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+            <div className="min-w-0 lg:sticky lg:top-28">
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                 className="w-full bg-card overflow-hidden rounded-lg border border-border mb-4 flex items-center justify-center">
                 <img src={galleryImages[selectedImage]} alt={product.name} className="w-full h-auto max-h-[60vh] object-contain" />
               </motion.div>
               {galleryImages.length > 1 && (
-                <div className="flex gap-2 overflow-x-auto pb-2">
+                <div className="flex gap-2 overflow-x-auto pb-2 w-full max-w-full hide-scrollbar snap-x snap-mandatory">
                   {galleryImages.map((img, i) => (
                     <button key={i} onClick={() => setSelectedImage(i)}
-                      className={`w-20 h-20 shrink-0 rounded-md overflow-hidden border-2 transition-all ${selectedImage === i ? 'border-primary ring-2 ring-primary/20' : 'border-border hover:border-primary/50'}`}>
+                      className={`w-20 h-20 shrink-0 rounded-md overflow-hidden border-2 transition-all snap-center ${selectedImage === i ? 'border-primary ring-2 ring-primary/20' : 'border-border hover:border-primary/50'}`}>
                       <img src={img} alt="" className="w-full h-full object-cover" />
                     </button>
                   ))}
@@ -147,7 +147,7 @@ const ProductPage = () => {
               )}
             </div>
 
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
+            <motion.div className="min-w-0" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
               <span className="font-body text-sm text-neon font-bold tracking-wider uppercase">{product.brand}</span>
               <h1 className="heading-display text-3xl md:text-4xl font-bold mt-1 mb-4 text-foreground break-words">{product.name}</h1>
 
