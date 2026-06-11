@@ -86,7 +86,7 @@ const CartPage = () => {
             className="heading-display text-4xl md:text-5xl font-bold mb-10 text-foreground">{t('cart.title')}</motion.h1>
 
           <div className="grid lg:grid-cols-3 gap-10">
-            <div className="lg:col-span-2 space-y-6">
+            <div className="lg:col-span-2 space-y-6 min-w-0">
               {items.map(item => (
                 <motion.div key={item.product.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                   className="flex gap-4 sm:gap-6 border-b border-border pb-6">
@@ -94,10 +94,10 @@ const CartPage = () => {
                     <img src={item.product.image} alt={item.product.name} className="w-full h-full object-cover" />
                   </Link>
                   <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <span className="font-body text-xs text-neon font-bold tracking-wider uppercase">{item.product.brand}</span>
-                        <Link to={`/product/${item.product.id}`} className="block font-heading font-bold text-sm sm:text-base uppercase tracking-wide text-foreground hover-neon transition-colors">{item.product.name}</Link>
+                    <div className="flex justify-between items-start gap-4">
+                      <div className="min-w-0 flex-1">
+                        <span className="font-body text-xs text-neon font-bold tracking-wider uppercase block truncate">{item.product.brand}</span>
+                        <Link to={`/product/${item.product.id}`} className="block font-heading font-bold text-sm sm:text-base uppercase tracking-wide text-foreground hover-neon transition-colors truncate">{item.product.name}</Link>
                         {(item.size || item.color) && (
                           <p className="font-body text-xs text-muted-foreground mt-1">
                             {[item.size ? `${t('size')}: ${item.size}` : null, item.color].filter(Boolean).join(' · ')}
@@ -106,8 +106,8 @@ const CartPage = () => {
                       </div>
                       <button onClick={() => removeFromCart(item.product.id)} className="text-muted-foreground hover:text-foreground transition-colors"><X className="w-4 h-4" /></button>
                     </div>
-                    <div className="flex items-center justify-between mt-4">
-                      <div className="flex items-center border border-border rounded-sm">
+                    <div className="flex flex-wrap items-center justify-between mt-4 gap-2">
+                      <div className="flex items-center border border-border rounded-sm shrink-0">
                         <button onClick={() => updateQuantity(item.product.id, item.quantity - 1)} className="w-8 h-8 flex items-center justify-center hover:bg-card transition-colors"><Minus className="w-3 h-3" /></button>
                         <span className="w-8 h-8 flex items-center justify-center font-body text-xs font-bold">{item.quantity}</span>
                         <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)} className="w-8 h-8 flex items-center justify-center hover:bg-card transition-colors"><Plus className="w-3 h-3" /></button>
@@ -119,7 +119,7 @@ const CartPage = () => {
               ))}
             </div>
 
-            <div className="bg-card p-8 border border-border rounded-lg h-fit">
+            <div className="bg-card p-6 sm:p-8 border border-border rounded-lg h-fit min-w-0">
               <h2 className="font-heading text-xl font-bold uppercase tracking-wider mb-6 text-foreground">{t('cart.order_summary')}</h2>
               <div className="space-y-3 font-body text-sm border-b border-border pb-6 mb-6">
                   <div className="flex justify-between"><span className="text-muted-foreground">{t('cart.subtotal')}</span><span className="text-foreground"><DirhamIcon className="w-[1.2em] mr-1" />{cartTotal.toFixed(2)}</span></div>
@@ -139,7 +139,7 @@ const CartPage = () => {
                     value={couponCode} 
                     onChange={e => setCouponCode(e.target.value.toUpperCase())}
                     placeholder="Coupon Code" 
-                    className="flex-1 bg-background border border-border px-4 py-2 rounded-md font-body text-sm text-foreground focus:outline-none focus:border-primary uppercase"
+                    className="flex-1 min-w-0 bg-background border border-border px-4 py-2 rounded-md font-body text-sm text-foreground focus:outline-none focus:border-primary uppercase"
                   />
                   <button 
                     onClick={handleApplyCoupon}
@@ -150,11 +150,11 @@ const CartPage = () => {
                   </button>
                 </div>
               ) : (
-                <div className="flex items-center justify-between bg-green-100 border border-green-200 text-green-800 px-4 py-3 rounded-md mb-6 font-body text-sm">
-                  <div>
+                <div className="flex items-center justify-between gap-2 bg-green-100 border border-green-200 text-green-800 px-4 py-3 rounded-md mb-6 font-body text-sm">
+                  <div className="truncate">
                     <span className="font-bold">{appliedCoupon.code}</span> applied!
                   </div>
-                  <button onClick={removeCoupon} className="text-green-800 hover:text-green-900">
+                  <button onClick={removeCoupon} className="text-green-800 hover:text-green-900 shrink-0">
                     <X className="w-4 h-4" />
                   </button>
                 </div>
