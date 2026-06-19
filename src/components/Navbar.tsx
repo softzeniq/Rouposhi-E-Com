@@ -76,13 +76,13 @@ const Navbar = () => {
               {t("footer.about")}
               <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-neon transition-all duration-300 group-hover:w-full"></span>
             </Link>
-            <Link
+            {/* <Link
               to="/careers"
               className="relative py-2 group hover:text-neon transition-colors duration-300"
             >
               Careers
               <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-neon transition-all duration-300 group-hover:w-full"></span>
-            </Link>
+            </Link> */}
             <Link
               to="/contact"
               className="relative py-2 group hover:text-neon transition-colors duration-300"

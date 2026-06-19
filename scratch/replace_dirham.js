@@ -22,7 +22,7 @@ const allFiles = findFiles(dir, []).filter(f => f.endsWith('.tsx') || f.endsWith
 allFiles.forEach(file => {
   let content = fs.readFileSync(file, 'utf8');
   
-  if (content.includes('Đ')) {
+  if (content.includes('BDT')) {
     // Determine the relative path to src/components/DirhamIcon
     const fileDir = path.dirname(file);
     const componentsDir = path.join(__dirname, '../../src/components');
@@ -44,9 +44,9 @@ allFiles.forEach(file => {
 
     // Replace Đ based on context
     // In JSX text nodes or spans
-    content = content.replace(/<span>Đ<\/span>/g, '<DirhamIcon />');
-    content = content.replace(/>Đ /g, '><DirhamIcon className="w-[0.9em] h-[0.9em] inline-block align-baseline mr-1" />');
-    content = content.replace(/ Đ /g, ' <DirhamIcon className="w-[0.9em] h-[0.9em] inline-block align-baseline mr-1" /> ');
+    content = content.replace(/<span>BDT<\/span>/g, '<DirhamIcon />');
+    content = content.replace(/>BDT /g, '><DirhamIcon className="w-[0.9em] h-[0.9em] inline-block align-baseline mr-1" />');
+    content = content.replace(/ BDT /g, ' <DirhamIcon className="w-[0.9em] h-[0.9em] inline-block align-baseline mr-1" /> ');
     
     // In template literals like `Đ ${price}` -> `<DirhamIcon /> ${price}` 
     // Wait, in template literals it's usually inside JSX.

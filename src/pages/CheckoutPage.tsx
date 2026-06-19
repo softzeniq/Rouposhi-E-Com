@@ -1,21 +1,21 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, CheckCircle, ShieldCheck, ArrowRight, Loader2 } from 'lucide-react';
-import { useCart } from '@/context/CartContext';
-import { useAddOrder } from '@/hooks/useDatabase';
-import { useCheckoutLeadAutoSave } from '@/hooks/useCheckoutLeads';
-import { useFacebookTracking } from '@/hooks/useFacebookTracking';
-import { useShippingMethods } from '@/hooks/useShippingMethods';
-import { useLanguage } from '@/context/LanguageContext';
-import { useAuth } from '@/context/AuthContext';
-import Navbar from '@/components/Navbar';
+import DirhamIcon from '@/components/DirhamIcon';
 import Footer from '@/components/Footer';
+import Navbar from '@/components/Navbar';
 import CheckoutProgress from '@/components/checkout/CheckoutProgress';
 import StepContactInfo from '@/components/checkout/StepContactInfo';
-import StepShipping from '@/components/checkout/StepShipping';
 import StepReview from '@/components/checkout/StepReview';
-import { motion, AnimatePresence } from 'framer-motion';
-import DirhamIcon from '@/components/DirhamIcon';
+import StepShipping from '@/components/checkout/StepShipping';
+import { useAuth } from '@/context/AuthContext';
+import { useCart } from '@/context/CartContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { useCheckoutLeadAutoSave } from '@/hooks/useCheckoutLeads';
+import { useAddOrder } from '@/hooks/useDatabase';
+import { useFacebookTracking } from '@/hooks/useFacebookTracking';
+import { useShippingMethods } from '@/hooks/useShippingMethods';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ArrowLeft, ArrowRight, CheckCircle, Loader2, ShieldCheck } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const CheckoutPage = () => {
   const { items, cartTotal, clearCart, appliedCoupon, discountAmount } = useCart();
@@ -108,7 +108,7 @@ const CheckoutPage = () => {
         customer_email: '', customer_phone: form.phone,
         items: orderItems, total, status: 'pending', payment_method: 'cod',
         shipping_address: shippingAddress,
-        notes: `${form.notes}${selectedShipping ? `\nShipping: ${selectedShipping.name} (${shippingCharge === 0 ? 'Free' : 'Đ ' + shippingCharge})` : ''}${appliedCoupon ? `\nCoupon Applied: ${appliedCoupon.code} (-Đ ${discountAmount.toFixed(2)})` : ''}`,
+        notes: `${form.notes}${selectedShipping ? `\nShipping: ${selectedShipping.name} (${shippingCharge === 0 ? 'Free' : '৳ ' + shippingCharge})` : ''}${appliedCoupon ? `\nCoupon Applied: ${appliedCoupon.code} (-৳ ${discountAmount.toFixed(2)})` : ''}`,
       });
       await markLeadCompleted();
       setOrderId(orderNumber);

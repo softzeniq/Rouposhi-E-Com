@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Plus, Trash2, PackagePlus } from 'lucide-react';
 import { useAddOrder, useProducts } from '@/hooks/useDatabase';
+import { PackagePlus, Plus, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 interface OrderItem {
@@ -168,7 +168,7 @@ const AddOrderDialog = () => {
                     >
                       <option value="">Select a product...</option>
                       {products.filter(p => p.is_active).map(p => (
-                        <option key={p.id} value={p.name}>{p.name} - Đ {p.price}</option>
+                        <option key={p.id} value={p.name}>{p.name} - ৳ {p.price}</option>
                       ))}
                     </select>
                   </div>
@@ -199,7 +199,7 @@ const AddOrderDialog = () => {
           <div className="flex items-center justify-between pt-4 border-t border-border">
             <div>
               <span className="font-heading text-lg font-bold text-foreground">Total: </span>
-              <span className="font-heading text-lg font-bold text-primary">Đ {total}</span>
+              <span className="font-heading text-lg font-bold text-primary">৳ {total}</span>
             </div>
             <Button onClick={handleSubmit} disabled={addOrder.isPending} className="gap-2">
               {addOrder.isPending ? 'Creating...' : 'Create Order'}

@@ -68,15 +68,15 @@ export const printInvoice = (order: DbOrder) => {
           <td>${item.size}</td>
           <td>${item.color}</td>
           <td>${item.quantity}</td>
-          <td style="text-align:right">Đ ${Number(item.price).toFixed(3)}</td>
-          <td style="text-align:right">Đ ${(item.price * item.quantity).toFixed(3)}</td>
+          <td style="text-align:right">৳ ${Number(item.price).toFixed(3)}</td>
+          <td style="text-align:right">৳ ${(item.price * item.quantity).toFixed(3)}</td>
         </tr>
       `).join('')}
     </tbody>
   </table>
   <div class="totals">
-    <div class="row"><span>Subtotal:</span><span>Đ ${Number(order.total).toFixed(3)}</span></div>
-    <div class="row total-row"><span>Total:</span><span>Đ ${Number(order.total).toFixed(3)}</span></div>
+    <div class="row"><span>Subtotal:</span><span>৳ ${Number(order.total).toFixed(3)}</span></div>
+    <div class="row total-row"><span>Total:</span><span>৳ ${Number(order.total).toFixed(3)}</span></div>
   </div>
   <div class="footer">
     <p>Thank you for shopping with Legacy-29 · Dubai</p>
@@ -138,7 +138,7 @@ export const printCourierSlip = (order: DbOrder) => {
       </div>
     </div>
     <div class="cod-badge">Cash on Delivery</div>
-    <div class="total-amount">Đ ${Number(order.total).toFixed(3)}</div>
+    <div class="total-amount">৳ ${Number(order.total).toFixed(3)}</div>
     <div class="footer">
       <p>Date: ${new Date(order.created_at).toLocaleDateString('en-GB')}</p>
     </div>

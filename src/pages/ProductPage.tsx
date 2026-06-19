@@ -1,19 +1,19 @@
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useState, useMemo, useEffect } from 'react';
-import { Star, Heart, Minus, Plus, Truck, RefreshCw, Shield, Zap, MessageCircle, Loader2 } from 'lucide-react';
-import { useActiveProducts } from '@/hooks/useDatabase';
-import { useProductVariations } from '@/hooks/useProductVariations';
-import { useCart } from '@/context/CartContext';
-import { useFacebookTracking } from '@/hooks/useFacebookTracking';
-import { useLanguage } from '@/context/LanguageContext';
-import ProductCard from '@/components/ProductCard';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import ProductReviews from '@/components/ProductReviews';
-import FakePurchaseNotification from '@/components/FakePurchaseNotification';
 import CountdownTimer from '@/components/CountdownTimer';
 import DirhamIcon from '@/components/DirhamIcon';
+import FakePurchaseNotification from '@/components/FakePurchaseNotification';
+import Footer from '@/components/Footer';
+import Navbar from '@/components/Navbar';
+import ProductCard from '@/components/ProductCard';
+import ProductReviews from '@/components/ProductReviews';
+import { useCart } from '@/context/CartContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { useActiveProducts } from '@/hooks/useDatabase';
+import { useFacebookTracking } from '@/hooks/useFacebookTracking';
+import { useProductVariations } from '@/hooks/useProductVariations';
 import { motion } from 'framer-motion';
+import { Heart, Loader2, MessageCircle, Minus, Plus, RefreshCw, Shield, Star, Truck, Zap } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
 const ProductPage = () => {
@@ -234,7 +234,7 @@ const ProductPage = () => {
               </button>
 
               <a
-                href={`https://wa.me/971545586545?text=${encodeURIComponent(`Hi! I'd like to order:\n\nProduct: ${product.name}\nBrand: ${product.brand}${product.sizes.length > 0 ? `\nSize: ${selectedSize || 'Not selected'}` : ''}${product.colors.length > 0 ? `\nColor: ${selectedColor || 'Not selected'}` : ''}\nQuantity: ${quantity}\nPrice: Đ ${displayPrice}\n\nPlease confirm my order. Than k you!`)}`}
+                href={`https://wa.me/971545586545?text=${encodeURIComponent(`Hi! I'd like to order:\n\nProduct: ${product.name}\nBrand: ${product.brand}${product.sizes.length > 0 ? `\nSize: ${selectedSize || 'Not selected'}` : ''}${product.colors.length > 0 ? `\nColor: ${selectedColor || 'Not selected'}` : ''}\nQuantity: ${quantity}\nPrice: ৳ ${displayPrice}\n\nPlease confirm my order. Than k you!`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full h-12 bg-[#25D366] text-white font-body text-sm font-bold tracking-wider uppercase hover:bg-[#20bd5a] transition-all duration-300 rounded-sm flex items-center justify-center gap-2 mb-8"
