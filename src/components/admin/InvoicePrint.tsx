@@ -7,7 +7,11 @@ interface InvoicePrintProps {
 export const printInvoice = (order: DbOrder) => {
   const items = (order.items as any[]) || [];
   const itemsSubtotal = items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> 39ca342 (update for invoice print)
   let shippingText = "";
   let couponText = "";
   if (order.notes) {
@@ -95,8 +99,13 @@ export const printInvoice = (order: DbOrder) => {
   </table>
   <div class="totals">
     <div class="row"><span>Subtotal:</span><span>৳ ${itemsSubtotal.toFixed(3)}</span></div>
+<<<<<<< HEAD
     ${shippingText ? <div class="row"><span>Shipping:</span><span>${shippingText}</span></div> : ''}
     ${couponText ? <div class="row" style="color: #16a34a;"><span>Coupon:</span><span>${couponText}</span></div> : ''}
+=======
+    ${shippingText ? `<div class="row"><span>Shipping:</span><span>${shippingText}</span></div>` : ''}
+    ${couponText ? `<div class="row" style="color: #16a34a;"><span>Coupon:</span><span>${couponText}</span></div>` : ''}
+>>>>>>> 39ca342 (update for invoice print)
     <div class="row total-row"><span>Total:</span><span>৳ ${Number(order.total).toFixed(3)}</span></div>
   </div>
   <div class="footer">
