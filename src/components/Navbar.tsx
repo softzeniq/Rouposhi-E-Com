@@ -34,7 +34,7 @@ const Navbar = () => {
             {s?.logo_url ? (
               <img
                 src={s.logo_url}
-                alt={s?.site_name || "Legacy-29"}
+                alt={s?.site_name || "Kabar Dabar"}
                 width="150"
                 height="48"
                 className="h-10 lg:h-16 w-auto rounded-full object-contain"

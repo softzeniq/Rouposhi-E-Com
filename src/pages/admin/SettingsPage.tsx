@@ -441,7 +441,7 @@ const SettingsPage = () => {
                 />
               </div>
               <Field
-                label="Instagram Handle (legacy)"
+                label="Instagram Handle (Kabardabar.bd)"
                 field="instagram_handle"
                 form={form}
                 setForm={setForm}
@@ -465,7 +465,7 @@ const SettingsPage = () => {
               <Field
                 label="Footer Tagline"
                 field="footer_tagline"
-                placeholder="🇦🇪 Free delivery across Dubai"
+                placeholder="Free delivery across ঝিনাইদহ ও কালীগঞ্জ"
                 form={form}
                 setForm={setForm}
               />

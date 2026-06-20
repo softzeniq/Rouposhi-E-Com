@@ -182,12 +182,13 @@ const Footer = () => {
 
         <div className="border-t border-primary-foreground/10 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="font-body text-xs text-primary-foreground/40">
-            {s?.footer_copyright || "© 2026 Legacy-29. All rights reserved."}
+            {s?.footer_copyright ||
+              "© 2026 Kabar Dabar-29. All rights reserved."}
           </p>
-          <p className="font-body text-xs text-primary-foreground/40">
+          {/* <p className="font-body text-xs text-primary-foreground/40">
             {s?.footer_tagline ||
-              "🇦🇪 Free delivery across Dubai · Cash on Delivery available"}
-          </p>
+              "Free delivery across Dubai · Cash on Delivery available"}
+          </p> */}
         </div>
       </div>
     </footer>

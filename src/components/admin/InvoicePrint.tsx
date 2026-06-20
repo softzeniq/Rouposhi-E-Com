@@ -1,4 +1,4 @@
-import type { DbOrder } from '@/hooks/useDatabase';
+import type { DbOrder } from "@/hooks/useDatabase";
 
 interface InvoicePrintProps {
   order: DbOrder;
@@ -35,10 +35,10 @@ export const printInvoice = (order: DbOrder) => {
 </head>
 <body>
   <div class="header">
-    <div class="logo"><img src="/logo.png" alt="Legacy-29" style="max-height: 40px; width: auto;" onerror="this.style.display='none'; this.nextSibling.style.display='block';" /><span style="display:none;">Legacy-29</span></div>
+    <div class="logo"><img src="/logo.png" alt="Kabar Dabar" style="max-height: 40px; width: auto;" onerror="this.style.display='none'; this.nextSibling.style.display='block';" /><span style="display:none;">Kabar Dabar</span></div>
     <div class="invoice-title">
       <h2>Invoice</h2>
-      <p>${order.order_number} · ${new Date(order.created_at).toLocaleDateString('en-GB')}</p>
+      <p>${order.order_number} · ${new Date(order.created_at).toLocaleDateString("en-GB")}</p>
     </div>
   </div>
   <div class="info-grid">
@@ -46,13 +46,13 @@ export const printInvoice = (order: DbOrder) => {
       <h4>Bill To</h4>
       <p><strong>${order.customer_name}</strong></p>
       <p>${order.customer_phone}</p>
-      ${order.customer_email ? `<p>${order.customer_email}</p>` : ''}
+      ${order.customer_email ? `<p>${order.customer_email}</p>` : ""}
       <p>${order.shipping_address}</p>
     </div>
     <div class="info-block">
       <h4>Order Details</h4>
       <p><strong>Order:</strong> ${order.order_number}</p>
-      <p><strong>Date:</strong> ${new Date(order.created_at).toLocaleDateString('en-GB')}</p>
+      <p><strong>Date:</strong> ${new Date(order.created_at).toLocaleDateString("en-GB")}</p>
       <p><strong>Payment:</strong> ${order.payment_method.toUpperCase()}</p>
       <p><strong>Status:</strong> ${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</p>
     </div>
@@ -62,7 +62,9 @@ export const printInvoice = (order: DbOrder) => {
       <tr><th>Item</th><th>Size</th><th>Color</th><th>Qty</th><th style="text-align:right">Price</th><th style="text-align:right">Total</th></tr>
     </thead>
     <tbody>
-      ${items.map((item: any) => `
+      ${items
+        .map(
+          (item: any) => `
         <tr>
           <td>${item.productName}</td>
           <td>${item.size}</td>
@@ -71,7 +73,9 @@ export const printInvoice = (order: DbOrder) => {
           <td style="text-align:right">৳ ${Number(item.price).toFixed(3)}</td>
           <td style="text-align:right">৳ ${(item.price * item.quantity).toFixed(3)}</td>
         </tr>
-      `).join('')}
+      `,
+        )
+        .join("")}
     </tbody>
   </table>
   <div class="totals">
@@ -79,11 +83,11 @@ export const printInvoice = (order: DbOrder) => {
     <div class="row total-row"><span>Total:</span><span>৳ ${Number(order.total).toFixed(3)}</span></div>
   </div>
   <div class="footer">
-    <p>Thank you for shopping with Legacy-29 · Dubai</p>
+    <p>Thank you for shopping with Kabar Dabar </p>
   </div>
 </body>
 </html>`;
-  const win = window.open('', '_blank');
+  const win = window.open("", "_blank");
   if (win) {
     win.document.write(html);
     win.document.close();
@@ -120,8 +124,8 @@ export const printCourierSlip = (order: DbOrder) => {
 <body>
   <div class="slip">
     <div class="slip-header">
-      <img src="/logo.png" alt="Legacy-29" style="max-height: 40px; margin-bottom: 8px;" onerror="this.style.display='none'; this.nextSibling.style.display='block';" />
-      <h1 style="display:none;">Legacy-29</h1>
+      <img src="/logo.png" alt="Kabar Dabar" style="max-height: 40px; margin-bottom: 8px;" onerror="this.style.display='none'; this.nextSibling.style.display='block';" />
+      <h1 style="display:none;">Kabar Dabar</h1>
       <p>Courier Delivery Slip</p>
     </div>
     <div class="order-num">${order.order_number}</div>
@@ -134,18 +138,18 @@ export const printCourierSlip = (order: DbOrder) => {
     <div class="section">
       <div class="section-title">Items (${items.reduce((sum: number, i: any) => sum + i.quantity, 0)} pcs)</div>
       <div class="items-list">
-        ${items.map((item: any) => `• ${item.productName} — Size ${item.size}, ${item.color} ×${item.quantity}`).join('<br/>')}
+        ${items.map((item: any) => `• ${item.productName} — Size ${item.size}, ${item.color} ×${item.quantity}`).join("<br/>")}
       </div>
     </div>
     <div class="cod-badge">Cash on Delivery</div>
     <div class="total-amount">৳ ${Number(order.total).toFixed(3)}</div>
     <div class="footer">
-      <p>Date: ${new Date(order.created_at).toLocaleDateString('en-GB')}</p>
+      <p>Date: ${new Date(order.created_at).toLocaleDateString("en-GB")}</p>
     </div>
   </div>
 </body>
 </html>`;
-  const win = window.open('', '_blank');
+  const win = window.open("", "_blank");
   if (win) {
     win.document.write(html);
     win.document.close();
