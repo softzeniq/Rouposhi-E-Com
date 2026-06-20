@@ -78,9 +78,9 @@ export const translations: Record<Language, Record<string, string>> = {
     "product.color": "Color",
     "product.add_to_cart": "Add to Cart",
     "product.buy_now": "Buy Now",
-    "product.authentic": "100% Authentic - Verified by Kabar Dabar",
+    "product.authentic": "১০০% গরম ও ফ্রেশ — সেরা উপাদানে তৈরি",
     "product.free_delivery":
-      "Free delivery across Jhenaidah,Kaliganj on orders over ৳ 500",
+      "ঝিনাইদহ সদর ও কালীগঞ্জে মাত্র ২ ঘণ্টায় সুপার ফাস্ট ডেলিভারি!",
     "product.return_policy": "Easy and hassle-free return facility",
     "product.cod": "Cash on Delivery available",
     "product.related": "You May Also Like",

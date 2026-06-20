@@ -130,7 +130,7 @@ const CheckoutPage = () => {
       quantity: item.quantity,
       price: item.product.price,
     }));
-    const shippingAddress = `${form.address}, `;
+    const shippingAddress = `${form.address},`;
     const orderNumber = `ORD${String(Date.now()).slice(-6)}`;
 
     try {

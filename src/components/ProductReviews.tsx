@@ -38,7 +38,7 @@ const ProductReviews = ({ productId }: { productId: string }) => {
                 2,000+ Reviews
               </h2>
               <p className="font-body text-sm text-muted-foreground">
-                Trusted by customers across Jhenaidah Kaliganj
+                ঝিনাইদহের ২,০০০+ ভোজনরসিকদের পছন্দের ব্র্যান্ড
               </p>
             </div>
           </div>
