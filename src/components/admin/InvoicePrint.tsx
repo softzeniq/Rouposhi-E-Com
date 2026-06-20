@@ -7,7 +7,7 @@ interface InvoicePrintProps {
 export const printInvoice = (order: DbOrder) => {
   const items = (order.items as any[]) || [];
   const itemsSubtotal = items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
-
+  
   let shippingText = "";
   let couponText = "";
   if (order.notes) {
