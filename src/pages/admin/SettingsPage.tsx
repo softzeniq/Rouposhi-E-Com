@@ -371,7 +371,7 @@ const SettingsPage = () => {
               <Field
                 label="Address"
                 field="contact_address"
-                placeholder="Dubai, UAE"
+                placeholder="Dhaka, Bangladesh"
                 form={form}
                 setForm={setForm}
               />

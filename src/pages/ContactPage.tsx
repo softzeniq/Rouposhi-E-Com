@@ -291,7 +291,7 @@ const ContactPage = () => {
             className="mt-20 lg:mt-24 w-full h-[400px] md:h-[500px] bg-[#F8F9FA] rounded-[2rem] overflow-hidden border border-gray-100 shadow-sm relative group"
           >
             <iframe
-              src="https://maps.google.com/maps?q=Nesto%20Hypermarket%20-%20Dragon%20Mart%202,%20Dubai&t=&z=14&ie=UTF8&iwloc=&output=embed"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2954.3477757964265!2d89.13840558606672!3d23.475639300000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fee132ae67c9ed%3A0xdea8fdde1cde8aa7!2sBishoykhali%20Bazar%2C%20Jessore%20-%20Jhenaidah%20Hwy%2C%20Bishay%20Khaly!5e1!3m2!1sen!2sbd!4v1781936118292!5m2!1sen!2sbd"
               width="100%"
               height="100%"
               style={{ border: 0 }}

@@ -78,9 +78,10 @@ export const translations: Record<Language, Record<string, string>> = {
     "product.color": "Color",
     "product.add_to_cart": "Add to Cart",
     "product.buy_now": "Buy Now",
-    "product.authentic": "100% Authentic - Verified by Lagecy-19 Collection",
-    "product.free_delivery": "Free delivery across Dubai on orders over ৳ 30",
-    "product.return_policy": "30-day easy return policy",
+    "product.authentic": "100% Authentic - Verified by Kabar Dabar",
+    "product.free_delivery":
+      "Free delivery across Jhenaidah,Kaliganj on orders over ৳ 500",
+    "product.return_policy": "Easy and hassle-free return facility",
     "product.cod": "Cash on Delivery available",
     "product.related": "You May Also Like",
     "product.not_found": "Product Not Found",
@@ -100,7 +101,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "cart.free": "Free",
     "cart.total": "Total",
     "cart.checkout": "Proceed to Checkout",
-    "cart.cod_available": "Cash on Delivery available 🇪",
+    "cart.cod_available": "Cash on Delivery available ",
 
     // Checkout Page
     "checkout.title": "Checkout",

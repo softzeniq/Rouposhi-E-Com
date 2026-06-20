@@ -40,7 +40,7 @@ const Footer = () => {
             />
             <p className="text-primary-foreground/60 font-body text-sm leading-relaxed mb-6">
               {s?.footer_description ||
-                "Your ultimate destination for authentic sports footwear in Dubai."}
+                "Your ultimate destination for authentic restaurants in Jhenaidah,Kaliganj."}
             </p>
             <div className="flex gap-4">
               {s?.instagram_url && (
