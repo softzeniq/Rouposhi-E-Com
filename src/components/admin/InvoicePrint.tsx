@@ -7,20 +7,15 @@ interface InvoicePrintProps {
 export const printInvoice = (order: DbOrder) => {
   const items = (order.items as any[]) || [];
   const itemsSubtotal = items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
-<<<<<<< HEAD
-  
-=======
-
->>>>>>> 39ca342 (update for invoice print)
   let shippingText = "";
   let couponText = "";
   if (order.notes) {
-    const lines = order.notes.split('\n');
+    const lines = String(order.notes).split(/\r?\n|\\n/);
     lines.forEach(line => {
-      if (line.startsWith('Shipping:')) {
-        shippingText = line.replace('Shipping:', '').trim();
-      } else if (line.startsWith('Coupon Applied:')) {
-        couponText = line.replace('Coupon Applied:', '').trim();
+      if (line.includes('Shipping:')) {
+        shippingText = line.substring(line.indexOf('Shipping:') + 9).trim();
+      } else if (line.includes('Coupon Applied:')) {
+        couponText = line.substring(line.indexOf('Coupon Applied:') + 15).trim();
       }
     });
   }
@@ -65,7 +60,7 @@ export const printInvoice = (order: DbOrder) => {
       <h4>Bill To</h4>
       <p><strong>${order.customer_name}</strong></p>
       <p>${order.customer_phone}</p>
-      ${order.customer_email ? <p>${order.customer_email}</p> : ""}
+      ${order.customer_email ? `<p>${order.customer_email}</p>` : ""}
       <p>${order.shipping_address}</p>
     </div>
     <div class="info-block">
@@ -99,13 +94,8 @@ export const printInvoice = (order: DbOrder) => {
   </table>
   <div class="totals">
     <div class="row"><span>Subtotal:</span><span>৳ ${itemsSubtotal.toFixed(3)}</span></div>
-<<<<<<< HEAD
-    ${shippingText ? <div class="row"><span>Shipping:</span><span>${shippingText}</span></div> : ''}
-    ${couponText ? <div class="row" style="color: #16a34a;"><span>Coupon:</span><span>${couponText}</span></div> : ''}
-=======
     ${shippingText ? `<div class="row"><span>Shipping:</span><span>${shippingText}</span></div>` : ''}
     ${couponText ? `<div class="row" style="color: #16a34a;"><span>Coupon:</span><span>${couponText}</span></div>` : ''}
->>>>>>> 39ca342 (update for invoice print)
     <div class="row total-row"><span>Total:</span><span>৳ ${Number(order.total).toFixed(3)}</span></div>
   </div>
   <div class="footer">
@@ -125,10 +115,10 @@ export const printCourierSlip = (order: DbOrder) => {
   const items = (order.items as any[]) || [];
   let couponText = "";
   if (order.notes) {
-    const lines = order.notes.split('\n');
+    const lines = String(order.notes).split(/\r?\n|\\n/);
     lines.forEach(line => {
-      if (line.startsWith('Coupon Applied:')) {
-        couponText = line.replace('Coupon Applied:', '').trim();
+      if (line.includes('Coupon Applied:')) {
+        couponText = line.substring(line.indexOf('Coupon Applied:') + 15).trim();
       }
     });
   }
@@ -174,7 +164,7 @@ export const printCourierSlip = (order: DbOrder) => {
     <div class="section">
       <div class="section-title">Items (${items.reduce((sum: number, i: any) => sum + i.quantity, 0)} pcs)</div>
       <div class="items-list">
-        ${items.map((item: any) => • ${item.productName} — Size ${item.size}, ${item.color} ×${item.quantity}).join("<br/>")}
+        ${items.map((item: any) => `• ${item.productName} — Size ${item.size}, ${item.color} ×${item.quantity}`).join("<br/>")}
       </div>
     </div>
     ${couponText ? `
