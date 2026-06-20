@@ -12,6 +12,8 @@ import { useCheckoutLeadAutoSave } from "@/hooks/useCheckoutLeads";
 import { useAddOrder } from "@/hooks/useDatabase";
 import { useFacebookTracking } from "@/hooks/useFacebookTracking";
 import { useShippingMethods } from "@/hooks/useShippingMethods";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowLeft,
@@ -147,6 +149,21 @@ const CheckoutPage = () => {
         notes: `${form.notes}${selectedShipping ? `\nShipping: ${selectedShipping.name} (${shippingCharge === 0 ? "Free" : "৳ " + shippingCharge})` : ""}${appliedCoupon ? `\nCoupon Applied: ${appliedCoupon.code} (-৳ ${discountAmount.toFixed(2)})` : ""}`,
       });
       await markLeadCompleted();
+
+      if (appliedCoupon) {
+        const { data: couponData } = await supabase
+          .from("coupons")
+          .select("id, used_count")
+          .eq("code", appliedCoupon.code)
+          .single();
+        if (couponData) {
+          await supabase
+            .from("coupons")
+            .update({ used_count: (couponData.used_count || 0) + 1 })
+            .eq("id", couponData.id);
+        }
+      }
+
       setOrderId(orderNumber);
       fbTrackPurchase({
         content_ids: items.map((i) => i.product.id),
