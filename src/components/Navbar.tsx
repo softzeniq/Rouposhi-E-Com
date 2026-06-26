@@ -140,15 +140,16 @@ const Navbar = () => {
                 </button>
               </div>
             ) : (
-              <Link
-                to="/login"
-                className="hidden md:flex items-center justify-center w-10 h-10 md:w-auto md:h-auto md:px-6 md:py-2.5 rounded-full bg-[#111] md:bg-[#111] text-white hover:bg-black transition-all duration-300 shadow-sm group"
-              >
-                <UserIcon className="w-[18px] h-[18px] md:w-4 md:h-4 md:mr-2" />
-                <span className="hidden md:block font-bold text-[11px] uppercase tracking-widest">
-                  Login
-                </span>
-              </Link>
+              <></>
+              // <Link
+              //   to="/login"
+              //   className="hidden md:flex items-center justify-center w-10 h-10 md:w-auto md:h-auto md:px-6 md:py-2.5 rounded-full bg-[#111] md:bg-[#111] text-white hover:bg-black transition-all duration-300 shadow-sm group"
+              // >
+              //   <UserIcon className="w-[18px] h-[18px] md:w-4 md:h-4 md:mr-2" />
+              //   <span className="hidden md:block font-bold text-[11px] uppercase tracking-widest">
+              //     Login
+              //   </span>
+              // </Link>
             )}
 
             <button
@@ -241,13 +242,14 @@ const Navbar = () => {
                   </button>
                 </div>
               ) : (
-                <Link
-                  to="/login"
-                  onClick={() => setMobileOpen(false)}
-                  className="bg-[#111] text-white hover:bg-black px-4 py-4 rounded-xl transition-all flex items-center justify-center gap-2 mt-4 font-bold uppercase tracking-wider shadow-md"
-                >
-                  <UserIcon className="w-5 h-5" /> {t("login", "Login")}
-                </Link>
+                <></>
+                // <Link
+                //   to="/login"
+                //   onClick={() => setMobileOpen(false)}
+                //   className="bg-[#111] text-white hover:bg-black px-4 py-4 rounded-xl transition-all flex items-center justify-center gap-2 mt-4 font-bold uppercase tracking-wider shadow-md"
+                // >
+                //   <UserIcon className="w-5 h-5" /> {t("login", "Login")}
+                // </Link>
               )}
             </div>
           </motion.div>
